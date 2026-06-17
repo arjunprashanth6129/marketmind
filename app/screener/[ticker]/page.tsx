@@ -7,6 +7,7 @@ import {
   getStockMeta,
   getPeerIds,
   hasNoPeers,
+  peerNote,
 } from "@/lib/stocks";
 import {
   getSnapshot,
@@ -40,9 +41,10 @@ export function generateMetadata({ params }: { params: Promise<{ ticker: string 
 }
 
 const CAT_COLORS: Record<string, string> = {
-  Large: "bg-emerald-100 text-emerald-800",
-  Mid: "bg-sky-100 text-sky-800",
+  Large: "bg-blue-100 text-blue-800",
+  Mid: "bg-purple-100 text-purple-800",
   Small: "bg-orange-100 text-orange-800",
+  Micro: "bg-red-100 text-red-800",
 };
 
 function Chip({
@@ -220,7 +222,11 @@ export default async function StockDetail({
             <Chip label="Stock P/E" value={ratio(snap.pe, 1)} />
             <Chip label="ROE" value={pct(snap.roe)} hint="FY2021" />
             <Chip label="Div Yield" value={pct(snap.divYield, 2)} />
-            <Chip label="Debt / Equity" value={ratio(snap.de, 2)} hint="FY2021" />
+            <Chip
+              label="Debt / Equity"
+              value={snap.negNetWorth ? "N/A" : ratio(snap.de, 2)}
+              hint={snap.negNetWorth ? "negative equity" : "FY2021"}
+            />
             <Chip
               label="Promoter Hold."
               value={pct(snap.promoterHolding, 2)}
@@ -405,8 +411,7 @@ export default async function StockDetail({
           </p>
           {hasNoPeers(ticker) ? (
             <p className="rounded-md bg-gray-50 px-3 py-2 text-sm text-gray-600">
-              No direct peer in this list — {meta.name} is the only{" "}
-              {meta.sector} stock in the {STOCK_IDS.length}-stock universe.
+              {peerNote(ticker)}
             </p>
           ) : (
             <div className="overflow-x-auto thin-scroll">

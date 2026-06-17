@@ -29,7 +29,7 @@ export interface Snapshot {
   effectiveEntry: number | null; // June-2021 close, or first listed close for post-anchor IPOs
   negNetWorth: boolean;
   marketCap: number | null;
-  marketCapCategory: "Large" | "Mid" | "Small" | null;
+  marketCapCategory: "Large" | "Mid" | "Small" | "Micro" | null;
   pe: number | null;
   divYield: number | null;
   roe: number | null;

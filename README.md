@@ -2,8 +2,8 @@
 
 A two-part **financial-literacy teaching tool** for an Indian-stocks (NSE) classroom exercise, built as a single Next.js app.
 
-- **Part 1 — `/screener` (public):** a screener.in-style company page for each of **35 NSE stocks, frozen at June 2021**. Snapshot ratios, year-by-year financials, a Jan 2000 – June 2021 price chart, and peer comparison. Participants get a genuine "track record" view and **see nothing beyond June 2021** before they pick.
-- **Part 2 — `/simulator` (host only, password-protected):** pick a life scenario, enter a team's 8-stock portfolio, and reveal **indexed performance over June 2021 → June 2026** with a Nifty 50 overlay, a 1–10 rating, and a per-holding breakdown.
+- **Part 1 — `/screener` (public):** a screener.in-style company page for each of **40 NSE stocks, frozen at June 2021**. Snapshot ratios, year-by-year financials, a Jan 2000 – June 2021 price chart, and peer comparison. Participants get a genuine "track record" view and **see nothing beyond June 2021** before they pick.
+- **Part 2 — `/simulator` (host only, password-protected):** pick a life scenario, enter a team's 5-stock portfolio, and reveal **indexed performance over June 2021 → June 2026** with a Nifty 50 overlay, a 1–10 rating, and a per-holding breakdown.
 
 > **Everything uses a FIXED, reproducible window — Jan 2000 to June 2026 — anchored to a fixed June-2026 reference date.** Nothing is "live"/"today"; results never change with the calendar. Prices are split/bonus-adjusted so the screener entry price and the simulator returns stay internally consistent.
 
@@ -18,7 +18,7 @@ npm run dev                     # http://localhost:3000
 ```
 
 - `/` — landing page
-- `/screener` — public screener (all 35 stocks + per-stock detail)
+- `/screener` — public screener (all 40 stocks + per-stock detail)
 - `/simulator` — host-only; unlock with `SIMULATOR_PASSWORD`
 
 Production build: `npm run build && npm start`.
@@ -33,9 +33,9 @@ Production build: `npm run build && npm start`.
 
 | Route | Access | What it shows |
 | --- | --- | --- |
-| `/screener` | Public | Filterable grid of 35 stocks (sector / market-cap / search) |
+| `/screener` | Public | Filterable grid of 40 stocks (sector / market-cap / search) |
 | `/screener/[ticker]` | Public | Header chips, Jan 2000–June 2021 price chart, P&L (FY2015–21) with CAGR rows + EPS-consistency note, cash-flow table, peer comparison |
-| `/simulator` | Password | Scenario selector, 8-slot portfolio entry with live budget, indexed performance chart + Nifty overlay, 1–10 rating, holdings breakdown |
+| `/simulator` | Password | Scenario selector, 5-slot portfolio entry with live budget, indexed performance chart + Nifty overlay, 1–10 rating, holdings breakdown |
 | `/api/simulator/login`, `/api/simulator/logout` | — | Cookie session for the gate |
 
 ## Data layer (`/data`, static JSON)
@@ -62,16 +62,16 @@ python fetch_financials.py    # screener.in -> data/screener_raw.json (+ caches 
 python build_snapshot.py      # financials.json + snapshot-2021.json + missing-data-report.md
 ```
 
-`scripts/stocks.py` is the single source of truth for the 35 tickers (mirrored in `lib/stocks.ts`). The scraper respects rate limits (1.5 s delays) and caches each response so re-runs don't re-fetch.
+`scripts/stocks.py` is the single source of truth for the 40 tickers (mirrored in `lib/stocks.ts`). The scraper respects rate limits (1.5 s delays) and caches each response so re-runs don't re-fetch.
 
 ## Data coverage (honest notes)
 
-- **Universe:** 35 NSE stocks. The June-2021 revision swapped out WIPRO, M&M, DABUR, PIDILITIND, AXISBANK and swapped in five deliberately weak/"trap" picks — IDEA (Vodafone Idea), ZEEL (Zee), PAYTM, YESBANK, PVRINOX — which are not a strong fit for any scenario.
-- **Prices:** 100% real for all 35 stocks + Nifty (yfinance). Some series begin at the real listing date (Coal India 2010, PowerGrid 2007, …). Tata Motors uses **TMPV.NS** (inherited the continuous history after the 2025 demerger).
-- **Annual financials FY2015–FY2021:** real (screener.in), full 7-year table — the June-2021 anchor removes the old FY2010–14 gap. PAYTM lacks FY2017–FY2018 (pre-listing).
-- **June-2021 snapshot ratios:** real — derived from FY2021 screener financials + the real split/bonus-adjusted June-2021 close (P/E, market cap, dividend yield, ROE, D/E). Loss-makers in FY2021 (IDEA, PAYTM, YESBANK, PVRINOX, plus Tata Motors & Bharti Airtel) correctly show no P/E; banks show no meaningful D/E; ITC shows no promoter. **Vodafone Idea (IDEA)** has **negative net worth** in FY2021, so ROE/D/E are intentionally blank.
-- **PAYTM:** not listed as of June 2021 (IPO 18 Nov 2021). Its June-2021 snapshot ratios are N/A and the price chart shows a "not listed" notice; the **simulator uses its first listed close (Nov 2021) as the effective entry**, flagged in the UI (approach (a) from the brief).
-- **Promoter holding:** screener's free shareholding table only reaches ~FY2023, so the earliest available figure is shown as a labelled proxy.
+- **Universe:** 40 NSE stocks — 34 fundamentally strong + **6 deliberate weak/"trap" picks** (IDEA, ZEEL, YESBANK, TATASTEEL, COALINDIA, IOC). The UI **never** labels which is which (same cards, same layout) — students must read the FA data to spot the weak ones. The simulator (host-only) stores a model "ideal 5" per scenario, drawn only from the strong names.
+- **Prices:** 100% real for all 40 stocks + Nifty (yfinance), monthly. Some series begin at the real listing date (POLYCAB 2019, GRINDWELL 2006, PAGEIND 2007). FINOLEXIND uses Yahoo/screener symbol **FINPIPE** (Finolex Industries).
+- **Annual financials FY2015–FY2021:** real (screener.in), full 7-year table. **ABB India** reports on a December fiscal year, so its "FY2021" column = calendar 2021.
+- **June-2021 snapshot ratios:** real — derived from FY2021 screener financials + the real split/bonus-adjusted June-2021 close (P/E, market cap, dividend yield, ROE, D/E). FY2021 loss-makers (IDEA, YESBANK, Bharti Airtel) correctly show no P/E but still get a market cap (computed as price × shares); banks show no meaningful D/E. **Vodafone Idea (IDEA)** has **negative net worth** in FY2021, so D/E shows "N/A (negative equity)" and ROE is blank — itself a red flag.
+- **Market-cap bands (June 2021):** Large ≥ ₹20,000 Cr (Blue), Mid ₹5,000–20,000 Cr (Purple), Small ₹500–5,000 Cr (Orange), Micro < ₹500 Cr (Red). Result: 36 Large, 3 Mid, 1 Small.
+- **Promoter holding:** screener's free shareholding table only reaches ~FY2023, so the earliest available figure is shown as a labelled proxy (ZEEL's low promoter holding is genuine).
 - **Gross margin:** not exposed by screener; **OPM% (operating margin)** is shown as the available margin metric.
 
 See `data/missing-data-report.md` for the per-stock breakdown.

@@ -29,9 +29,9 @@ HEADERS = {
 }
 
 # screener slug overrides where it differs from our app id
-SLUG = {"MM": "M%26M", "BAJAJAUTO": "BAJAJ-AUTO", "TATAMOTORS": "TMPV"}
+SLUG = {"BAJAJAUTO": "BAJAJ-AUTO", "FINOLEXIND": "FINPIPE"}
 # stocks whose longest history lives on the STANDALONE page (e.g. Nestle FY-change)
-STANDALONE_FIRST = {"NESTLEIND"}
+STANDALONE_FIRST = {"NESTLEIND", "ABB", "PAGEIND", "VSTIND"}
 
 
 def screener_url(sid, consolidated=True):

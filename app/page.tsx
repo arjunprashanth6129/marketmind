@@ -55,7 +55,7 @@ export default function Home() {
             </h2>
             <p className="mt-2 text-sm text-gray-600">
               Password-protected host tool. Pick a life scenario, enter a
-              team&apos;s 8-stock portfolio, and reveal indexed performance over
+              team&apos;s 5-stock portfolio, and reveal indexed performance over
               June 2021–June 2026 with a Nifty 50 overlay, a 1–10 rating, and a
               per-holding breakdown.
             </p>

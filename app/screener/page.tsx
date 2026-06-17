@@ -23,6 +23,9 @@ export default function ScreenerLanding() {
       de: snap?.de ?? null,
     };
   });
+  // Default order: market cap descending — a natural screener feel that
+  // interleaves strong and weak picks (the UI never flags which is which).
+  rows.sort((a, b) => (b.marketCap ?? 0) - (a.marketCap ?? 0));
 
   return (
     <>

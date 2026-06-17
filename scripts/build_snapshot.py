@@ -43,13 +43,16 @@ def first_price(sid):
 
 
 def cap_category(mktcap_cr):
+    # SEBI/NSE-style bands (₹ Cr), as of June 2021.
     if mktcap_cr is None:
         return None
     if mktcap_cr >= 20000:
         return "Large"
     if mktcap_cr >= 5000:
         return "Mid"
-    return "Small"
+    if mktcap_cr >= 500:
+        return "Small"
+    return "Micro"
 
 
 financials = {}
@@ -99,7 +102,12 @@ for sid, yahoo, name, sector in STOCKS:
     n21 = np_.get(FY)
     # P/E only meaningful with a real June-2021 price and positive EPS
     pe = round(price / e21, 1) if (price and e21 and e21 > 0) else None
-    mktcap = round(pe * n21) if (pe is not None and n21) else None
+    # Market cap = price * shares, where shares = NetProfit / EPS (same screener
+    # basis as the adjusted price). Works for loss-makers too (both negative ->
+    # positive share count), so large loss-making caps (e.g. Airtel FY2021) still
+    # get a market cap and a size category. For profit-makers this equals PE*NP.
+    shares = abs(n21 / e21) if (n21 and e21) else None  # ₹Cr NP / ₹ EPS = Cr shares
+    mktcap = round(price * shares) if (price is not None and shares) else None
     dps21 = (payout.get(FY) / 100.0 * e21) if (payout.get(FY) is not None and e21) else None
     div_yield = round(dps21 / price * 100, 2) if (dps21 is not None and price and dps21 >= 0) else None
 
@@ -162,23 +170,25 @@ lines = [
     "",
     "## Coverage summary",
     "",
-    "- **Prices (monthly, Jan 2000-June 2026):** 35/35 stocks + Nifty 50 real (yfinance). "
-    "Every stock has the June-2021 and June-2026 anchor months **except PAYTM** "
-    "(IPO Nov 2021 — see below).",
-    "- **Annual financials FY2015-FY2021:** real (screener.in P&L + cash flow) for the "
-    "full 7-year table — the June-2021 shift removes the old FY2010-14 gap. "
-    "PAYTM is missing FY2017-FY2018 (pre-listing, not in screener).",
-    f"- **June-2021 snapshot ratios:** P/E for {have_pe}/35, ROE for {have_roe}/35, "
-    f"D/E for {have_de}/35. Derived from real FY2021 financials + the real "
-    "split/bonus-adjusted June-2021 close.",
-    "- **Loss-makers (FY2021):** IDEA, PAYTM, YESBANK, PVRINOX correctly show **no P/E** "
-    "(negative EPS). **Vodafone Idea (IDEA)** has **negative net worth** in FY2021, so "
-    "ROE/D/E are intentionally blank (not meaningful).",
-    "- **PAYTM:** not listed as of June 2021 (IPO 18 Nov 2021). June-2021 snapshot ratios "
-    "are N/A; the price chart and simulator use its **first listed close (Nov 2021)** as "
-    "the effective entry, clearly flagged.",
+    "- **Universe:** 40 NSE stocks (34 fundamentally strong + 6 deliberate weak/\"trap\" "
+    "picks: IDEA, ZEEL, YESBANK, TATASTEEL, COALINDIA, IOC). The UI never labels which is "
+    "which — students must read the FA data.",
+    "- **Prices (monthly, Jan 2000-June 2026):** 40/40 stocks + Nifty 50 real (yfinance). "
+    "Every stock has the June-2021 and June-2026 anchor months. Some series start at their "
+    "real listing date (POLYCAB 2019, GRINDWELL 2006, PAGEIND 2007).",
+    "- **Annual financials FY2015-FY2021:** real (screener.in P&L + cash flow), full 7-year "
+    "table. ABB India reports on a **December** fiscal year, so its \"FY2021\" column = "
+    "calendar 2021. FINOLEXIND uses screener slug FINPIPE (Finolex Industries).",
+    f"- **June-2021 snapshot ratios:** P/E for {have_pe}/40, ROE for {have_roe}/40, "
+    f"D/E for {have_de}/40. Derived from real FY2021 financials + the real "
+    "split/bonus-adjusted June-2021 close. Banks (HDFCBANK, ICICIBANK, KOTAKBANK, YESBANK) "
+    "have no meaningful D/E.",
+    "- **Vodafone Idea (IDEA):** negative net worth in FY2021 (accumulated losses exceed "
+    "equity) and a net loss, so P/E is blank and D/E shows \"N/A (negative equity)\" — itself "
+    "a red flag students should catch.",
     "- **Promoter holding:** screener's free shareholding table only reaches ~FY2023, so "
-    "the earliest available figure is shown as a labelled proxy.",
+    "the earliest available figure is shown as a labelled proxy (ZEEL's low promoter holding "
+    "is genuine).",
     "- **Gross Profit Margin:** not exposed by screener; OPM% (operating margin) shown instead.",
     "",
     "## Per-field gaps",
@@ -194,9 +204,11 @@ for field in sorted(by_field):
 open(os.path.join(DATA, "missing-data-report.md"), "w").write("\n".join(lines) + "\n")
 
 print("financials.json, snapshot-2021.json, missing-data-report.md written")
-print(f"PE: {have_pe}/35  ROE: {have_roe}/35  D/E: {have_de}/35")
+print(f"PE: {have_pe}/40  ROE: {have_roe}/40  D/E: {have_de}/40")
 print("\nNew / notable snapshots:")
-for sid in ["IDEA", "ZEEL", "PAYTM", "YESBANK", "PVRINOX", "TCS", "HDFCBANK"]:
-    s = snapshot[sid]
-    print(f"  {sid:9} price={s['price']} ipo={s['ipoMonth']} mktcap={s['marketCap']} "
+for sid in ["IDEA", "ZEEL", "YESBANK", "BHARTIARTL", "TATASTEEL", "TCS", "HDFCBANK"]:
+    s = snapshot.get(sid)
+    if not s:
+        continue
+    print(f"  {sid:11} price={s['price']} cat={s['marketCapCategory']} mktcap={s['marketCap']} "
           f"PE={s['pe']} ROE={s['roe']} D/E={s['de']} negNW={s['negNetWorth']} OPM={s['opm']}")

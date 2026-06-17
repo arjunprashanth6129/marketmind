@@ -16,7 +16,8 @@ interface Slot {
   qty: string;
 }
 
-const EMPTY_SLOTS: Slot[] = Array.from({ length: 8 }, () => ({ id: "", qty: "" }));
+const SLOT_COUNT = 5;
+const EMPTY_SLOTS: Slot[] = Array.from({ length: SLOT_COUNT }, () => ({ id: "", qty: "" }));
 
 const RATING_LABEL = (r: number): string =>
   r <= 2 ? "Poor" : r <= 4 ? "Below par" : r <= 6 ? "Decent" : r <= 8 ? "Strong" : "Excellent";
@@ -56,6 +57,18 @@ export default function Simulator({
     setSlots(EMPTY_SLOTS);
     setResult(null);
     setError(null);
+  }
+
+  // Host convenience: load this scenario's model "ideal 5", auto-sized to capex.
+  function loadIdeal() {
+    const per = scenario.capex / scenario.ideal.length;
+    const next: Slot[] = scenario.ideal.map((id) => {
+      const p = entryPrices[id];
+      const qty = p ? Math.max(1, Math.floor(per / p)) : 1;
+      return { id, qty: String(qty) };
+    });
+    setSlots(next.concat(EMPTY_SLOTS).slice(0, SLOT_COUNT));
+    setResult(null);
   }
 
   function submit() {
@@ -110,12 +123,38 @@ export default function Simulator({
           </span>
         </div>
         <p className="mt-3 text-sm text-slate-400">{scenario.description}</p>
+
+        <details className="mt-3 rounded-md border border-slate-800 bg-slate-950/50 px-3 py-2">
+          <summary className="cursor-pointer text-xs font-medium text-slate-400">
+            Model &ldquo;ideal 5&rdquo; for this scenario · host reference
+          </summary>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            {scenario.ideal.map((id) => (
+              <span
+                key={id}
+                className="rounded-full bg-slate-800 px-2 py-0.5 text-xs text-slate-300"
+              >
+                {nameOf(id)}
+              </span>
+            ))}
+            <button
+              onClick={loadIdeal}
+              className="ml-1 rounded-md border border-slate-700 px-2 py-0.5 text-xs text-slate-300 hover:bg-slate-800"
+            >
+              Load these 5 (auto-sized to capex)
+            </button>
+          </div>
+          <p className="mt-1.5 text-[11px] text-slate-500">
+            Reference only — students never see this; the screener never flags
+            good vs. weak stocks.
+          </p>
+        </details>
       </section>
 
       {/* Portfolio entry */}
       <section className="rounded-xl border border-slate-800 bg-slate-900 p-5">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-semibold text-slate-100">Portfolio (up to 8 stocks)</h2>
+          <h2 className="font-semibold text-slate-100">Portfolio (up to 5 stocks)</h2>
           <button
             onClick={reset}
             className="text-xs text-slate-400 hover:text-slate-200"

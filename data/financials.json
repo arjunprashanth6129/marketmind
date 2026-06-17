@@ -263,50 +263,6 @@
 "cfo": 4881.0
 }
 },
-"SBIN": {
-"2015": {
-"revenue": 207974.0,
-"netProfit": 17832.0,
-"eps": 22.76,
-"cfo": 26297.0
-},
-"2016": {
-"revenue": 220633.0,
-"netProfit": 13019.0,
-"eps": 15.75,
-"cfo": 14477.0
-},
-"2017": {
-"revenue": 230447.0,
-"netProfit": -97.0,
-"eps": 0.3,
-"cfo": 77406.0
-},
-"2018": {
-"revenue": 228970.0,
-"netProfit": -3749.0,
-"eps": -5.11,
-"cfo": -96508.0
-},
-"2019": {
-"revenue": 253322.0,
-"netProfit": 3351.0,
-"eps": 2.58,
-"cfo": 29556.0
-},
-"2020": {
-"revenue": 269852.0,
-"netProfit": 21140.0,
-"eps": 22.15,
-"cfo": 23929.0
-},
-"2021": {
-"revenue": 278115.0,
-"netProfit": 23888.0,
-"eps": 25.11,
-"cfo": 89919.0
-}
-},
 "YESBANK": {
 "2015": {
 "revenue": 11572.0,
@@ -349,6 +305,50 @@
 "netProfit": -3489.0,
 "eps": -1.39,
 "cfo": 55396.0
+}
+},
+"BAJFINANCE": {
+"2015": {
+"revenue": 5392.0,
+"netProfit": 898.0,
+"eps": 1.79,
+"cfo": -7064.0
+},
+"2016": {
+"revenue": 7299.0,
+"netProfit": 1279.0,
+"eps": 2.37,
+"cfo": -9870.0
+},
+"2017": {
+"revenue": 9970.0,
+"netProfit": 1836.0,
+"eps": 3.34,
+"cfo": -10439.0
+},
+"2018": {
+"revenue": 12746.0,
+"netProfit": 2496.0,
+"eps": 4.32,
+"cfo": -20566.0
+},
+"2019": {
+"revenue": 18487.0,
+"netProfit": 3995.0,
+"eps": 6.91,
+"cfo": -29062.0
+},
+"2020": {
+"revenue": 26375.0,
+"netProfit": 5264.0,
+"eps": 8.75,
+"cfo": -24412.0
+},
+"2021": {
+"revenue": 26673.0,
+"netProfit": 4420.0,
+"eps": 7.33,
+"cfo": -807.0
 }
 },
 "HINDUNILVR": {
@@ -527,6 +527,226 @@
 "cfo": 1851.0
 }
 },
+"MARICO": {
+"2015": {
+"revenue": 5733.0,
+"netProfit": 585.0,
+"eps": 4.45,
+"cfo": 665.0
+},
+"2016": {
+"revenue": 6017.0,
+"netProfit": 723.0,
+"eps": 5.51,
+"cfo": 818.0
+},
+"2017": {
+"revenue": 5918.0,
+"netProfit": 811.0,
+"eps": 6.19,
+"cfo": 649.0
+},
+"2018": {
+"revenue": 6322.0,
+"netProfit": 827.0,
+"eps": 6.31,
+"cfo": 516.0
+},
+"2019": {
+"revenue": 7334.0,
+"netProfit": 1131.0,
+"eps": 8.63,
+"cfo": 1062.0
+},
+"2020": {
+"revenue": 7315.0,
+"netProfit": 1043.0,
+"eps": 7.91,
+"cfo": 1214.0
+},
+"2021": {
+"revenue": 8048.0,
+"netProfit": 1199.0,
+"eps": 9.08,
+"cfo": 2007.0
+}
+},
+"VSTIND": {
+"2015": {
+"revenue": 836.0,
+"netProfit": 152.0,
+"eps": 8.96,
+"cfo": 118.0
+},
+"2016": {
+"revenue": 883.0,
+"netProfit": 153.0,
+"eps": 9.01,
+"cfo": 132.0
+},
+"2017": {
+"revenue": 922.0,
+"netProfit": 152.0,
+"eps": 8.92,
+"cfo": 146.0
+},
+"2018": {
+"revenue": 948.0,
+"netProfit": 182.0,
+"eps": 10.71,
+"cfo": 420.0
+},
+"2019": {
+"revenue": 1099.0,
+"netProfit": 227.0,
+"eps": 13.35,
+"cfo": 290.0
+},
+"2020": {
+"revenue": 1239.0,
+"netProfit": 304.0,
+"eps": 17.9,
+"cfo": 331.0
+},
+"2021": {
+"revenue": 1111.0,
+"netProfit": 311.0,
+"eps": 18.29,
+"cfo": 286.0
+}
+},
+"TITAN": {
+"2015": {
+"revenue": 11913.0,
+"netProfit": 816.0,
+"eps": 9.19,
+"cfo": 503.0
+},
+"2016": {
+"revenue": 11276.0,
+"netProfit": 675.0,
+"eps": 7.6,
+"cfo": 576.0
+},
+"2017": {
+"revenue": 13261.0,
+"netProfit": 697.0,
+"eps": 8.01,
+"cfo": 1712.0
+},
+"2018": {
+"revenue": 16120.0,
+"netProfit": 1102.0,
+"eps": 12.73,
+"cfo": -51.0
+},
+"2019": {
+"revenue": 19779.0,
+"netProfit": 1389.0,
+"eps": 15.82,
+"cfo": 1243.0
+},
+"2020": {
+"revenue": 21052.0,
+"netProfit": 1493.0,
+"eps": 16.91,
+"cfo": -348.0
+},
+"2021": {
+"revenue": 21644.0,
+"netProfit": 974.0,
+"eps": 10.96,
+"cfo": 4139.0
+}
+},
+"ASIANPAINT": {
+"2015": {
+"revenue": 13615.0,
+"netProfit": 1427.0,
+"eps": 14.54,
+"cfo": 1188.0
+},
+"2016": {
+"revenue": 14271.0,
+"netProfit": 1803.0,
+"eps": 18.19,
+"cfo": 2243.0
+},
+"2017": {
+"revenue": 15062.0,
+"netProfit": 2016.0,
+"eps": 20.22,
+"cfo": 1527.0
+},
+"2018": {
+"revenue": 16825.0,
+"netProfit": 2098.0,
+"eps": 21.26,
+"cfo": 2113.0
+},
+"2019": {
+"revenue": 19240.0,
+"netProfit": 2208.0,
+"eps": 22.48,
+"cfo": 2470.0
+},
+"2020": {
+"revenue": 20211.0,
+"netProfit": 2774.0,
+"eps": 28.2,
+"cfo": 3038.0
+},
+"2021": {
+"revenue": 21713.0,
+"netProfit": 3207.0,
+"eps": 32.73,
+"cfo": 3683.0
+}
+},
+"PAGEIND": {
+"2015": {
+"revenue": 1543.0,
+"netProfit": 196.0,
+"eps": 175.74,
+"cfo": 167.0
+},
+"2016": {
+"revenue": 1796.0,
+"netProfit": 232.0,
+"eps": 207.57,
+"cfo": 219.0
+},
+"2017": {
+"revenue": 2129.0,
+"netProfit": 266.0,
+"eps": 238.73,
+"cfo": 274.0
+},
+"2018": {
+"revenue": 2551.0,
+"netProfit": 347.0,
+"eps": 311.08,
+"cfo": 453.0
+},
+"2019": {
+"revenue": 2852.0,
+"netProfit": 394.0,
+"eps": 353.19,
+"cfo": 230.0
+},
+"2020": {
+"revenue": 2946.0,
+"netProfit": 343.0,
+"eps": 307.71,
+"cfo": 517.0
+},
+"2021": {
+"revenue": 2833.0,
+"netProfit": 341.0,
+"eps": 305.35,
+"cfo": 696.0
+}
+},
 "SUNPHARMA": {
 "2015": {
 "revenue": 27392.0,
@@ -569,50 +789,6 @@
 "netProfit": 2272.0,
 "eps": 12.1,
 "cfo": 6170.0
-}
-},
-"DRREDDY": {
-"2015": {
-"revenue": 15023.0,
-"netProfit": 2336.0,
-"eps": 27.43,
-"cfo": 2524.0
-},
-"2016": {
-"revenue": 15568.0,
-"netProfit": 2131.0,
-"eps": 24.98,
-"cfo": 3263.0
-},
-"2017": {
-"revenue": 14196.0,
-"netProfit": 1292.0,
-"eps": 15.59,
-"cfo": 2144.0
-},
-"2018": {
-"revenue": 14281.0,
-"netProfit": 947.0,
-"eps": 11.41,
-"cfo": 1803.0
-},
-"2019": {
-"revenue": 15448.0,
-"netProfit": 1950.0,
-"eps": 23.49,
-"cfo": 2870.0
-},
-"2020": {
-"revenue": 17517.0,
-"netProfit": 2026.0,
-"eps": 24.38,
-"cfo": 2984.0
-},
-"2021": {
-"revenue": 19048.0,
-"netProfit": 1952.0,
-"eps": 23.47,
-"cfo": 3570.0
 }
 },
 "CIPLA": {
@@ -659,6 +835,50 @@
 "cfo": 3755.0
 }
 },
+"DRREDDY": {
+"2015": {
+"revenue": 15023.0,
+"netProfit": 2336.0,
+"eps": 27.43,
+"cfo": 2524.0
+},
+"2016": {
+"revenue": 15568.0,
+"netProfit": 2131.0,
+"eps": 24.98,
+"cfo": 3263.0
+},
+"2017": {
+"revenue": 14196.0,
+"netProfit": 1292.0,
+"eps": 15.59,
+"cfo": 2144.0
+},
+"2018": {
+"revenue": 14281.0,
+"netProfit": 947.0,
+"eps": 11.41,
+"cfo": 1803.0
+},
+"2019": {
+"revenue": 15448.0,
+"netProfit": 1950.0,
+"eps": 23.49,
+"cfo": 2870.0
+},
+"2020": {
+"revenue": 17517.0,
+"netProfit": 2026.0,
+"eps": 24.38,
+"cfo": 2984.0
+},
+"2021": {
+"revenue": 19048.0,
+"netProfit": 1952.0,
+"eps": 23.47,
+"cfo": 3570.0
+}
+},
 "DIVISLAB": {
 "2015": {
 "revenue": 3115.0,
@@ -703,6 +923,50 @@
 "cfo": 1947.0
 }
 },
+"TORNTPHARM": {
+"2015": {
+"revenue": 4636.0,
+"netProfit": 751.0,
+"eps": 22.19,
+"cfo": 810.0
+},
+"2016": {
+"revenue": 6687.0,
+"netProfit": 1733.0,
+"eps": 51.22,
+"cfo": 2742.0
+},
+"2017": {
+"revenue": 5816.0,
+"netProfit": 934.0,
+"eps": 27.59,
+"cfo": 1009.0
+},
+"2018": {
+"revenue": 5950.0,
+"netProfit": 678.0,
+"eps": 20.04,
+"cfo": 894.0
+},
+"2019": {
+"revenue": 7673.0,
+"netProfit": 436.0,
+"eps": 12.89,
+"cfo": 1798.0
+},
+"2020": {
+"revenue": 7939.0,
+"netProfit": 1025.0,
+"eps": 30.28,
+"cfo": 1393.0
+},
+"2021": {
+"revenue": 8005.0,
+"netProfit": 1252.0,
+"eps": 36.99,
+"cfo": 2005.0
+}
+},
 "MARUTI": {
 "2015": {
 "revenue": 50801.0,
@@ -745,50 +1009,6 @@
 "netProfit": 4389.0,
 "eps": 145.3,
 "cfo": 8856.0
-}
-},
-"TATAMOTORS": {
-"2015": {
-"revenue": 263159.0,
-"netProfit": 14073.0,
-"eps": 48.44,
-"cfo": 35531.0
-},
-"2016": {
-"revenue": 273046.0,
-"netProfit": 11678.0,
-"eps": 40.11,
-"cfo": 37900.0
-},
-"2017": {
-"revenue": 269693.0,
-"netProfit": 7557.0,
-"eps": 25.82,
-"cfo": 30199.0
-},
-"2018": {
-"revenue": 291550.0,
-"netProfit": 9091.0,
-"eps": 31.13,
-"cfo": 23857.0
-},
-"2019": {
-"revenue": 301938.0,
-"netProfit": -28724.0,
-"eps": -99.84,
-"cfo": 18891.0
-},
-"2020": {
-"revenue": 261068.0,
-"netProfit": -11975.0,
-"eps": -39.08,
-"cfo": 26633.0
-},
-"2021": {
-"revenue": 249795.0,
-"netProfit": -13395.0,
-"eps": -40.51,
-"cfo": 29001.0
 }
 },
 "BAJAJAUTO": {
@@ -879,180 +1099,307 @@
 "cfo": 23074.0
 }
 },
-"ULTRACEMCO": {
+"ABB": {
 "2015": {
-"revenue": 23306.0,
-"netProfit": 2102.0,
-"eps": 76.47,
-"cfo": 4190.0
+"revenue": 8136.0,
+"netProfit": 300.0,
+"eps": 14.15,
+"cfo": 382.0
 },
 "2016": {
-"revenue": 25153.0,
-"netProfit": 2480.0,
-"eps": 90.3,
-"cfo": 4526.0
+"revenue": 8642.0,
+"netProfit": 374.0,
+"eps": 17.67,
+"cfo": 863.0
 },
 "2017": {
-"revenue": 25375.0,
-"netProfit": 2714.0,
-"eps": 98.9,
-"cfo": 5005.0
+"revenue": 6094.0,
+"netProfit": 420.0,
+"eps": 19.82,
+"cfo": 792.0
 },
 "2018": {
-"revenue": 30979.0,
-"netProfit": 2224.0,
-"eps": 80.92,
-"cfo": 3888.0
+"revenue": 6690.0,
+"netProfit": 511.0,
+"eps": 24.11,
+"cfo": 625.0
 },
 "2019": {
-"revenue": 41462.0,
-"netProfit": 2400.0,
-"eps": 87.51,
-"cfo": 5956.0
+"revenue": 7315.0,
+"netProfit": 303.0,
+"eps": 14.32,
+"cfo": 667.0
 },
 "2020": {
-"revenue": 42430.0,
-"netProfit": 5751.0,
-"eps": 199.4,
-"cfo": 8972.0
+"revenue": 5821.0,
+"netProfit": 219.0,
+"eps": 10.35,
+"cfo": 318.0
 },
 "2021": {
-"revenue": 44726.0,
-"netProfit": 5462.0,
-"eps": 189.26,
-"cfo": 12500.0
+"revenue": 6934.0,
+"netProfit": 520.0,
+"eps": 24.53,
+"cfo": 650.0
 }
 },
-"ASIANPAINT": {
+"GRINDWELL": {
 "2015": {
-"revenue": 13615.0,
-"netProfit": 1427.0,
-"eps": 14.54,
-"cfo": 1188.0
+"revenue": 1135.0,
+"netProfit": 104.0,
+"eps": 9.32,
+"cfo": 106.0
 },
 "2016": {
-"revenue": 14271.0,
-"netProfit": 1803.0,
+"revenue": 1151.0,
+"netProfit": 106.0,
+"eps": 9.51,
+"cfo": 139.0
+},
+"2017": {
+"revenue": 1263.0,
+"netProfit": 121.0,
+"eps": 10.78,
+"cfo": 170.0
+},
+"2018": {
+"revenue": 1431.0,
+"netProfit": 151.0,
+"eps": 13.53,
+"cfo": 134.0
+},
+"2019": {
+"revenue": 1598.0,
+"netProfit": 169.0,
+"eps": 15.1,
+"cfo": 85.0
+},
+"2020": {
+"revenue": 1580.0,
+"netProfit": 184.0,
+"eps": 16.48,
+"cfo": 318.0
+},
+"2021": {
+"revenue": 1638.0,
+"netProfit": 238.0,
+"eps": 21.6,
+"cfo": 331.0
+}
+},
+"POLYCAB": {
+"2015": {
+"revenue": 4707.0,
+"netProfit": 164.0,
+"eps": 11.64,
+"cfo": 150.0
+},
+"2016": {
+"revenue": 5202.0,
+"netProfit": 185.0,
+"eps": 13.09,
+"cfo": 221.0
+},
+"2017": {
+"revenue": 5500.0,
+"netProfit": 233.0,
+"eps": 16.48,
+"cfo": 296.0
+},
+"2018": {
+"revenue": 6770.0,
+"netProfit": 359.0,
+"eps": 25.35,
+"cfo": 362.0
+},
+"2019": {
+"revenue": 7986.0,
+"netProfit": 500.0,
+"eps": 35.39,
+"cfo": 1230.0
+},
+"2020": {
+"revenue": 8830.0,
+"netProfit": 766.0,
+"eps": 50.97,
+"cfo": 244.0
+},
+"2021": {
+"revenue": 8792.0,
+"netProfit": 886.0,
+"eps": 59.15,
+"cfo": 1252.0
+}
+},
+"SUPREMEIND": {
+"2015": {
+"revenue": 4254.0,
+"netProfit": 322.0,
+"eps": 25.38,
+"cfo": 601.0
+},
+"2016": {
+"revenue": 2960.0,
+"netProfit": 221.0,
+"eps": 17.43,
+"cfo": 296.0
+},
+"2017": {
+"revenue": 4462.0,
+"netProfit": 430.0,
+"eps": 33.88,
+"cfo": 465.0
+},
+"2018": {
+"revenue": 4969.0,
+"netProfit": 432.0,
+"eps": 33.99,
+"cfo": 508.0
+},
+"2019": {
+"revenue": 5612.0,
+"netProfit": 449.0,
+"eps": 35.32,
+"cfo": 556.0
+},
+"2020": {
+"revenue": 5512.0,
+"netProfit": 467.0,
+"eps": 36.8,
+"cfo": 539.0
+},
+"2021": {
+"revenue": 6355.0,
+"netProfit": 978.0,
+"eps": 77.0,
+"cfo": 1246.0
+}
+},
+"FINOLEXIND": {
+"2015": null,
+"2016": {
+"revenue": 2482.0,
+"netProfit": 258.0,
+"eps": 4.15,
+"cfo": 569.0
+},
+"2017": {
+"revenue": 2602.0,
+"netProfit": 355.0,
+"eps": 5.72,
+"cfo": 252.0
+},
+"2018": {
+"revenue": 2738.0,
+"netProfit": 306.0,
+"eps": 4.94,
+"cfo": 338.0
+},
+"2019": {
+"revenue": 3091.0,
+"netProfit": 367.0,
+"eps": 5.92,
+"cfo": 391.0
+},
+"2020": {
+"revenue": 2985.0,
+"netProfit": 333.0,
+"eps": 5.36,
+"cfo": 106.0
+},
+"2021": {
+"revenue": 3462.0,
+"netProfit": 738.0,
+"eps": 11.89,
+"cfo": 941.0
+}
+},
+"GHCL": {
+"2015": {
+"revenue": 2356.0,
+"netProfit": 182.0,
 "eps": 18.19,
-"cfo": 2243.0
-},
-"2017": {
-"revenue": 15062.0,
-"netProfit": 2016.0,
-"eps": 20.22,
-"cfo": 1527.0
-},
-"2018": {
-"revenue": 16825.0,
-"netProfit": 2098.0,
-"eps": 21.26,
-"cfo": 2113.0
-},
-"2019": {
-"revenue": 19240.0,
-"netProfit": 2208.0,
-"eps": 22.48,
-"cfo": 2470.0
-},
-"2020": {
-"revenue": 20211.0,
-"netProfit": 2774.0,
-"eps": 28.2,
-"cfo": 3038.0
-},
-"2021": {
-"revenue": 21713.0,
-"netProfit": 3207.0,
-"eps": 32.73,
-"cfo": 3683.0
-}
-},
-"TITAN": {
-"2015": {
-"revenue": 11913.0,
-"netProfit": 816.0,
-"eps": 9.19,
-"cfo": 503.0
+"cfo": 416.0
 },
 "2016": {
-"revenue": 11276.0,
-"netProfit": 675.0,
-"eps": 7.6,
-"cfo": 576.0
+"revenue": 2531.0,
+"netProfit": 258.0,
+"eps": 25.78,
+"cfo": 509.0
 },
 "2017": {
-"revenue": 13261.0,
-"netProfit": 697.0,
-"eps": 8.01,
-"cfo": 1712.0
+"revenue": 2784.0,
+"netProfit": 380.0,
+"eps": 38.04,
+"cfo": 458.0
 },
 "2018": {
-"revenue": 16120.0,
-"netProfit": 1102.0,
-"eps": 12.73,
-"cfo": -51.0
+"revenue": 2919.0,
+"netProfit": 356.0,
+"eps": 36.59,
+"cfo": 590.0
 },
 "2019": {
-"revenue": 19779.0,
-"netProfit": 1389.0,
-"eps": 15.82,
-"cfo": 1243.0
+"revenue": 3341.0,
+"netProfit": 351.0,
+"eps": 35.77,
+"cfo": 530.0
 },
 "2020": {
-"revenue": 21052.0,
-"netProfit": 1493.0,
-"eps": 16.91,
-"cfo": -348.0
+"revenue": 3305.0,
+"netProfit": 397.0,
+"eps": 41.75,
+"cfo": 624.0
 },
 "2021": {
-"revenue": 21644.0,
-"netProfit": 974.0,
-"eps": 10.96,
-"cfo": 4139.0
+"revenue": 2491.0,
+"netProfit": 326.0,
+"eps": 34.33,
+"cfo": 621.0
 }
 },
-"BAJFINANCE": {
+"CONCOR": {
 "2015": {
-"revenue": 5392.0,
-"netProfit": 898.0,
-"eps": 1.79,
-"cfo": -7064.0
+"revenue": 6032.0,
+"netProfit": 1056.0,
+"eps": 13.85,
+"cfo": 1166.0
 },
 "2016": {
-"revenue": 7299.0,
-"netProfit": 1279.0,
-"eps": 2.37,
-"cfo": -9870.0
+"revenue": 6278.0,
+"netProfit": 967.0,
+"eps": 12.68,
+"cfo": -781.0
 },
 "2017": {
-"revenue": 9970.0,
-"netProfit": 1836.0,
-"eps": 3.34,
-"cfo": -10439.0
+"revenue": 5980.0,
+"netProfit": 854.0,
+"eps": 11.26,
+"cfo": 2029.0
 },
 "2018": {
-"revenue": 12746.0,
-"netProfit": 2496.0,
-"eps": 4.32,
-"cfo": -20566.0
+"revenue": 6612.0,
+"netProfit": 1060.0,
+"eps": 14.04,
+"cfo": 1313.0
 },
 "2019": {
-"revenue": 18487.0,
-"netProfit": 3995.0,
-"eps": 6.91,
-"cfo": -29062.0
+"revenue": 6956.0,
+"netProfit": 1222.0,
+"eps": 16.14,
+"cfo": -1941.0
 },
 "2020": {
-"revenue": 26375.0,
-"netProfit": 5264.0,
-"eps": 8.75,
-"cfo": -24412.0
+"revenue": 6530.0,
+"netProfit": 406.0,
+"eps": 5.3,
+"cfo": 4286.0
 },
 "2021": {
-"revenue": 26673.0,
-"netProfit": 4420.0,
-"eps": 7.33,
-"cfo": -807.0
+"revenue": 6427.0,
+"netProfit": 501.0,
+"eps": 6.63,
+"cfo": 1029.0
 }
 },
 "POWERGRID": {
@@ -1141,182 +1488,6 @@
 "netProfit": 14969.0,
 "eps": 15.09,
 "cfo": 32444.0
-}
-},
-"COALINDIA": {
-"2015": {
-"revenue": 74120.0,
-"netProfit": 13727.0,
-"eps": 21.73,
-"cfo": 14382.0
-},
-"2016": {
-"revenue": 77861.0,
-"netProfit": 14267.0,
-"eps": 22.59,
-"cfo": 13154.0
-},
-"2017": {
-"revenue": 78164.0,
-"netProfit": 9280.0,
-"eps": 14.95,
-"cfo": 16461.0
-},
-"2018": {
-"revenue": 85244.0,
-"netProfit": 7038.0,
-"eps": 11.34,
-"cfo": 21115.0
-},
-"2019": {
-"revenue": 99586.0,
-"netProfit": 17464.0,
-"eps": 28.34,
-"cfo": 16356.0
-},
-"2020": {
-"revenue": 96080.0,
-"netProfit": 16700.0,
-"eps": 27.12,
-"cfo": 4977.0
-},
-"2021": {
-"revenue": 90026.0,
-"netProfit": 12702.0,
-"eps": 20.61,
-"cfo": 10592.0
-}
-},
-"IOC": {
-"2015": {
-"revenue": 449507.0,
-"netProfit": 4872.0,
-"eps": 3.37,
-"cfo": 46092.0
-},
-"2016": {
-"revenue": 346045.0,
-"netProfit": 12413.0,
-"eps": 8.25,
-"cfo": 25624.0
-},
-"2017": {
-"revenue": 355379.0,
-"netProfit": 20385.0,
-"eps": 13.63,
-"cfo": 28216.0
-},
-"2018": {
-"revenue": 421492.0,
-"netProfit": 22626.0,
-"eps": 15.23,
-"cfo": 29115.0
-},
-"2019": {
-"revenue": 528158.0,
-"netProfit": 17274.0,
-"eps": 12.31,
-"cfo": 12747.0
-},
-"2020": {
-"revenue": 483763.0,
-"netProfit": -1876.0,
-"eps": -0.63,
-"cfo": 7146.0
-},
-"2021": {
-"revenue": 363950.0,
-"netProfit": 21762.0,
-"eps": 15.32,
-"cfo": 49650.0
-}
-},
-"TATASTEEL": {
-"2015": {
-"revenue": 139504.0,
-"netProfit": -3939.0,
-"eps": -3.48,
-"cfo": 11880.0
-},
-"2016": {
-"revenue": 101965.0,
-"netProfit": -497.0,
-"eps": -0.34,
-"cfo": 11455.0
-},
-"2017": {
-"revenue": 112299.0,
-"netProfit": -4169.0,
-"eps": -3.76,
-"cfo": 10824.0
-},
-"2018": {
-"revenue": 123249.0,
-"netProfit": 17743.0,
-"eps": 11.93,
-"cfo": 8023.0
-},
-"2019": {
-"revenue": 157669.0,
-"netProfit": 9122.0,
-"eps": 9.07,
-"cfo": 25336.0
-},
-"2020": {
-"revenue": 139817.0,
-"netProfit": 1174.0,
-"eps": 1.38,
-"cfo": 20169.0
-},
-"2021": {
-"revenue": 156477.0,
-"netProfit": 8190.0,
-"eps": 6.26,
-"cfo": 44327.0
-}
-},
-"HINDALCO": {
-"2015": {
-"revenue": 104281.0,
-"netProfit": 259.0,
-"eps": 4.14,
-"cfo": 7143.0
-},
-"2016": {
-"revenue": 98759.0,
-"netProfit": -702.0,
-"eps": -1.21,
-"cfo": 11688.0
-},
-"2017": {
-"revenue": 100184.0,
-"netProfit": 1882.0,
-"eps": 8.47,
-"cfo": 12687.0
-},
-"2018": {
-"revenue": 115183.0,
-"netProfit": 6083.0,
-"eps": 27.1,
-"cfo": 10898.0
-},
-"2019": {
-"revenue": 130542.0,
-"netProfit": 5495.0,
-"eps": 24.48,
-"cfo": 11977.0
-},
-"2020": {
-"revenue": 118144.0,
-"netProfit": 3767.0,
-"eps": 16.77,
-"cfo": 12665.0
-},
-"2021": {
-"revenue": 132008.0,
-"netProfit": 3483.0,
-"eps": 15.5,
-"cfo": 17232.0
 }
 },
 "BHARTIARTL": {
@@ -1451,82 +1622,136 @@
 "cfo": 1548.0
 }
 },
-"PAYTM": {
+"TATASTEEL": {
 "2015": {
-"revenue": 323.0,
-"netProfit": -372.0,
-"eps": -123.02,
-"cfo": -334.0
+"revenue": 139504.0,
+"netProfit": -3939.0,
+"eps": -3.48,
+"cfo": 11880.0
 },
 "2016": {
-"revenue": 855.0,
-"netProfit": -1535.0,
-"eps": -331.99,
-"cfo": -1405.0
-},
-"2017": null,
-"2018": null,
-"2019": {
-"revenue": 3224.0,
-"netProfit": -4231.0,
-"eps": -726.78,
-"cfo": -4476.0
-},
-"2020": {
-"revenue": 3279.0,
-"netProfit": -2942.0,
-"eps": -470.27,
-"cfo": -2377.0
-},
-"2021": {
-"revenue": 2801.0,
-"netProfit": -1701.0,
-"eps": -280.42,
-"cfo": -2082.0
-}
-},
-"PVRINOX": {
-"2015": {
-"revenue": 1477.0,
-"netProfit": 12.0,
-"eps": 2.86,
-"cfo": 155.0
-},
-"2016": {
-"revenue": 1850.0,
-"netProfit": 99.0,
-"eps": 19.58,
-"cfo": 354.0
+"revenue": 101965.0,
+"netProfit": -497.0,
+"eps": -0.34,
+"cfo": 11455.0
 },
 "2017": {
-"revenue": 2119.0,
-"netProfit": 96.0,
-"eps": 19.08,
-"cfo": 320.0
+"revenue": 112299.0,
+"netProfit": -4169.0,
+"eps": -3.76,
+"cfo": 10824.0
 },
 "2018": {
-"revenue": 2334.0,
-"netProfit": 124.0,
-"eps": 24.84,
-"cfo": 446.0
+"revenue": 123249.0,
+"netProfit": 17743.0,
+"eps": 11.93,
+"cfo": 8023.0
 },
 "2019": {
-"revenue": 3086.0,
-"netProfit": 189.0,
-"eps": 37.81,
-"cfo": 830.0
+"revenue": 157669.0,
+"netProfit": 9122.0,
+"eps": 9.07,
+"cfo": 25336.0
 },
 "2020": {
-"revenue": 3414.0,
-"netProfit": 27.0,
-"eps": 4.95,
-"cfo": 787.0
+"revenue": 139817.0,
+"netProfit": 1174.0,
+"eps": 1.38,
+"cfo": 20169.0
 },
 "2021": {
-"revenue": 280.0,
-"netProfit": -748.0,
-"eps": -123.07,
-"cfo": -413.0
+"revenue": 156477.0,
+"netProfit": 8190.0,
+"eps": 6.26,
+"cfo": 44327.0
+}
+},
+"COALINDIA": {
+"2015": {
+"revenue": 74120.0,
+"netProfit": 13727.0,
+"eps": 21.73,
+"cfo": 14382.0
+},
+"2016": {
+"revenue": 77861.0,
+"netProfit": 14267.0,
+"eps": 22.59,
+"cfo": 13154.0
+},
+"2017": {
+"revenue": 78164.0,
+"netProfit": 9280.0,
+"eps": 14.95,
+"cfo": 16461.0
+},
+"2018": {
+"revenue": 85244.0,
+"netProfit": 7038.0,
+"eps": 11.34,
+"cfo": 21115.0
+},
+"2019": {
+"revenue": 99586.0,
+"netProfit": 17464.0,
+"eps": 28.34,
+"cfo": 16356.0
+},
+"2020": {
+"revenue": 96080.0,
+"netProfit": 16700.0,
+"eps": 27.12,
+"cfo": 4977.0
+},
+"2021": {
+"revenue": 90026.0,
+"netProfit": 12702.0,
+"eps": 20.61,
+"cfo": 10592.0
+}
+},
+"IOC": {
+"2015": {
+"revenue": 449507.0,
+"netProfit": 4872.0,
+"eps": 3.37,
+"cfo": 46092.0
+},
+"2016": {
+"revenue": 346045.0,
+"netProfit": 12413.0,
+"eps": 8.25,
+"cfo": 25624.0
+},
+"2017": {
+"revenue": 355379.0,
+"netProfit": 20385.0,
+"eps": 13.63,
+"cfo": 28216.0
+},
+"2018": {
+"revenue": 421492.0,
+"netProfit": 22626.0,
+"eps": 15.23,
+"cfo": 29115.0
+},
+"2019": {
+"revenue": 528158.0,
+"netProfit": 17274.0,
+"eps": 12.31,
+"cfo": 12747.0
+},
+"2020": {
+"revenue": 483763.0,
+"netProfit": -1876.0,
+"eps": -0.63,
+"cfo": 7146.0
+},
+"2021": {
+"revenue": 363950.0,
+"netProfit": 21762.0,
+"eps": 15.32,
+"cfo": 49650.0
 }
 }
 }

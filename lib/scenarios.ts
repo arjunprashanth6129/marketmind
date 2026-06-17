@@ -8,6 +8,9 @@ export interface Scenario {
   capex: number; // ₹
   capexLabel: string;
   accent: string; // hex, matches the printed handout
+  // "Model answer" — 5 good-stock IDs that best fit this scenario. Host-only
+  // reference; never shown on the public screener. Trap stocks never appear here.
+  ideal: string[];
 }
 
 export const SCENARIOS: Scenario[] = [
@@ -19,6 +22,7 @@ export const SCENARIOS: Scenario[] = [
     capex: 50000,
     capexLabel: "Rs. 50,000",
     accent: "#3b5bdb",
+    ideal: ["ICICIBANK", "TITAN", "BAJFINANCE", "POLYCAB", "FINOLEXIND"],
   },
   {
     id: "newly-married",
@@ -28,6 +32,7 @@ export const SCENARIOS: Scenario[] = [
     capex: 200000,
     capexLabel: "Rs. 2,00,000",
     accent: "#7048e8",
+    ideal: ["HDFCBANK", "TCS", "MARICO", "TORNTPHARM", "ABB"],
   },
   {
     id: "young-family",
@@ -37,6 +42,7 @@ export const SCENARIOS: Scenario[] = [
     capex: 300000,
     capexLabel: "Rs. 3,00,000",
     accent: "#e8830c",
+    ideal: ["HINDUNILVR", "SUNPHARMA", "ASIANPAINT", "MARUTI", "CONCOR"],
   },
   {
     id: "pre-retirement",
@@ -46,6 +52,7 @@ export const SCENARIOS: Scenario[] = [
     capex: 500000,
     capexLabel: "Rs. 5,00,000",
     accent: "#d6455e",
+    ideal: ["TCS", "ITC", "NESTLEIND", "CIPLA", "POWERGRID"],
   },
   {
     id: "elderly-retired",
@@ -55,6 +62,7 @@ export const SCENARIOS: Scenario[] = [
     capex: 100000,
     capexLabel: "Rs. 1,00,000",
     accent: "#2f9e7f",
+    ideal: ["HINDUNILVR", "NTPC", "POWERGRID", "BAJAJAUTO", "VSTIND"],
   },
 ];
 

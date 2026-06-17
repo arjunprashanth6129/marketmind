@@ -11,17 +11,19 @@ export interface ScreenerRow {
   sector: string;
   price: number | null;
   marketCap: number | null;
-  marketCapCategory: "Large" | "Mid" | "Small" | null;
+  marketCapCategory: "Large" | "Mid" | "Small" | "Micro" | null;
   pe: number | null;
   roe: number | null;
   divYield: number | null;
   de: number | null;
 }
 
+// SEBI/NSE bands: Large = Blue, Mid = Purple, Small = Orange, Micro = Red.
 const CAT_COLORS: Record<string, string> = {
-  Large: "bg-emerald-100 text-emerald-800",
-  Mid: "bg-sky-100 text-sky-800",
+  Large: "bg-blue-100 text-blue-800",
+  Mid: "bg-purple-100 text-purple-800",
   Small: "bg-orange-100 text-orange-800",
+  Micro: "bg-red-100 text-red-800",
 };
 
 function MiniStat({ label, value }: { label: string; value: string }) {
@@ -82,6 +84,7 @@ export default function ScreenerGrid({ rows }: { rows: ScreenerRow[] }) {
             <option>Large</option>
             <option>Mid</option>
             <option>Small</option>
+            <option>Micro</option>
           </select>
         </label>
         <label className="flex flex-1 flex-col text-xs font-medium text-gray-500">
