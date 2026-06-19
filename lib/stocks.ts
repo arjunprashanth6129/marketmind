@@ -40,7 +40,7 @@ export const STOCKS: StockMeta[] = [
   { id: "POLYCAB", name: "Polycab India", sector: "Pipes/Plastics" },
   { id: "SUPREMEIND", name: "Supreme Industries", sector: "Pipes/Plastics" },
   { id: "FINOLEXIND", name: "Finolex Industries", sector: "Pipes/Plastics" },
-  { id: "GHCL", name: "GHCL", sector: "Specialty Chem" },
+  { id: "FINEORG", name: "Fine Organic Industries", sector: "Specialty Chem" },
   { id: "CONCOR", name: "Container Corporation of India", sector: "Logistics" },
   { id: "POWERGRID", name: "Power Grid Corporation", sector: "Utilities PSU" },
   { id: "NTPC", name: "NTPC", sector: "Utilities PSU" },

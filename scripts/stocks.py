@@ -37,7 +37,7 @@ STOCKS = [
     ("POLYCAB",    "POLYCAB.NS",     "Polycab India",             "Pipes/Plastics"),
     ("SUPREMEIND", "SUPREMEIND.NS",  "Supreme Industries",        "Pipes/Plastics"),
     ("FINOLEXIND", "FINPIPE.NS",     "Finolex Industries",        "Pipes/Plastics"),
-    ("GHCL",       "GHCL.NS",        "GHCL",                      "Specialty Chem"),
+    ("FINEORG",    "FINEORG.NS",     "Fine Organic Industries",   "Specialty Chem"),
     ("CONCOR",     "CONCOR.NS",      "Container Corporation of India", "Logistics"),
     ("POWERGRID",  "POWERGRID.NS",   "Power Grid Corporation",    "Utilities PSU"),
     ("NTPC",       "NTPC.NS",        "NTPC",                      "Utilities PSU"),

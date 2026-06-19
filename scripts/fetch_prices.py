@@ -35,7 +35,7 @@ def fetch_monthly(yahoo):
             for ts, val in close.items():
                 if val != val:  # NaN
                     continue
-                out.append({"date": ts.strftime("%Y-%m"), "close": round(float(val), 2)})
+                out.append({"date": ts.strftime("%Y-%m-01"), "close": round(float(val), 2)})
             return out
         except Exception as e:
             print(f"    attempt {attempt+1} failed: {e}", file=sys.stderr)

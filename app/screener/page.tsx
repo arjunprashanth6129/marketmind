@@ -19,8 +19,8 @@ export default function ScreenerLanding() {
       marketCapCategory: snap?.marketCapCategory ?? null,
       pe: snap?.pe ?? null,
       roe: snap?.roe ?? null,
-      divYield: snap?.divYield ?? null,
-      de: snap?.de ?? null,
+      divYield: snap?.dividendYield ?? null,
+      de: snap?.debtToEquity ?? null,
     };
   });
   // Default order: market cap descending — a natural screener feel that

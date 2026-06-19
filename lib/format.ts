@@ -56,7 +56,7 @@ export function ratio(v: number | null | undefined, digits = 2): string {
   return (v as number).toFixed(digits);
 }
 
-// "2021-06" -> "Jun 2021"
+// "2021-06-01" -> "Jun 2021"
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 export function monthLabel(ym: string): string {
   const [y, m] = ym.split("-");

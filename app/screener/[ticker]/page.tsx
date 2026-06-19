@@ -16,7 +16,6 @@ import {
   FIN_YEARS,
   type YearFin,
 } from "@/lib/data";
-import { cagr } from "@/lib/calc";
 import {
   crore,
   croreCompact,
@@ -109,32 +108,11 @@ export default async function StockDetail({
   const get = (y: string, k: keyof YearFin): number | null =>
     fin[y]?.[k] ?? null;
 
-  // CAGR windows: 1yr (FY20→21), 3yr (FY18→21), 5yr (FY16→21).
-  const revC = {
-    one: cagr(get("2020", "revenue"), get("2021", "revenue"), 1),
-    three: cagr(get("2018", "revenue"), get("2021", "revenue"), 3),
-    five: cagr(get("2016", "revenue"), get("2021", "revenue"), 5),
-  };
-  const npC = {
-    one: cagr(get("2020", "netProfit"), get("2021", "netProfit"), 1),
-    three: cagr(get("2018", "netProfit"), get("2021", "netProfit"), 3),
-    five: cagr(get("2016", "netProfit"), get("2021", "netProfit"), 5),
-  };
-  // EPS-consistency over the full FY2015→FY2021 trend.
-  const epsTrend = cagr(get("2015", "eps"), get("2021", "eps"), 6);
-  const npTrend = cagr(get("2015", "netProfit"), get("2021", "netProfit"), 6);
-
-  let epsNote: string;
-  if (epsTrend == null || npTrend == null) {
-    epsNote =
-      "Not enough FY2015–FY2021 data to compare EPS growth with profit growth.";
-  } else if (epsTrend >= npTrend - 1.5) {
-    epsNote =
-      "EPS growth tracks net-profit growth (FY2015→FY2021) — no major equity dilution.";
-  } else {
-    epsNote =
-      "EPS growth lags net-profit growth (FY2015→FY2021) — equity dilution likely.";
-  }
+  // Compounded growth (3yr FY18→21, 5yr FY16→21) + EPS-consistency note are
+  // precomputed in the snapshot.
+  const epsNote =
+    snap.epsConsistencyNote ??
+    "Not enough FY2015–FY2021 data to assess EPS consistency.";
 
   // EPS cells to flag red: years inside a run of >=3 consecutive YoY declines.
   const epsDeclineYears = (() => {
@@ -240,11 +218,15 @@ export default async function StockDetail({
           <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
             <Chip label="Market Cap" value={croreCompact(snap.marketCap)} />
             <Chip label="Stock P/E" value={ratio(snap.pe, 1)} />
-            <Chip label="ROE" value={pct(snap.roe)} hint="FY2021" />
-            <Chip label="Div Yield" value={pct(snap.divYield, 2)} />
+            <Chip
+              label="ROE"
+              value={snap.negNetWorth ? "N/A" : pct(snap.roe)}
+              hint={snap.negNetWorth ? "negative equity" : "FY2021"}
+            />
+            <Chip label="Div Yield" value={pct(snap.dividendYield, 2)} />
             <Chip
               label="Debt / Equity"
-              value={snap.negNetWorth ? "N/A" : ratio(snap.de, 2)}
+              value={snap.negNetWorth ? "N/A" : ratio(snap.debtToEquity, 2)}
               hint={snap.negNetWorth ? "negative equity" : "FY2021"}
             />
             <Chip
@@ -317,7 +299,7 @@ export default async function StockDetail({
                   <th className="py-2 text-left font-medium">Metric</th>
                   {FIN_YEARS.map((y) => (
                     <th key={y} className="px-2 py-2 font-medium">
-                      FY{y}
+                      {y}
                     </th>
                   ))}
                 </tr>
@@ -362,24 +344,22 @@ export default async function StockDetail({
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <CagrCard
               title="Compounded Revenue Growth"
-              one={revC.one}
-              three={revC.three}
-              five={revC.five}
+              three={snap.revenueGrowth3yr}
+              five={snap.revenueGrowth5yr}
             />
             <CagrCard
               title="Compounded Profit Growth"
-              one={npC.one}
-              three={npC.three}
-              five={npC.five}
+              three={snap.profitGrowth3yr}
+              five={snap.profitGrowth5yr}
             />
           </div>
           <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
             <strong>EPS consistency:</strong> {epsNote}
           </p>
           <p className="mt-2 text-[11px] text-gray-400">
-            Windows: 1-Yr (FY20→FY21), 3-Yr (FY18→FY21), 5-Yr (FY16→FY21). A
-            window shows n/a only where a required year is missing (e.g. PAYTM,
-            which lacks FY2017–FY2018).
+            Windows: 3-Yr (FY2018→FY2021) and 5-Yr (FY2016→FY2021). A window
+            shows n/a where a required base year is missing (e.g. a stock that
+            listed after FY2016).
           </p>
         </section>
 
@@ -399,7 +379,7 @@ export default async function StockDetail({
                   <th className="py-2 text-left font-medium">Metric</th>
                   {FIN_YEARS.map((y) => (
                     <th key={y} className="px-2 py-2 font-medium">
-                      FY{y}
+                      {y}
                     </th>
                   ))}
                 </tr>
@@ -481,9 +461,9 @@ export default async function StockDetail({
                           )}
                         </td>
                         <td className="px-2 py-2 text-gray-800">{ratio(s.pe, 1)}</td>
-                        <td className="px-2 py-2 text-gray-800">{pct(s.divYield, 2)}</td>
+                        <td className="px-2 py-2 text-gray-800">{pct(s.dividendYield, 2)}</td>
                         <td className="px-2 py-2 text-gray-800">{pct(s.roe)}</td>
-                        <td className="px-2 py-2 text-gray-800">{ratio(s.de, 2)}</td>
+                        <td className="px-2 py-2 text-gray-800">{ratio(s.debtToEquity, 2)}</td>
                         <td className="px-2 py-2 text-gray-800">
                           {croreCompact(s.marketCap)}
                         </td>
@@ -506,12 +486,10 @@ export default async function StockDetail({
 
 function CagrCard({
   title,
-  one,
   three,
   five,
 }: {
   title: string;
-  one: number | null;
   three: number | null;
   five: number | null;
 }) {
@@ -537,7 +515,6 @@ function CagrCard({
     <div className="rounded-lg border border-gray-200 p-3">
       <div className="mb-2 text-xs font-semibold text-gray-700">{title}</div>
       <div className="flex gap-2">
-        {cell("1 Yr", one)}
         {cell("3 Yr", three)}
         {cell("5 Yr", five)}
       </div>

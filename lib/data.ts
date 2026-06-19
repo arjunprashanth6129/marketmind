@@ -6,11 +6,11 @@ import niftyJson from "@/data/nifty.json";
 import financialsJson from "@/data/financials.json";
 import snapshotJson from "@/data/snapshot-2021.json";
 
-export const ANCHOR_MONTH = "2021-06"; // June 2021 — the "time capsule" date
-export const END_MONTH = "2026-06"; // fixed reproducible end of window
+export const ANCHOR_MONTH = "2021-06-01"; // June 2021 — the "time capsule" date
+export const END_MONTH = "2026-06-01"; // fixed reproducible end of window
 
 export interface PricePoint {
-  date: string; // "YYYY-MM"
+  date: string; // "YYYY-MM-01"
   close: number;
 }
 
@@ -31,13 +31,20 @@ export interface Snapshot {
   marketCap: number | null;
   marketCapCategory: "Large" | "Mid" | "Small" | "Micro" | null;
   pe: number | null;
-  divYield: number | null;
+  dividendYield: number | null;
   roe: number | null;
-  de: number | null;
+  debtToEquity: number | null;
   promoterHolding: number | null;
   promoterHoldingAsOf: string | null;
+  gpm: number | null; // gross margin — null (not exposed by screener); see opm
   opm: number | null;
-  grossMargin: number | null;
+  eps: number | null;
+  revenueGrowth3yr: number | null; // FY2018→FY2021 CAGR %
+  revenueGrowth5yr: number | null; // FY2016→FY2021 CAGR %
+  profitGrowth3yr: number | null;
+  profitGrowth5yr: number | null;
+  epsConsistencyNote: string | null;
+  cfoNegativeYears: string[];
 }
 
 const prices = pricesJson as Record<string, PricePoint[]>;
@@ -48,7 +55,7 @@ const financials = financialsJson as Record<
 >;
 const snapshots = snapshotJson as Record<string, Snapshot>;
 
-export const FIN_YEARS = ["2015", "2016", "2017", "2018", "2019", "2020", "2021"];
+export const FIN_YEARS = ["FY2015", "FY2016", "FY2017", "FY2018", "FY2019", "FY2020", "FY2021"];
 
 export function getSnapshot(id: string): Snapshot | undefined {
   return snapshots[id];

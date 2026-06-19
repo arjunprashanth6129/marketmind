@@ -51,9 +51,9 @@ def get_html(sid):
             r = requests.get(screener_url(sid, consolidated), headers=HEADERS, timeout=25)
             if r.status_code == 200 and "profit-loss" in r.text:
                 open(path, "w", encoding="utf-8").write(r.text)
-                time.sleep(1.5)
+                time.sleep(2.0)
                 return r.text
-            time.sleep(1.5)
+            time.sleep(2.0)
         except Exception as e:
             print(f"    fetch error {sid}: {e}", file=sys.stderr)
             time.sleep(2)
