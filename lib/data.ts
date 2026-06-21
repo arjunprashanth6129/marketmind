@@ -23,6 +23,7 @@ export interface YearFin {
 
 export interface Snapshot {
   name: string;
+  companyBlurb: string; // neutral 2-3 sentence June-2021 company profile
   sector: string;
   price: number | null; // June-2021 close (null if not yet listed, e.g. PAYTM)
   ipoMonth: string | null; // "YYYY-MM" if listed after the anchor

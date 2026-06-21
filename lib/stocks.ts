@@ -1,5 +1,5 @@
-// Canonical 49-stock universe — the final verified time-capsule list
-// (39 "good fundamentals" + 10 deliberate weak picks, all NSE, June 2021).
+// Canonical 50-stock universe — the final verified time-capsule list
+// (40 "good fundamentals" + 10 deliberate weak picks, all NSE, June 2021).
 // `id` is the app ticker (JSON key + dropdown value); `sector` drives peers.
 // NOTE: the UI never flags a stock as "good" or "bad" — students must read the
 // fundamentals themselves.
@@ -45,6 +45,8 @@ export const STOCKS: StockMeta[] = [
   { id: "ITC", name: "ITC", sector: "FMCG" },
   // --- Beverages ---
   { id: "VBL", name: "Varun Beverages", sector: "Beverages" },
+  // --- Auto ---
+  { id: "TATAMOTORS", name: "Tata Motors", sector: "Auto" },
   // --- Consumer Durables ---
   { id: "HAVELLS", name: "Havells India", sector: "Consumer Durables" },
   { id: "VOLTAS", name: "Voltas", sector: "Consumer Durables" },
@@ -88,6 +90,7 @@ export const SECTOR_ORDER = [
   "Pharma/Biotech",
   "FMCG",
   "Beverages",
+  "Auto",
   "Consumer Durables",
   "Industrials/Building Materials",
   "Energy/Oil & Gas",
@@ -129,6 +132,8 @@ export function hasNoPeers(id: string): boolean {
 // Custom note for standalone (single-member-sector) stocks.
 const PEER_NOTE: Record<string, string> = {
   VBL: "No other listed beverages bottler in this universe — read Varun Beverages against the broader FMCG names for a consumer-staples reference.",
+  TATAMOTORS:
+    "No other automaker in this list — Tata Motors is the only Auto-sector name in this universe.",
   GARFIBRES:
     "No direct technical-textiles peer in this list — compare against the broader industrials/building-materials names.",
   AARTIIND:
