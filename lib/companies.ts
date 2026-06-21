@@ -16,8 +16,6 @@ export const COMPANY_ABOUT: Record<string, string> = {
     "A large private-sector bank offering retail and corporate lending, with major insurance, securities and AMC subsidiaries. Investors focus on NIM, credit costs, CASA deposits and the performance of its listed subsidiaries.",
   KOTAKBANK:
     "A conservatively run, high-margin private bank with a strong low-cost deposit (CASA) franchise, anchoring a broader financial-services group spanning broking, asset management and insurance.",
-  YESBANK:
-    "A private-sector bank reconstructed in March 2020 under an RBI-led scheme in which SBI and other banks invested. It has been rebuilding its deposit franchise and balance sheet; for any bank, asset quality, provisioning, capital adequacy and deposit growth are the central metrics.",
   BAJFINANCE:
     "One of India's largest non-bank lenders (NBFC), focused on consumer-durable, personal and SME financing with a very large customer base. NBFCs are judged on loan growth, net interest margins, cost of funds and credit costs, and structurally run higher leverage than manufacturers.",
   HINDUNILVR:

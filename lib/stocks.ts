@@ -1,5 +1,5 @@
-// Canonical 50-stock universe — the final verified time-capsule list
-// (40 "good fundamentals" + 10 deliberate weak picks, all NSE, June 2021).
+// Canonical 49-stock universe — the final verified time-capsule list
+// (39 "good fundamentals" + 10 deliberate weak picks, all NSE, June 2021).
 // `id` is the app ticker (JSON key + dropdown value); `sector` drives peers.
 // NOTE: the UI never flags a stock as "good" or "bad" — students must read the
 // fundamentals themselves.
@@ -15,7 +15,6 @@ export const STOCKS: StockMeta[] = [
   { id: "HDFCBANK", name: "HDFC Bank", sector: "Banks" },
   { id: "KOTAKBANK", name: "Kotak Mahindra Bank", sector: "Banks" },
   { id: "AXISBANK", name: "Axis Bank", sector: "Banks" },
-  { id: "YESBANK", name: "Yes Bank", sector: "Banks" },
   // --- NBFC/Financial Services ---
   { id: "BAJAJFINSV", name: "Bajaj Finserv", sector: "NBFC/Financial Services" },
   { id: "BAJFINANCE", name: "Bajaj Finance", sector: "NBFC/Financial Services" },

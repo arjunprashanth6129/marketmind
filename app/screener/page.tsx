@@ -4,7 +4,7 @@ import { getSnapshot } from "@/lib/data";
 import ScreenerGrid, { type ScreenerRow } from "./ScreenerGrid";
 
 export const metadata = {
-  title: "Screener — 50 NSE stocks as of June 2021",
+  title: "Screener — 49 NSE stocks as of June 2021",
 };
 
 export default function ScreenerLanding() {

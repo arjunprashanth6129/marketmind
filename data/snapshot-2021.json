@@ -21,7 +21,7 @@
   "revenueGrowth5yr": 16.4,
   "profitGrowth3yr": 23.1,
   "profitGrowth5yr": 6.8,
-  "epsConsistencyNote": "EPS CAGR 26% exceeds net-profit CAGR 23% \u2014 share count reduced (buyback).",
+  "epsConsistencyNote": "EPS CAGR 26% exceeds net-profit CAGR 23% — share count reduced (buyback).",
   "cfoNegativeYears": []
  },
  "ASTRAL": {
@@ -46,7 +46,7 @@
   "revenueGrowth5yr": 13.6,
   "profitGrowth3yr": 32.3,
   "profitGrowth5yr": 32.0,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "HDFCBANK": {
@@ -71,7 +71,7 @@
   "revenueGrowth5yr": 15.3,
   "profitGrowth3yr": 19.7,
   "profitGrowth5yr": 20.0,
-  "epsConsistencyNote": "EPS CAGR 17% lags net-profit CAGR 20% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 17% lags net-profit CAGR 20% — possible equity dilution.",
   "cfoNegativeYears": [
    "FY2015",
    "FY2016",
@@ -101,7 +101,7 @@
   "revenueGrowth5yr": 6.0,
   "profitGrowth3yr": -3.3,
   "profitGrowth5yr": 2.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "MPHASIS": {
@@ -126,7 +126,7 @@
   "revenueGrowth5yr": 9.8,
   "profitGrowth3yr": 13.2,
   "profitGrowth5yr": 14.0,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "KOTAKBANK": {
@@ -151,7 +151,7 @@
   "revenueGrowth5yr": 10.0,
   "profitGrowth3yr": 16.9,
   "profitGrowth5yr": 23.2,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": [
    "FY2018"
   ]
@@ -178,7 +178,7 @@
   "revenueGrowth5yr": 4.6,
   "profitGrowth3yr": 14.6,
   "profitGrowth5yr": 20.6,
-  "epsConsistencyNote": "EPS CAGR 17% exceeds net-profit CAGR 15% \u2014 share count reduced (buyback).",
+  "epsConsistencyNote": "EPS CAGR 17% exceeds net-profit CAGR 15% — share count reduced (buyback).",
   "cfoNegativeYears": []
  },
  "DRREDDY": {
@@ -203,7 +203,7 @@
   "revenueGrowth5yr": 4.1,
   "profitGrowth3yr": 27.3,
   "profitGrowth5yr": -1.7,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "GODREJCP": {
@@ -228,7 +228,7 @@
   "revenueGrowth5yr": 5.5,
   "profitGrowth3yr": 1.7,
   "profitGrowth5yr": 15.7,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "KAJARIACER": {
@@ -253,7 +253,7 @@
   "revenueGrowth5yr": 2.9,
   "profitGrowth3yr": 10.5,
   "profitGrowth5yr": 5.5,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "HAVELLS": {
@@ -278,7 +278,7 @@
   "revenueGrowth5yr": 6.6,
   "profitGrowth3yr": 16.5,
   "profitGrowth5yr": -4.3,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "AMBUJACEM": {
@@ -303,7 +303,7 @@
   "revenueGrowth5yr": 21.0,
   "profitGrowth3yr": 16.9,
   "profitGrowth5yr": 30.9,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "COLPAL": {
@@ -328,7 +328,7 @@
   "revenueGrowth5yr": 4.6,
   "profitGrowth3yr": 15.4,
   "profitGrowth5yr": 12.2,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "ADANIGREEN": {
@@ -353,7 +353,7 @@
   "revenueGrowth5yr": null,
   "profitGrowth3yr": null,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "FY2018 or FY2021 loss-making \u2014 EPS-vs-profit growth comparison not meaningful.",
+  "epsConsistencyNote": "FY2018 or FY2021 loss-making — EPS-vs-profit growth comparison not meaningful.",
   "cfoNegativeYears": []
  },
  "VOLTAS": {
@@ -378,7 +378,7 @@
   "revenueGrowth5yr": 5.7,
   "profitGrowth3yr": -2.9,
   "profitGrowth5yr": 6.1,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": [
    "FY2019"
   ]
@@ -405,7 +405,7 @@
   "revenueGrowth5yr": 11.3,
   "profitGrowth3yr": 14.2,
   "profitGrowth5yr": 12.5,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "HCLTECH": {
@@ -430,7 +430,7 @@
   "revenueGrowth5yr": null,
   "profitGrowth3yr": 8.6,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "JYOTHYLAB": {
@@ -455,7 +455,7 @@
   "revenueGrowth5yr": 3.7,
   "profitGrowth3yr": 2.2,
   "profitGrowth5yr": 20.9,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "CIPLA": {
@@ -480,7 +480,7 @@
   "revenueGrowth5yr": 6.8,
   "profitGrowth3yr": 19.0,
   "profitGrowth5yr": 11.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "BAJAJFINSV": {
@@ -505,7 +505,7 @@
   "revenueGrowth5yr": 24.2,
   "profitGrowth3yr": 20.8,
   "profitGrowth5yr": 21.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": [
    "FY2015",
    "FY2016",
@@ -537,7 +537,7 @@
   "revenueGrowth5yr": 5.9,
   "profitGrowth3yr": -1.9,
   "profitGrowth5yr": 3.8,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "TECHM": {
@@ -562,7 +562,7 @@
   "revenueGrowth5yr": 7.4,
   "profitGrowth3yr": 4.8,
   "profitGrowth5yr": 7.5,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "BRITANNIA": {
@@ -587,7 +587,7 @@
   "revenueGrowth5yr": 9.4,
   "profitGrowth3yr": 22.6,
   "profitGrowth5yr": 17.5,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "TATACONSUM": {
@@ -612,7 +612,7 @@
   "revenueGrowth5yr": 11.8,
   "profitGrowth3yr": 18.7,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "EPS CAGR 6% lags net-profit CAGR 19% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 6% lags net-profit CAGR 19% — possible equity dilution.",
   "cfoNegativeYears": []
  },
  "ZENSARTECH": {
@@ -637,7 +637,7 @@
   "revenueGrowth5yr": 5.1,
   "profitGrowth3yr": 7.7,
   "profitGrowth5yr": 1.0,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "DIVISLAB": {
@@ -662,7 +662,7 @@
   "revenueGrowth5yr": 13.0,
   "profitGrowth3yr": 31.3,
   "profitGrowth5yr": 12.0,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "BAJFINANCE": {
@@ -687,7 +687,7 @@
   "revenueGrowth5yr": 29.6,
   "profitGrowth3yr": 21.0,
   "profitGrowth5yr": 28.1,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": [
    "FY2015",
    "FY2016",
@@ -720,7 +720,7 @@
   "revenueGrowth5yr": 6.0,
   "profitGrowth3yr": 13.2,
   "profitGrowth5yr": 10.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "NESTLEIND": {
@@ -745,7 +745,7 @@
   "revenueGrowth5yr": 10.3,
   "profitGrowth3yr": 19.3,
   "profitGrowth5yr": 29.9,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "SUPREMEIND": {
@@ -770,7 +770,7 @@
   "revenueGrowth5yr": null,
   "profitGrowth3yr": 31.3,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "SUNDARMFIN": {
@@ -795,7 +795,7 @@
   "revenueGrowth5yr": 1.0,
   "profitGrowth3yr": 13.2,
   "profitGrowth5yr": 13.1,
-  "epsConsistencyNote": "EPS CAGR 17% exceeds net-profit CAGR 13% \u2014 share count reduced (buyback).",
+  "epsConsistencyNote": "EPS CAGR 17% exceeds net-profit CAGR 13% — share count reduced (buyback).",
   "cfoNegativeYears": [
    "FY2015",
    "FY2017",
@@ -825,7 +825,7 @@
   "revenueGrowth5yr": 7.3,
   "profitGrowth3yr": 16.4,
   "profitGrowth5yr": 17.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "RPOWER": {
@@ -850,7 +850,7 @@
   "revenueGrowth5yr": -5.1,
   "profitGrowth3yr": -18.5,
   "profitGrowth5yr": -12.7,
-  "epsConsistencyNote": "EPS CAGR -35% lags net-profit CAGR -18% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR -35% lags net-profit CAGR -18% — possible equity dilution.",
   "cfoNegativeYears": []
  },
  "AXISBANK": {
@@ -875,7 +875,7 @@
   "revenueGrowth5yr": 9.2,
   "profitGrowth3yr": 150.0,
   "profitGrowth5yr": -2.8,
-  "epsConsistencyNote": "EPS CAGR 136% lags net-profit CAGR 150% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 136% lags net-profit CAGR 150% — possible equity dilution.",
   "cfoNegativeYears": [
    "FY2015",
    "FY2016",
@@ -904,7 +904,7 @@
   "revenueGrowth5yr": 4.7,
   "profitGrowth3yr": 5.2,
   "profitGrowth5yr": 7.1,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "COFORGE": {
@@ -929,7 +929,7 @@
   "revenueGrowth5yr": 11.6,
   "profitGrowth3yr": 14.7,
   "profitGrowth5yr": 10.2,
-  "epsConsistencyNote": "EPS CAGR 18% exceeds net-profit CAGR 15% \u2014 share count reduced (buyback).",
+  "epsConsistencyNote": "EPS CAGR 18% exceeds net-profit CAGR 15% — share count reduced (buyback).",
   "cfoNegativeYears": []
  },
  "BPCL": {
@@ -954,39 +954,8 @@
   "revenueGrowth5yr": 4.2,
   "profitGrowth3yr": 20.9,
   "profitGrowth5yr": 16.4,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
- },
- "YESBANK": {
-  "name": "Yes Bank",
-  "sector": "Banks",
-  "price": 13.55,
-  "ipoMonth": null,
-  "effectiveEntry": 13.55,
-  "negNetWorth": false,
-  "marketCap": 33999,
-  "marketCapCategory": "Large",
-  "pe": null,
-  "dividendYield": 0.0,
-  "roe": -10.5,
-  "debtToEquity": null,
-  "promoterHolding": 0.0,
-  "promoterHoldingAsOf": "2021",
-  "gpm": null,
-  "opm": null,
-  "eps": -1.39,
-  "revenueGrowth3yr": -0.4,
-  "revenueGrowth5yr": 8.2,
-  "profitGrowth3yr": null,
-  "profitGrowth5yr": null,
-  "epsConsistencyNote": "FY2018 or FY2021 loss-making \u2014 EPS-vs-profit growth comparison not meaningful.",
-  "cfoNegativeYears": [
-   "FY2015",
-   "FY2016",
-   "FY2018",
-   "FY2019",
-   "FY2020"
-  ]
  },
  "VBL": {
   "name": "Varun Beverages",
@@ -1010,7 +979,7 @@
   "revenueGrowth5yr": 13.7,
   "profitGrowth3yr": 18.6,
   "profitGrowth5yr": 25.9,
-  "epsConsistencyNote": "EPS CAGR 14% lags net-profit CAGR 19% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 14% lags net-profit CAGR 19% — possible equity dilution.",
   "cfoNegativeYears": []
  },
  "INFY": {
@@ -1035,7 +1004,7 @@
   "revenueGrowth5yr": 10.0,
   "profitGrowth3yr": 6.6,
   "profitGrowth5yr": 7.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "RAJESHEXPO": {
@@ -1060,7 +1029,7 @@
   "revenueGrowth5yr": 9.4,
   "profitGrowth3yr": -12.6,
   "profitGrowth5yr": -4.6,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": [
    "FY2018",
    "FY2021"
@@ -1088,7 +1057,7 @@
   "revenueGrowth5yr": -19.0,
   "profitGrowth3yr": null,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "FY2018 or FY2021 loss-making \u2014 EPS-vs-profit growth comparison not meaningful.",
+  "epsConsistencyNote": "FY2018 or FY2021 loss-making — EPS-vs-profit growth comparison not meaningful.",
   "cfoNegativeYears": [
    "FY2018"
   ]
@@ -1115,7 +1084,7 @@
   "revenueGrowth5yr": 7.2,
   "profitGrowth3yr": 22.0,
   "profitGrowth5yr": 19.5,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "AAVAS": {
@@ -1140,7 +1109,7 @@
   "revenueGrowth5yr": null,
   "profitGrowth3yr": 45.9,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "EPS CAGR 40% lags net-profit CAGR 46% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 40% lags net-profit CAGR 46% — possible equity dilution.",
   "cfoNegativeYears": [
    "FY2018",
    "FY2019",
@@ -1170,7 +1139,7 @@
   "revenueGrowth5yr": 8.4,
   "profitGrowth3yr": 15.6,
   "profitGrowth5yr": 14.8,
-  "epsConsistencyNote": "EPS CAGR 14% lags net-profit CAGR 16% \u2014 possible equity dilution.",
+  "epsConsistencyNote": "EPS CAGR 14% lags net-profit CAGR 16% — possible equity dilution.",
   "cfoNegativeYears": []
  },
  "ZEEL": {
@@ -1195,7 +1164,7 @@
   "revenueGrowth5yr": 5.9,
   "profitGrowth3yr": -18.7,
   "profitGrowth5yr": -0.8,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "GUJGASLTD": {
@@ -1220,7 +1189,7 @@
   "revenueGrowth5yr": 10.1,
   "profitGrowth3yr": 63.2,
   "profitGrowth5yr": 46.2,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "IGL": {
@@ -1245,7 +1214,7 @@
   "revenueGrowth5yr": 6.0,
   "profitGrowth3yr": 17.6,
   "profitGrowth5yr": 20.7,
-  "epsConsistencyNote": "EPS grew broadly in line with net profit \u2014 no material equity dilution.",
+  "epsConsistencyNote": "EPS grew broadly in line with net profit — no material equity dilution.",
   "cfoNegativeYears": []
  },
  "PAYTM": {
@@ -1270,7 +1239,7 @@
   "revenueGrowth5yr": 26.8,
   "profitGrowth3yr": null,
   "profitGrowth5yr": null,
-  "epsConsistencyNote": "EPS history unavailable for FY2018\u2013FY2021 (recent listing or fiscal change).",
+  "epsConsistencyNote": "EPS history unavailable for FY2018–FY2021 (recent listing or fiscal change).",
   "cfoNegativeYears": [
    "FY2015",
    "FY2016",
@@ -1301,7 +1270,7 @@
   "revenueGrowth5yr": 3.9,
   "profitGrowth3yr": 10.7,
   "profitGrowth5yr": 3.9,
-  "epsConsistencyNote": "EPS CAGR 14% exceeds net-profit CAGR 11% \u2014 share count reduced (buyback).",
+  "epsConsistencyNote": "EPS CAGR 14% exceeds net-profit CAGR 11% — share count reduced (buyback).",
   "cfoNegativeYears": []
  }
 }
