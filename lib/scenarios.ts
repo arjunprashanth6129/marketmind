@@ -1,10 +1,11 @@
-// The 5 portfolio-building scenarios. Names + descriptions per the project spec;
-// capex + accent colours mirror the FLP "Team Scenarios" handout.
-// The `ideal` "model answer" for each scenario is NOT hardcoded here — it is
-// read from data/ideal-portfolios.json (the verified, fundamentals+return
-// screened portfolios). Reference data only; NEVER rendered in any UI.
-
-import idealPortfolios from "@/data/ideal-portfolios.json";
+// The 5 portfolio-building scenarios — CLIENT-SAFE metadata only.
+// Names + descriptions per the project spec; capex + accent colours mirror the
+// FLP "Team Scenarios" handout.
+//
+// IMPORTANT: the verified "ideal portfolio" for each scenario is intentionally
+// NOT referenced here. data/ideal-portfolios.json is read ONLY by the
+// server-side scoring module (lib/scoring.ts, imported by the "use server"
+// action) so the ideal stock picks never ship to the client/student.
 
 export interface Scenario {
   id: string;
@@ -13,19 +14,9 @@ export interface Scenario {
   capex: number; // ₹
   capexLabel: string;
   accent: string; // hex, matches the printed handout
-  ideal: string[]; // verified ideal-portfolio tickers, from ideal-portfolios.json
 }
 
-// scenarioId -> ordered ticker list, sourced from the verified portfolios.
-const IDEAL_BY_SCENARIO = new Map<string, string[]>(
-  (idealPortfolios as { scenarioId: string; stocks: { ticker: string }[] }[]).map(
-    (p) => [p.scenarioId, p.stocks.map((s) => s.ticker)],
-  ),
-);
-
-const idealFor = (id: string): string[] => IDEAL_BY_SCENARIO.get(id) ?? [];
-
-const SCENARIO_META: Omit<Scenario, "ideal">[] = [
+export const SCENARIOS: Scenario[] = [
   {
     id: "fresh-graduate",
     name: "Fresh Graduate",
@@ -72,11 +63,6 @@ const SCENARIO_META: Omit<Scenario, "ideal">[] = [
     accent: "#2f9e7f",
   },
 ];
-
-export const SCENARIOS: Scenario[] = SCENARIO_META.map((m) => ({
-  ...m,
-  ideal: idealFor(m.id),
-}));
 
 export function getScenario(id: string): Scenario | undefined {
   return SCENARIOS.find((s) => s.id === id);

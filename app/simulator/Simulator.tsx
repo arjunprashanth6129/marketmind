@@ -19,7 +19,7 @@ interface Slot {
 const SLOT_COUNT = 5;
 const EMPTY_SLOTS: Slot[] = Array.from({ length: SLOT_COUNT }, () => ({ id: "", qty: "" }));
 
-const RATING_LABEL = (r: number): string =>
+const SCORE_LABEL = (r: number): string =>
   r <= 2 ? "Poor" : r <= 4 ? "Below par" : r <= 6 ? "Decent" : r <= 8 ? "Strong" : "Excellent";
 
 export default function Simulator({
@@ -65,7 +65,7 @@ export default function Simulator({
       .filter((s) => s.id && parseInt(s.qty, 10) > 0)
       .map((s) => ({ id: s.id, qty: parseInt(s.qty, 10) }));
     startTransition(async () => {
-      const res = await runSimulation(holdings);
+      const res = await runSimulation(scenarioId, holdings);
       if ("error" in res) {
         setError(res.error);
         setResult(null);
@@ -225,7 +225,37 @@ export default function Simulator({
             />
             <Stat label="Entry value (Jun 2021)" value={rupee(result.entryValue)} />
             <Stat label="Exit value (Jun 2026)" value={rupee(result.exitValue)} />
-            <RatingCard rating={result.rating} accent={scenario.accent} />
+            <ScoreCard score={result.finalScore} accent={scenario.accent} />
+          </div>
+
+          {/* Score breakdown — Final = Performance×0.5 + Fundamentals×0.5 */}
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
+            <div className="mb-3 flex items-baseline justify-between">
+              <h2 className="font-semibold text-slate-100">Score breakdown</h2>
+              <span className="tnum text-sm text-slate-400">
+                Final{" "}
+                <span className="font-bold text-slate-100">
+                  {result.finalScore}
+                </span>
+                /10 = Performance×0.5 + Fundamentals×0.5
+              </span>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ComponentScore
+                label="Performance"
+                weight="50%"
+                score={result.performanceScore}
+                accent={scenario.accent}
+                hint={`Your return ${pctSigned(result.totalReturn)} vs ideal portfolio +${result.idealReturn}%`}
+              />
+              <ComponentScore
+                label="Fundamentals"
+                weight="50%"
+                score={result.fundamentalScore}
+                accent={scenario.accent}
+                hint="Average June-2021 quality of your chosen stocks"
+              />
+            </div>
           </div>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
@@ -233,11 +263,14 @@ export default function Simulator({
               <h2 className="font-semibold text-slate-100">
                 Indexed performance (100 = June 2021)
               </h2>
-              <span className="text-xs text-slate-500">vs Nifty 50</span>
+              <span className="text-xs text-slate-500">
+                Portfolio vs Ideal vs Nifty 50
+              </span>
             </div>
             <p className="mb-3 text-xs text-slate-500">
-              Performance is measured as % growth indexed to 100, so scenarios
-              with different capex can be compared fairly.
+              Indexed to 100 at June 2021. Solid = your portfolio, dashed = the
+              scenario&apos;s ideal portfolio (scoring benchmark), dotted = Nifty
+              50 (visual reference only, not used for scoring).
             </p>
             <PerfChart data={result.timeline} accent={scenario.accent} />
           </div>
@@ -254,6 +287,7 @@ export default function Simulator({
                     <th className="px-2 py-2 font-medium">Exit (Jun 26)</th>
                     <th className="px-2 py-2 font-medium">Return</th>
                     <th className="px-2 py-2 font-medium">Weight</th>
+                    <th className="px-2 py-2 font-medium">Fund. score</th>
                   </tr>
                 </thead>
                 <tbody className="tnum">
@@ -274,6 +308,19 @@ export default function Simulator({
                         {pctSigned(h.stockReturn)}
                       </td>
                       <td className="px-2 py-2 text-slate-400">{pct(h.weight)}</td>
+                      <td
+                        className={`px-2 py-2 font-semibold ${
+                          (h.fundamentalScore ?? 0) === 0
+                            ? "text-red-400"
+                            : (h.fundamentalScore ?? 0) >= 7
+                              ? "text-emerald-400"
+                              : "text-slate-300"
+                        }`}
+                      >
+                        {h.fundamentalScore == null
+                          ? "—"
+                          : `${num(h.fundamentalScore, 1)}/10`}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -315,13 +362,15 @@ function Stat({
   );
 }
 
-function RatingCard({ rating, accent }: { rating: number; accent: string }) {
+function ScoreCard({ score, accent }: { score: number; accent: string }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
-      <div className="text-[11px] uppercase tracking-wide text-slate-500">Rating</div>
+      <div className="text-[11px] uppercase tracking-wide text-slate-500">
+        Final score
+      </div>
       <div className="mt-1 flex items-baseline gap-1">
         <span className="tnum text-2xl font-bold" style={{ color: accent }}>
-          {rating}
+          {score}
         </span>
         <span className="text-sm text-slate-500">/10</span>
       </div>
@@ -330,11 +379,49 @@ function RatingCard({ rating, accent }: { rating: number; accent: string }) {
           <span
             key={i}
             className="h-1.5 flex-1 rounded-full"
-            style={{ backgroundColor: i < rating ? accent : "#1e293b" }}
+            style={{ backgroundColor: i < Math.round(score) ? accent : "#1e293b" }}
           />
         ))}
       </div>
-      <div className="mt-1 text-[11px] text-slate-500">{RATING_LABEL(rating)}</div>
+      <div className="mt-1 text-[11px] text-slate-500">{SCORE_LABEL(score)}</div>
+    </div>
+  );
+}
+
+function ComponentScore({
+  label,
+  weight,
+  score,
+  accent,
+  hint,
+}: {
+  label: string;
+  weight: string;
+  score: number;
+  accent: string;
+  hint: string;
+}) {
+  return (
+    <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4">
+      <div className="flex items-baseline justify-between">
+        <span className="text-sm font-semibold text-slate-200">
+          {label}{" "}
+          <span className="text-[11px] font-normal text-slate-500">
+            ({weight})
+          </span>
+        </span>
+        <span className="tnum text-lg font-bold" style={{ color: accent }}>
+          {score}
+          <span className="text-xs text-slate-500">/10</span>
+        </span>
+      </div>
+      <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-800">
+        <div
+          className="h-full rounded-full transition-all"
+          style={{ width: `${(score / 10) * 100}%`, backgroundColor: accent }}
+        />
+      </div>
+      <div className="mt-1.5 text-[11px] text-slate-500">{hint}</div>
     </div>
   );
 }

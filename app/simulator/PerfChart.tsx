@@ -24,6 +24,9 @@ function TooltipBox({ active, payload, accent }: any) {
       <div className="tnum" style={{ color: accent }}>
         Portfolio: {p.portfolio.toFixed(1)}
       </div>
+      {p.ideal != null && (
+        <div className="tnum text-amber-300">Ideal: {p.ideal.toFixed(1)}</div>
+      )}
       {p.nifty != null && (
         <div className="tnum text-slate-300">Nifty 50: {p.nifty.toFixed(1)}</div>
       )}
@@ -79,12 +82,22 @@ export default function PerfChart({
             iconType="plainline"
           />
           <Line
-            name="Portfolio"
+            name="Your portfolio"
             type="monotone"
             dataKey="portfolio"
             stroke={accent}
-            strokeWidth={2.4}
+            strokeWidth={2.6}
             dot={false}
+          />
+          <Line
+            name="Ideal portfolio"
+            type="monotone"
+            dataKey="ideal"
+            stroke="#fbbf24"
+            strokeWidth={1.8}
+            strokeDasharray="6 4"
+            dot={false}
+            connectNulls
           />
           {showNifty && (
             <Line
@@ -92,8 +105,9 @@ export default function PerfChart({
               type="monotone"
               dataKey="nifty"
               stroke="#94a3b8"
-              strokeWidth={1.5}
-              strokeDasharray="5 4"
+              strokeWidth={1.4}
+              strokeDasharray="1 4"
+              strokeLinecap="round"
               dot={false}
             />
           )}

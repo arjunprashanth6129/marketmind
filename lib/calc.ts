@@ -34,12 +34,14 @@ export interface HoldingResult {
   exitValue: number | null;
   stockReturn: number | null; // %
   weight: number | null; // % of entry portfolio value
+  fundamentalScore: number | null; // 0–10, per-stock June-2021 quality (filled by scoring)
 }
 
 export interface TimelinePoint {
   date: string;
   portfolio: number; // indexed to 100 at June 2021
-  nifty: number | null; // indexed to 100 at June 2021
+  nifty: number | null; // indexed to 100 at June 2021 (visual reference only)
+  ideal: number | null; // ideal portfolio, indexed to 100 (filled by scoring)
 }
 
 export interface PortfolioResult {
@@ -48,7 +50,11 @@ export interface PortfolioResult {
   exitValue: number;
   totalReturn: number; // %
   timeline: TimelinePoint[];
-  rating: number; // 1–10
+  // Scoring (filled by the server-side scoring layer; 0 in the bare base result).
+  idealReturn: number; // scenario ideal-portfolio total return %
+  performanceScore: number; // 0–10 (participant return vs ideal portfolio)
+  fundamentalScore: number; // 0–10 (avg per-stock fundamental quality)
+  finalScore: number; // 0–10 = performance*0.5 + fundamental*0.5
 }
 
 // Canonical monthly grid June 2021 – June 2026 (all stocks share it).
@@ -66,27 +72,9 @@ function priceMap(id: string): Map<string, number> {
   return m;
 }
 
-// Rating 1–10 from total % return over June 2021 – June 2026.
-// Bands (spec): <0 ->1-2, 0-50 ->3-4, 50-100 ->5-6, 100-200 ->7-8, >200 ->9-10.
-export function ratingFromReturn(r: number): number {
-  const bands: [number, number, number, number][] = [
-    [-Infinity, 0, 1, 2],
-    [0, 50, 3, 4],
-    [50, 100, 5, 6],
-    [100, 200, 7, 8],
-    [200, Infinity, 9, 10],
-  ];
-  for (const [lo, hi, low, high] of bands) {
-    if (r < hi || hi === Infinity) {
-      if (lo === -Infinity) return r < -25 ? 1 : 2;
-      if (hi === Infinity) return r > 400 ? 10 : 9;
-      const frac = (r - lo) / (hi - lo);
-      return frac < 0.5 ? low : high;
-    }
-  }
-  return 5;
-}
-
+// Base (unscored) portfolio computation. Scoring (performance vs the scenario's
+// ideal portfolio + per-stock fundamentals) is layered on server-side in
+// lib/scoring.ts so the ideal-portfolio data never reaches the client.
 export function computePortfolio(holdings: Holding[]): PortfolioResult {
   const clean = holdings.filter((h) => h.id && h.qty > 0);
 
@@ -108,6 +96,7 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
       exitValue,
       stockReturn,
       weight: null,
+      fundamentalScore: null,
     };
   });
 
@@ -152,6 +141,7 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
       portfolio: base > 0 ? (val / base) * 100 : 100,
       nifty:
         nifty0 != null && niftyV != null ? (niftyV / nifty0) * 100 : null,
+      ideal: null,
     });
   }
 
@@ -161,7 +151,10 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
     exitValue,
     totalReturn,
     timeline,
-    rating: ratingFromReturn(totalReturn),
+    idealReturn: 0,
+    performanceScore: 0,
+    fundamentalScore: 0,
+    finalScore: 0,
   };
 }
 
