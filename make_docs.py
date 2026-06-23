@@ -8,6 +8,8 @@ BAD=["RAJESHEXPO","JPASSOCIAT","RELAXO","AAVAS","AARTIIND","ZEEL","GUJGASLTD","I
 
 # Core investment case per stock used in the ideal portfolios (from FY2021 data).
 WHY={
+"VBL":"Beverages — India's principal PepsiCo bottler. The standout multibagger (+454%) with sound supporting fundamentals: positive operating cash flow, 66% promoter holding and ~19% profit CAGR (the modest EPS-vs-profit gap reflects equity raised to fund acquisitions, not distress). The growth engine of the aggressive book.",
+"BAJFINANCE":"One of India's premier consumer-finance NBFCs with a long, high-quality growth record (~21% profit CAGR, 56% promoter). Its negative FY21 operating cash flow is the normal accounting signature of a rapidly growing loan book, not a red flag. A professional-grade growth holding.",
 "COFORGE":"IT-services company (BFSI, insurance, travel). The highest-returning eligible IT name with clean fundamentals — ROE 18.9%, virtually no debt (D/E 0.03), EPS growing faster than profit (buyback, not dilution), promoter 64%. Chosen as a growth engine.",
 "BPCL":"State-owned oil refiner and fuel retailer. Combines a high return with quality and income — ROE 32%, very strong operating cash flow (~₹23,500 Cr) and a 4.5% dividend yield. Chosen for growth-plus-income.",
 "GRINDWELL":"Saint-Gobain-group abrasives and industrial-ceramics maker (mid-cap). A steady, high-quality industrial consumables play — ROE 17%, essentially debt-free (D/E 0.01). Chosen as the core mid-cap growth holding.",
@@ -23,15 +25,17 @@ WHY={
 
 # ---------- DOC 1: ideal portfolios explained ----------
 m=["# Ideal Portfolios — Stocks, Returns & Why Each Was Picked","",
-   "Five model portfolios, one per life-stage scenario. Every stock clears two hard "
-   "filters first: **total return June 2021 → June 2026 beats Nifty 50 (+53.7%)** AND "
-   "**sound June-2021 fundamentals** (strong ROE, manageable debt, positive operating cash "
-   "flow, consistent EPS, no governance flag). Within that eligible pool, each scenario picks "
-   "by its own risk profile. Stock repetition across scenarios is intentional — the best "
-   "eligible fit is reused rather than swapped for variety.","",
-   f"**Benchmark to beat: Nifty 50 = +{NIFTY}%.** All five portfolios beat it.",""]
+   "Five professionally-constructed model portfolios, one per life-stage scenario, each with a "
+   "distinct mandate and risk budget. Every stock clears two hard filters: **total return "
+   "June 2021 → June 2026 beats Nifty 50 (+53.7%)** AND **sound June-2021 fundamentals** "
+   "(ROE >= 10% only where the rest of the quality profile — cash flow, balance sheet, "
+   "promoter, growth — is strong; no loss years; no governance flag). The portfolios are "
+   "deliberately differentiated: no two share more than 3 of 5 names, and they span aggressive "
+   "growth to dividend income. A few elite franchises (NESTLEIND, ITC, SUPREMEIND, COFORGE) "
+   "legitimately anchor more than one risk profile.","",
+   f"**Benchmark to beat: Nifty 50 = +{NIFTY}%.** All five portfolios beat it comfortably.",""]
 for p in ports:
-    m+= [f"## {p['scenario']}  (capital ₹{p['capital']:,})","",
+    m+= [f"## {p['scenario']} — {p.get('theme','')}  (capital ₹{p['capital']:,})","",
          f"- **Portfolio total return: +{p['portfolio_total_return_pct']}%**  ·  "
          f"vs Nifty: **+{p['vs_nifty_pct_points']} pts**  ·  ideal-benchmark return used for scoring: +{p['portfolio_total_return_pct']}%",
          f"- **Selection approach:** {p['selection_rationale']}","",

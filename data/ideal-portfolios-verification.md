@@ -1,16 +1,14 @@
 # Ideal Portfolios — Verification
 
-Every portfolio is built only from the 11-stock eligible pool; every constituent individually beats Nifty, so each portfolio's blended return does too (confirmed below).
+Five portfolios built from the eligible pool, each with a distinct mandate. Every constituent individually beats Nifty, so each portfolio's blended return does too.
 
-| Scenario | Stocks | Total Return % | vs Nifty (+53.7%) | Pass/Fail | Repeated stocks (also used in) |
-|---|---|---|---|---|---|
-| Fresh Graduate | COFORGE, BPCL, GRINDWELL, ZENSARTECH, NESTLEIND | +76.2 | +22.5 pp | **PASS** | COFORGE (→ Newly Married Couple); BPCL (→ Pre-Retirement Family, Elderly Retired Couple); GRINDWELL (→ Newly Married Couple, Young Family with Toddlers); ZENSARTECH (→ Newly Married Couple, Young Family with Toddlers); NESTLEIND (→ Young Family with Toddlers, Pre-Retirement Family, Elderly Retired Couple) |
-| Newly Married Couple | COFORGE, SUPREMEIND, DIVISLAB, GRINDWELL, ZENSARTECH | +70.4 | +16.7 pp | **PASS** | COFORGE (→ Fresh Graduate); SUPREMEIND (→ Pre-Retirement Family); GRINDWELL (→ Fresh Graduate, Young Family with Toddlers); ZENSARTECH (→ Fresh Graduate, Young Family with Toddlers) |
-| Young Family with Toddlers | NESTLEIND, ITC, MARICO, GRINDWELL, ZENSARTECH | +69.7 | +16.0 pp | **PASS** | NESTLEIND (→ Fresh Graduate, Pre-Retirement Family, Elderly Retired Couple); ITC (→ Pre-Retirement Family, Elderly Retired Couple); MARICO (→ Pre-Retirement Family, Elderly Retired Couple); GRINDWELL (→ Fresh Graduate, Newly Married Couple); ZENSARTECH (→ Fresh Graduate, Newly Married Couple) |
-| Pre-Retirement Family | NESTLEIND, MARICO, SUPREMEIND, ITC, BPCL | +74.6 | +20.9 pp | **PASS** | NESTLEIND (→ Fresh Graduate, Young Family with Toddlers, Elderly Retired Couple); MARICO (→ Young Family with Toddlers, Elderly Retired Couple); SUPREMEIND (→ Newly Married Couple); ITC (→ Young Family with Toddlers, Elderly Retired Couple); BPCL (→ Fresh Graduate, Elderly Retired Couple) |
-| Elderly Retired Couple | ITC, BPCL, TECHM, MARICO, NESTLEIND | +72.4 | +18.7 pp | **PASS** | ITC (→ Young Family with Toddlers, Pre-Retirement Family); BPCL (→ Fresh Graduate, Pre-Retirement Family); MARICO (→ Young Family with Toddlers, Pre-Retirement Family); NESTLEIND (→ Fresh Graduate, Young Family with Toddlers, Pre-Retirement Family) |
+| Scenario | Theme | Stocks | Total Return % | vs Nifty (+53.7%) | Pass | Repeated stocks (also in) |
+|---|---|---|---|---|---|---|
+| Fresh Graduate | Aggressive Growth | VBL, COFORGE, BAJFINANCE, GRINDWELL, ZENSARTECH | +150.6 | +96.9 pp | **PASS** | COFORGE (→ Newly Married Couple, Pre-Retirement Family); GRINDWELL (→ Young Family with Toddlers) |
+| Newly Married Couple | Diversified Growth | BPCL, COFORGE, SUPREMEIND, SUNDARMFIN, DIVISLAB | +75.8 | +22.1 pp | **PASS** | BPCL (→ Elderly Retired Couple); COFORGE (→ Fresh Graduate, Pre-Retirement Family); SUPREMEIND (→ Young Family with Toddlers, Pre-Retirement Family); DIVISLAB (→ Young Family with Toddlers) |
+| Young Family with Toddlers | Balanced Core-Satellite | NESTLEIND, ITC, SUPREMEIND, GRINDWELL, DIVISLAB | +70.6 | +16.9 pp | **PASS** | NESTLEIND (→ Pre-Retirement Family, Elderly Retired Couple); ITC (→ Pre-Retirement Family, Elderly Retired Couple); SUPREMEIND (→ Newly Married Couple, Pre-Retirement Family); GRINDWELL (→ Fresh Graduate); DIVISLAB (→ Newly Married Couple) |
+| Pre-Retirement Family | High-ROE Compounders | NESTLEIND, MARICO, SUPREMEIND, ITC, COFORGE | +74.5 | +20.8 pp | **PASS** | NESTLEIND (→ Young Family with Toddlers, Elderly Retired Couple); MARICO (→ Elderly Retired Couple); SUPREMEIND (→ Newly Married Couple, Young Family with Toddlers); ITC (→ Young Family with Toddlers, Elderly Retired Couple); COFORGE (→ Fresh Graduate, Newly Married Couple) |
+| Elderly Retired Couple | Dividend Income | ITC, BPCL, TECHM, MARICO, NESTLEIND | +72.4 | +18.7 pp | **PASS** | ITC (→ Young Family with Toddlers, Pre-Retirement Family); BPCL (→ Newly Married Couple); MARICO (→ Pre-Retirement Family); NESTLEIND (→ Young Family with Toddlers, Pre-Retirement Family) |
 
-**Cap-mix deviations (eligible pool has 9 Large, 2 Mid, 0 Small):**
-- *Fresh Graduate* (target 1 large + 4 small/mid): only 2 eligible mid-caps and no eligible small-caps, so 2 large-cap growth names (COFORGE, BPCL) substitute for the missing small/mid slots → realised 3 large + 2 mid.
-- *Newly Married* (target 2 large + 3 mid): only 2 eligible mid-caps, so realised 3 large + 2 mid.
-- *Young Family / Pre-Retirement / Elderly Retired*: targets met (3+2, all-large, all-large respectively).
+**Distinctness (max pairwise overlap):**
+- No two portfolios share more than **3 of 5** stocks; every pair differs by at least 2 names and by mandate (aggressive growth → diversified growth → balanced core-satellite → high-ROE compounders → dividend income). The most-reused names (NESTLEIND, ITC, SUPREMEIND, COFORGE) are the pool's strongest franchises and legitimately anchor more than one risk profile.

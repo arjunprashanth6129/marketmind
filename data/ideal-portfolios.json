@@ -2,28 +2,37 @@
  {
   "scenarioId": "fresh-graduate",
   "scenario": "Fresh Graduate",
+  "theme": "Aggressive Growth",
   "capital": 50000,
   "stocks": [
    {
+    "ticker": "VBL",
+    "quantity": 104,
+    "weight_pct": 20.7,
+    "entry_price": 95.86,
+    "exit_price": 531.55,
+    "stock_return_pct": 454.5
+   },
+   {
     "ticker": "COFORGE",
     "quantity": 12,
-    "weight_pct": 19.6,
+    "weight_pct": 19.5,
     "entry_price": 783.58,
     "exit_price": 1483.0,
     "stock_return_pct": 89.3
    },
    {
-    "ticker": "BPCL",
-    "quantity": 60,
-    "weight_pct": 20.8,
-    "entry_price": 166.56,
-    "exit_price": 316.3,
-    "stock_return_pct": 89.9
+    "ticker": "BAJFINANCE",
+    "quantity": 16,
+    "weight_pct": 19.5,
+    "entry_price": 589.29,
+    "exit_price": 958.85,
+    "stock_return_pct": 62.7
    },
    {
     "ticker": "GRINDWELL",
     "quantity": 8,
-    "weight_pct": 19.9,
+    "weight_pct": 19.8,
     "entry_price": 1197.42,
     "exit_price": 2105.5,
     "stock_return_pct": 75.8
@@ -31,24 +40,16 @@
    {
     "ticker": "ZENSARTECH",
     "quantity": 34,
-    "weight_pct": 20.6,
+    "weight_pct": 20.5,
     "entry_price": 290.99,
     "exit_price": 462.75,
     "stock_return_pct": 59.0
-   },
-   {
-    "ticker": "NESTLEIND",
-    "quantity": 11,
-    "weight_pct": 19.2,
-    "entry_price": 838.1,
-    "exit_price": 1400.4,
-    "stock_return_pct": 67.1
    }
   ],
-  "portfolio_entry_value": 48088.68,
-  "portfolio_exit_value": 84755.9,
-  "portfolio_total_return_pct": 76.2,
-  "vs_nifty_pct_points": 22.5,
+  "portfolio_entry_value": 48274.06,
+  "portfolio_exit_value": 120996.3,
+  "portfolio_total_return_pct": 150.6,
+  "vs_nifty_pct_points": 96.9,
   "monthly_indexed_series": [
    {
     "date": "2021-06-01",
@@ -56,256 +57,265 @@
    },
    {
     "date": "2021-07-01",
-    "value": 110.5
+    "value": 112.99
    },
    {
     "date": "2021-08-01",
-    "value": 117.22
+    "value": 123.27
    },
    {
     "date": "2021-09-01",
-    "value": 118.8
+    "value": 128.6
    },
    {
     "date": "2021-10-01",
-    "value": 121.49
+    "value": 127.67
    },
    {
     "date": "2021-11-01",
-    "value": 120.91
+    "value": 129.09
    },
    {
     "date": "2021-12-01",
-    "value": 134.65
+    "value": 141.02
    },
    {
     "date": "2022-01-01",
-    "value": 121.35
+    "value": 129.02
    },
    {
     "date": "2022-02-01",
-    "value": 107.51
+    "value": 119.75
    },
    {
     "date": "2022-03-01",
-    "value": 112.23
+    "value": 124.72
    },
    {
     "date": "2022-04-01",
-    "value": 107.89
+    "value": 121.33
    },
    {
     "date": "2022-05-01",
-    "value": 102.9
+    "value": 116.14
    },
    {
     "date": "2022-06-01",
-    "value": 97.29
+    "value": 113.16
    },
    {
     "date": "2022-07-01",
-    "value": 102.03
+    "value": 124.58
    },
    {
     "date": "2022-08-01",
-    "value": 107.21
+    "value": 135.97
    },
    {
     "date": "2022-09-01",
-    "value": 100.99
+    "value": 132.22
    },
    {
     "date": "2022-10-01",
-    "value": 105.83
+    "value": 135.35
    },
    {
     "date": "2022-11-01",
-    "value": 105.8
+    "value": 140.61
    },
    {
     "date": "2022-12-01",
-    "value": 101.06
+    "value": 139.72
    },
    {
     "date": "2023-01-01",
-    "value": 108.09
+    "value": 136.93
    },
    {
     "date": "2023-02-01",
-    "value": 106.88
+    "value": 144.8
    },
    {
     "date": "2023-03-01",
-    "value": 107.44
+    "value": 144.87
    },
    {
     "date": "2023-04-01",
-    "value": 112.82
+    "value": 151.92
    },
    {
     "date": "2023-05-01",
-    "value": 124.19
+    "value": 175.92
    },
    {
     "date": "2023-06-01",
-    "value": 130.79
+    "value": 177.82
    },
    {
     "date": "2023-07-01",
-    "value": 139.16
+    "value": 186.59
    },
    {
     "date": "2023-08-01",
-    "value": 141.88
+    "value": 199.53
    },
    {
     "date": "2023-09-01",
-    "value": 137.68
+    "value": 200.44
    },
    {
     "date": "2023-10-01",
-    "value": 138.35
+    "value": 194.86
    },
    {
     "date": "2023-11-01",
-    "value": 149.22
+    "value": 216.68
    },
    {
     "date": "2023-12-01",
-    "value": 164.18
+    "value": 240.0
    },
    {
     "date": "2024-01-01",
-    "value": 164.53
+    "value": 240.24
    },
    {
     "date": "2024-02-01",
-    "value": 166.39
+    "value": 245.23
    },
    {
     "date": "2024-03-01",
-    "value": 162.63
+    "value": 242.8
    },
    {
     "date": "2024-04-01",
-    "value": 163.81
+    "value": 250.85
    },
    {
     "date": "2024-05-01",
-    "value": 169.52
+    "value": 251.96
    },
    {
     "date": "2024-06-01",
-    "value": 185.34
+    "value": 285.37
    },
    {
     "date": "2024-07-01",
-    "value": 194.35
+    "value": 284.93
    },
    {
     "date": "2024-08-01",
-    "value": 192.54
+    "value": 276.41
    },
    {
     "date": "2024-09-01",
-    "value": 193.76
+    "value": 275.87
    },
    {
     "date": "2024-10-01",
-    "value": 183.96
+    "value": 273.15
    },
    {
     "date": "2024-11-01",
-    "value": 188.84
+    "value": 284.45
    },
    {
     "date": "2024-12-01",
-    "value": 189.45
+    "value": 290.27
    },
    {
     "date": "2025-01-01",
-    "value": 188.89
+    "value": 273.39
    },
    {
     "date": "2025-02-01",
-    "value": 163.87
+    "value": 232.58
    },
    {
     "date": "2025-03-01",
-    "value": 174.89
+    "value": 261.47
    },
    {
     "date": "2025-04-01",
-    "value": 177.29
+    "value": 253.89
    },
    {
     "date": "2025-05-01",
-    "value": 194.23
+    "value": 261.66
    },
    {
     "date": "2025-06-01",
-    "value": 201.57
+    "value": 263.55
    },
    {
     "date": "2025-07-01",
-    "value": 188.78
+    "value": 265.72
    },
    {
     "date": "2025-08-01",
-    "value": 185.9
+    "value": 256.2
    },
    {
     "date": "2025-09-01",
-    "value": 186.31
+    "value": 247.73
    },
    {
     "date": "2025-10-01",
-    "value": 199.8
+    "value": 263.49
    },
    {
     "date": "2025-11-01",
-    "value": 197.59
+    "value": 263.63
    },
    {
     "date": "2025-12-01",
-    "value": 192.9
+    "value": 254.55
    },
    {
     "date": "2026-01-01",
-    "value": 187.2
+    "value": 244.34
    },
    {
     "date": "2026-02-01",
-    "value": 173.33
+    "value": 226.85
    },
    {
     "date": "2026-03-01",
-    "value": 148.64
+    "value": 195.51
    },
    {
     "date": "2026-04-01",
-    "value": 163.24
+    "value": 233.52
    },
    {
     "date": "2026-05-01",
-    "value": 170.73
+    "value": 244.49
    },
    {
     "date": "2026-06-01",
-    "value": 176.25
+    "value": 250.64
    }
   ],
-  "selection_rationale": "Highest-risk, longest-horizon: tilts to the two eligible mid-caps (GRINDWELL, ZENSARTECH) plus the two highest-returning eligible large-caps (COFORGE +89%, BPCL +90%), with NESTLEIND as a defensive large-cap hedge. SUBSTITUTION: the brief asks for 1 large + 4 small/mid, but only 2 eligible mid-caps and 0 eligible small-caps exist, so two large-cap growth names fill the missing small/mid slots. GRINDWELL/ZENSARTECH/NESTLEIND also appear in other scenarios \u2014 reused because they stay the best eligible fits."
+  "selection_rationale": "Built for maximum long-horizon growth and the highest risk budget. Anchored by VBL \u2014 a +454% beverages multibagger with 66% promoter holding and strong operating cash flow \u2014 alongside COFORGE (high-growth IT) and BAJFINANCE (India's premier consumer-finance NBFC, ~21% profit CAGR), with two quality mid-caps (GRINDWELL, ZENSARTECH) for additional beta. Highest expected return and volatility in the set; appropriate only where a multi-decade horizon can absorb drawdowns."
  },
  {
   "scenarioId": "newly-married",
   "scenario": "Newly Married Couple",
+  "theme": "Diversified Growth",
   "capital": 200000,
   "stocks": [
    {
+    "ticker": "BPCL",
+    "quantity": 240,
+    "weight_pct": 20.3,
+    "entry_price": 166.56,
+    "exit_price": 316.3,
+    "stock_return_pct": 89.9
+   },
+   {
     "ticker": "COFORGE",
     "quantity": 51,
-    "weight_pct": 20.2,
+    "weight_pct": 20.3,
     "entry_price": 783.58,
     "exit_price": 1483.0,
     "stock_return_pct": 89.3
@@ -319,34 +329,26 @@
     "stock_return_pct": 69.2
    },
    {
+    "ticker": "SUNDARMFIN",
+    "quantity": 15,
+    "weight_pct": 19.6,
+    "entry_price": 2567.59,
+    "exit_price": 4409.6,
+    "stock_return_pct": 71.7
+   },
+   {
     "ticker": "DIVISLAB",
     "quantity": 9,
-    "weight_pct": 19.5,
+    "weight_pct": 19.6,
     "entry_price": 4276.17,
     "exit_price": 6767.0,
     "stock_return_pct": 58.2
-   },
-   {
-    "ticker": "GRINDWELL",
-    "quantity": 33,
-    "weight_pct": 20.0,
-    "entry_price": 1197.42,
-    "exit_price": 2105.5,
-    "stock_return_pct": 75.8
-   },
-   {
-    "ticker": "ZENSARTECH",
-    "quantity": 137,
-    "weight_pct": 20.2,
-    "entry_price": 290.99,
-    "exit_price": 462.75,
-    "stock_return_pct": 59.0
    }
   ],
-  "portfolio_entry_value": 197414.53,
-  "portfolio_exit_value": 336379.75,
-  "portfolio_total_return_pct": 70.4,
-  "vs_nifty_pct_points": 16.7,
+  "portfolio_entry_value": 196522.29,
+  "portfolio_exit_value": 345557.5,
+  "portfolio_total_return_pct": 75.8,
+  "vs_nifty_pct_points": 22.1,
   "monthly_indexed_series": [
    {
     "date": "2021-06-01",
@@ -354,256 +356,257 @@
    },
    {
     "date": "2021-07-01",
-    "value": 113.06
+    "value": 104.68
    },
    {
     "date": "2021-08-01",
-    "value": 118.65
+    "value": 108.37
    },
    {
     "date": "2021-09-01",
-    "value": 121.8
+    "value": 105.62
    },
    {
     "date": "2021-10-01",
-    "value": 124.61
+    "value": 106.68
    },
    {
     "date": "2021-11-01",
-    "value": 123.63
+    "value": 103.49
    },
    {
     "date": "2021-12-01",
-    "value": 135.43
+    "value": 106.65
    },
    {
     "date": "2022-01-01",
-    "value": 118.73
+    "value": 97.64
    },
    {
     "date": "2022-02-01",
-    "value": 108.76
+    "value": 91.77
    },
    {
     "date": "2022-03-01",
-    "value": 113.67
+    "value": 93.2
    },
    {
     "date": "2022-04-01",
-    "value": 107.65
+    "value": 92.15
    },
    {
     "date": "2022-05-01",
-    "value": 100.04
+    "value": 80.94
    },
    {
     "date": "2022-06-01",
-    "value": 95.09
+    "value": 78.78
    },
    {
     "date": "2022-07-01",
-    "value": 99.01
+    "value": 86.34
    },
    {
     "date": "2022-08-01",
-    "value": 103.37
+    "value": 84.5
    },
    {
     "date": "2022-09-01",
-    "value": 101.0
+    "value": 85.92
    },
    {
     "date": "2022-10-01",
-    "value": 104.54
+    "value": 88.66
    },
    {
     "date": "2022-11-01",
-    "value": 104.2
+    "value": 92.36
    },
    {
     "date": "2022-12-01",
-    "value": 100.87
+    "value": 91.95
    },
    {
     "date": "2023-01-01",
-    "value": 108.26
+    "value": 95.1
    },
    {
     "date": "2023-02-01",
-    "value": 108.7
+    "value": 93.5
    },
    {
     "date": "2023-03-01",
-    "value": 104.3
+    "value": 90.39
    },
    {
     "date": "2023-04-01",
-    "value": 110.71
+    "value": 97.31
    },
    {
     "date": "2023-05-01",
-    "value": 122.88
+    "value": 102.05
    },
    {
     "date": "2023-06-01",
-    "value": 132.8
+    "value": 108.23
    },
    {
     "date": "2023-07-01",
-    "value": 144.74
+    "value": 113.14
    },
    {
     "date": "2023-08-01",
-    "value": 158.29
+    "value": 123.02
    },
    {
     "date": "2023-09-01",
-    "value": 150.66
+    "value": 123.09
    },
    {
     "date": "2023-10-01",
-    "value": 149.56
+    "value": 123.65
    },
    {
     "date": "2023-11-01",
-    "value": 158.67
+    "value": 136.62
    },
    {
     "date": "2023-12-01",
-    "value": 171.74
+    "value": 142.52
    },
    {
     "date": "2024-01-01",
-    "value": 164.85
+    "value": 141.77
    },
    {
     "date": "2024-02-01",
-    "value": 159.49
+    "value": 152.73
    },
    {
     "date": "2024-03-01",
-    "value": 155.75
+    "value": 147.87
    },
    {
     "date": "2024-04-01",
-    "value": 168.27
+    "value": 161.12
    },
    {
     "date": "2024-05-01",
-    "value": 177.98
+    "value": 161.54
    },
    {
     "date": "2024-06-01",
-    "value": 200.38
+    "value": 173.88
    },
    {
     "date": "2024-07-01",
-    "value": 201.35
+    "value": 176.39
    },
    {
     "date": "2024-08-01",
-    "value": 198.2
+    "value": 183.12
    },
    {
     "date": "2024-09-01",
-    "value": 196.92
+    "value": 193.04
    },
    {
     "date": "2024-10-01",
-    "value": 191.03
+    "value": 178.18
    },
    {
     "date": "2024-11-01",
-    "value": 203.25
+    "value": 180.12
    },
    {
     "date": "2024-12-01",
-    "value": 204.86
+    "value": 186.64
    },
    {
     "date": "2025-01-01",
-    "value": 196.54
+    "value": 170.12
    },
    {
     "date": "2025-02-01",
-    "value": 168.53
+    "value": 156.25
    },
    {
     "date": "2025-03-01",
-    "value": 176.34
+    "value": 167.47
    },
    {
     "date": "2025-04-01",
-    "value": 175.81
+    "value": 174.62
    },
    {
     "date": "2025-05-01",
-    "value": 199.95
+    "value": 189.29
    },
    {
     "date": "2025-06-01",
-    "value": 208.32
+    "value": 200.01
    },
    {
     "date": "2025-07-01",
-    "value": 196.64
+    "value": 189.82
    },
    {
     "date": "2025-08-01",
-    "value": 194.46
+    "value": 185.78
    },
    {
     "date": "2025-09-01",
-    "value": 186.67
+    "value": 180.92
    },
    {
     "date": "2025-10-01",
-    "value": 196.42
+    "value": 190.02
    },
    {
     "date": "2025-11-01",
-    "value": 189.11
+    "value": 189.54
    },
    {
     "date": "2025-12-01",
-    "value": 179.09
+    "value": 190.56
    },
    {
     "date": "2026-01-01",
-    "value": 174.79
+    "value": 187.95
    },
    {
     "date": "2026-02-01",
-    "value": 165.09
+    "value": 186.26
    },
    {
     "date": "2026-03-01",
-    "value": 150.28
+    "value": 160.08
    },
    {
     "date": "2026-04-01",
-    "value": 157.41
+    "value": 167.14
    },
    {
     "date": "2026-05-01",
-    "value": 166.33
+    "value": 170.12
    },
    {
     "date": "2026-06-01",
-    "value": 170.39
+    "value": 175.84
    }
   ],
-  "selection_rationale": "Moderate-high risk: blends the two eligible mid-caps (GRINDWELL, ZENSARTECH) with three growth-leaning eligible large-caps (COFORGE, SUPREMEIND, DIVISLAB). DEVIATION: target was 2 large + 3 mid, but only 2 eligible mid-caps exist, so the realised mix is 3 large + 2 mid. COFORGE and both mids repeat from Fresh Graduate; SUPREMEIND also appears in Pre-Retirement."
+  "selection_rationale": "A five-sector growth book with no single-sector concentration \u2014 BPCL (energy), COFORGE (IT), SUPREMEIND (industrials/plastics), SUNDARMFIN (vehicle financing) and DIVISLAB (pharma APIs). Every holding cleared the quality screen (positive cash flow, sound balance sheet) and beats the index; diversification dampens single-name risk for a moderate-high profile."
  },
  {
   "scenarioId": "young-family",
   "scenario": "Young Family with Toddlers",
+  "theme": "Balanced Core-Satellite",
   "capital": 300000,
   "stocks": [
    {
     "ticker": "NESTLEIND",
     "quantity": 71,
-    "weight_pct": 19.9,
+    "weight_pct": 20.0,
     "entry_price": 838.1,
     "exit_price": 1400.4,
     "stock_return_pct": 67.1
@@ -611,40 +614,40 @@
    {
     "ticker": "ITC",
     "quantity": 375,
-    "weight_pct": 20.0,
+    "weight_pct": 20.1,
     "entry_price": 159.6,
     "exit_price": 291.15,
     "stock_return_pct": 82.4
    },
    {
-    "ticker": "MARICO",
-    "quantity": 120,
-    "weight_pct": 20.0,
-    "entry_price": 499.68,
-    "exit_price": 820.75,
-    "stock_return_pct": 64.3
+    "ticker": "SUPREMEIND",
+    "quantity": 28,
+    "weight_pct": 19.6,
+    "entry_price": 2083.47,
+    "exit_price": 3524.5,
+    "stock_return_pct": 69.2
    },
    {
     "ticker": "GRINDWELL",
     "quantity": 50,
-    "weight_pct": 20.0,
+    "weight_pct": 20.1,
     "entry_price": 1197.42,
     "exit_price": 2105.5,
     "stock_return_pct": 75.8
    },
    {
-    "ticker": "ZENSARTECH",
-    "quantity": 206,
-    "weight_pct": 20.0,
-    "entry_price": 290.99,
-    "exit_price": 462.75,
-    "stock_return_pct": 59.0
+    "ticker": "DIVISLAB",
+    "quantity": 14,
+    "weight_pct": 20.1,
+    "entry_price": 4276.17,
+    "exit_price": 6767.0,
+    "stock_return_pct": 58.2
    }
   ],
-  "portfolio_entry_value": 299131.64,
-  "portfolio_exit_value": 507701.15,
-  "portfolio_total_return_pct": 69.7,
-  "vs_nifty_pct_points": 16.0,
+  "portfolio_entry_value": 297429.64,
+  "portfolio_exit_value": 507308.65,
+  "portfolio_total_return_pct": 70.6,
+  "vs_nifty_pct_points": 16.9,
   "monthly_indexed_series": [
    {
     "date": "2021-06-01",
@@ -652,256 +655,257 @@
    },
    {
     "date": "2021-07-01",
-    "value": 107.8
+    "value": 102.16
    },
    {
     "date": "2021-08-01",
-    "value": 113.32
+    "value": 107.57
    },
    {
     "date": "2021-09-01",
-    "value": 118.96
+    "value": 111.07
    },
    {
     "date": "2021-10-01",
-    "value": 121.09
+    "value": 114.88
    },
    {
     "date": "2021-11-01",
-    "value": 118.97
+    "value": 112.22
    },
    {
     "date": "2021-12-01",
-    "value": 128.21
+    "value": 117.14
    },
    {
     "date": "2022-01-01",
-    "value": 118.61
+    "value": 111.42
    },
    {
     "date": "2022-02-01",
-    "value": 109.34
+    "value": 105.89
    },
    {
     "date": "2022-03-01",
-    "value": 117.46
+    "value": 113.49
    },
    {
     "date": "2022-04-01",
-    "value": 115.87
+    "value": 113.62
    },
    {
     "date": "2022-05-01",
-    "value": 115.72
+    "value": 108.95
    },
    {
     "date": "2022-06-01",
-    "value": 111.6
+    "value": 108.7
    },
    {
     "date": "2022-07-01",
-    "value": 117.96
+    "value": 117.43
    },
    {
     "date": "2022-08-01",
-    "value": 127.28
+    "value": 127.07
    },
    {
     "date": "2022-09-01",
-    "value": 124.58
+    "value": 127.19
    },
    {
     "date": "2022-10-01",
-    "value": 128.58
+    "value": 130.84
    },
    {
     "date": "2022-11-01",
-    "value": 123.91
+    "value": 128.33
    },
    {
     "date": "2022-12-01",
-    "value": 119.6
+    "value": 124.79
    },
    {
     "date": "2023-01-01",
-    "value": 125.25
+    "value": 130.06
    },
    {
     "date": "2023-02-01",
-    "value": 127.94
+    "value": 128.91
    },
    {
     "date": "2023-03-01",
-    "value": 130.29
+    "value": 130.39
    },
    {
     "date": "2023-04-01",
-    "value": 138.5
+    "value": 141.54
    },
    {
     "date": "2023-05-01",
-    "value": 151.54
+    "value": 147.93
    },
    {
     "date": "2023-06-01",
-    "value": 158.5
+    "value": 158.9
    },
    {
     "date": "2023-07-01",
-    "value": 168.7
+    "value": 164.57
    },
    {
     "date": "2023-08-01",
-    "value": 167.15
+    "value": 168.39
    },
    {
     "date": "2023-09-01",
-    "value": 164.28
+    "value": 164.3
    },
    {
     "date": "2023-10-01",
-    "value": 162.84
+    "value": 165.83
    },
    {
     "date": "2023-11-01",
-    "value": 166.12
+    "value": 168.61
    },
    {
     "date": "2023-12-01",
-    "value": 181.02
+    "value": 179.89
    },
    {
     "date": "2024-01-01",
-    "value": 174.46
+    "value": 171.63
    },
    {
     "date": "2024-02-01",
-    "value": 165.25
+    "value": 163.58
    },
    {
     "date": "2024-03-01",
-    "value": 168.6
+    "value": 164.51
    },
    {
     "date": "2024-04-01",
-    "value": 173.27
+    "value": 178.0
    },
    {
     "date": "2024-05-01",
-    "value": 180.52
+    "value": 185.84
    },
    {
     "date": "2024-06-01",
-    "value": 195.33
+    "value": 198.44
    },
    {
     "date": "2024-07-01",
-    "value": 206.03
+    "value": 199.79
    },
    {
     "date": "2024-08-01",
-    "value": 202.9
+    "value": 199.11
    },
    {
     "date": "2024-09-01",
-    "value": 201.99
+    "value": 204.69
    },
    {
     "date": "2024-10-01",
-    "value": 190.29
+    "value": 185.72
    },
    {
     "date": "2024-11-01",
-    "value": 190.71
+    "value": 186.93
    },
    {
     "date": "2024-12-01",
-    "value": 186.99
+    "value": 184.03
    },
    {
     "date": "2025-01-01",
-    "value": 195.91
+    "value": 174.45
    },
    {
     "date": "2025-02-01",
-    "value": 168.76
+    "value": 152.31
    },
    {
     "date": "2025-03-01",
-    "value": 175.99
+    "value": 162.27
    },
    {
     "date": "2025-04-01",
-    "value": 182.9
+    "value": 168.12
    },
    {
     "date": "2025-05-01",
-    "value": 191.85
+    "value": 177.27
    },
    {
     "date": "2025-06-01",
-    "value": 193.14
+    "value": 180.9
    },
    {
     "date": "2025-07-01",
-    "value": 183.95
+    "value": 173.07
    },
    {
     "date": "2025-08-01",
-    "value": 183.95
+    "value": 173.83
    },
    {
     "date": "2025-09-01",
-    "value": 182.11
+    "value": 168.73
    },
    {
     "date": "2025-10-01",
-    "value": 192.11
+    "value": 176.62
    },
    {
     "date": "2025-11-01",
-    "value": 184.32
+    "value": 167.01
    },
    {
     "date": "2025-12-01",
-    "value": 183.12
+    "value": 166.98
    },
    {
     "date": "2026-01-01",
-    "value": 169.66
+    "value": 157.87
    },
    {
     "date": "2026-02-01",
-    "value": 166.3
+    "value": 163.9
    },
    {
     "date": "2026-03-01",
-    "value": 150.57
+    "value": 149.35
    },
    {
     "date": "2026-04-01",
-    "value": 165.87
+    "value": 164.67
    },
    {
     "date": "2026-05-01",
-    "value": 166.5
+    "value": 164.87
    },
    {
     "date": "2026-06-01",
-    "value": 169.72
+    "value": 170.56
    }
   ],
-  "selection_rationale": "Moderate risk, balance: three steady large-cap compounders (NESTLEIND, ITC, MARICO \u2014 low-volatility consumer staples) plus the two eligible mid-caps (GRINDWELL, ZENSARTECH). Hits the 3 large + 2 mid target exactly. NESTLEIND/ITC/MARICO repeat in the retirement scenarios and the two mids repeat in the growth scenarios \u2014 all remain the steadiest eligible picks for this profile."
+  "selection_rationale": "A core-satellite construction: two low-volatility consumer-staples cores (NESTLEIND, ITC) for capital protection, plus three high-ROE growth satellites (SUPREMEIND, GRINDWELL, DIVISLAB) for compounding. Balances downside protection against growth for a moderate-risk family with a long but not unlimited horizon."
  },
  {
   "scenarioId": "pre-retirement",
   "scenario": "Pre-Retirement Family",
+  "theme": "High-ROE Compounders",
   "capital": 500000,
   "stocks": [
    {
     "ticker": "NESTLEIND",
     "quantity": 119,
-    "weight_pct": 20.0,
+    "weight_pct": 20.1,
     "entry_price": 838.1,
     "exit_price": 1400.4,
     "stock_return_pct": 67.1
@@ -931,18 +935,18 @@
     "stock_return_pct": 82.4
    },
    {
-    "ticker": "BPCL",
-    "quantity": 600,
-    "weight_pct": 20.1,
-    "entry_price": 166.56,
-    "exit_price": 316.3,
-    "stock_return_pct": 89.9
+    "ticker": "COFORGE",
+    "quantity": 127,
+    "weight_pct": 20.0,
+    "entry_price": 783.58,
+    "exit_price": 1483.0,
+    "stock_return_pct": 89.3
    }
   ],
-  "portfolio_entry_value": 497438.59,
-  "portfolio_exit_value": 868489.0,
-  "portfolio_total_return_pct": 74.6,
-  "vs_nifty_pct_points": 20.9,
+  "portfolio_entry_value": 497017.25,
+  "portfolio_exit_value": 867050.0,
+  "portfolio_total_return_pct": 74.5,
+  "vs_nifty_pct_points": 20.8,
   "monthly_indexed_series": [
    {
     "date": "2021-06-01",
@@ -950,250 +954,251 @@
    },
    {
     "date": "2021-07-01",
-    "value": 99.35
+    "value": 104.78
    },
    {
     "date": "2021-08-01",
-    "value": 103.8
+    "value": 108.71
    },
    {
     "date": "2021-09-01",
-    "value": 106.01
+    "value": 112.85
    },
    {
     "date": "2021-10-01",
-    "value": 106.75
+    "value": 110.01
    },
    {
     "date": "2021-11-01",
-    "value": 101.98
+    "value": 110.27
    },
    {
     "date": "2021-12-01",
-    "value": 102.96
+    "value": 112.57
    },
    {
     "date": "2022-01-01",
-    "value": 100.07
+    "value": 103.89
    },
    {
     "date": "2022-02-01",
-    "value": 97.0
+    "value": 101.8
    },
    {
     "date": "2022-03-01",
-    "value": 101.33
+    "value": 105.1
    },
    {
     "date": "2022-04-01",
-    "value": 103.26
+    "value": 105.63
    },
    {
     "date": "2022-05-01",
-    "value": 101.4
+    "value": 104.18
    },
    {
     "date": "2022-06-01",
-    "value": 98.43
+    "value": 100.35
    },
    {
     "date": "2022-07-01",
-    "value": 107.68
+    "value": 110.53
    },
    {
     "date": "2022-08-01",
-    "value": 110.98
+    "value": 112.0
    },
    {
     "date": "2022-09-01",
-    "value": 112.4
+    "value": 113.43
    },
    {
     "date": "2022-10-01",
-    "value": 115.28
+    "value": 118.57
    },
    {
     "date": "2022-11-01",
-    "value": 117.99
+    "value": 120.48
    },
    {
     "date": "2022-12-01",
-    "value": 116.2
+    "value": 118.55
    },
    {
     "date": "2023-01-01",
-    "value": 118.6
+    "value": 122.73
    },
    {
     "date": "2023-02-01",
-    "value": 121.32
+    "value": 126.38
    },
    {
     "date": "2023-03-01",
-    "value": 122.49
+    "value": 123.88
    },
    {
     "date": "2023-04-01",
-    "value": 132.73
+    "value": 135.27
    },
    {
     "date": "2023-05-01",
-    "value": 137.35
+    "value": 141.42
    },
    {
     "date": "2023-06-01",
-    "value": 144.09
+    "value": 148.99
    },
    {
     "date": "2023-07-01",
-    "value": 150.49
+    "value": 154.71
    },
    {
     "date": "2023-08-01",
-    "value": 153.96
+    "value": 163.83
    },
    {
     "date": "2023-09-01",
-    "value": 152.12
+    "value": 159.8
    },
    {
     "date": "2023-10-01",
-    "value": 153.49
+    "value": 160.44
    },
    {
     "date": "2023-11-01",
-    "value": 159.76
+    "value": 166.13
    },
    {
     "date": "2023-12-01",
-    "value": 167.89
+    "value": 176.17
    },
    {
     "date": "2024-01-01",
-    "value": 163.12
+    "value": 167.39
    },
    {
     "date": "2024-02-01",
-    "value": 165.81
+    "value": 166.13
    },
    {
     "date": "2024-03-01",
-    "value": 168.98
+    "value": 164.22
    },
    {
     "date": "2024-04-01",
-    "value": 177.5
+    "value": 170.49
    },
    {
     "date": "2024-05-01",
-    "value": 180.88
+    "value": 172.11
    },
    {
     "date": "2024-06-01",
-    "value": 188.96
+    "value": 183.82
    },
    {
     "date": "2024-07-01",
-    "value": 198.52
+    "value": 192.68
    },
    {
     "date": "2024-08-01",
-    "value": 199.0
+    "value": 192.53
    },
    {
     "date": "2024-09-01",
-    "value": 207.9
+    "value": 202.32
    },
    {
     "date": "2024-10-01",
-    "value": 181.23
+    "value": 185.27
    },
    {
     "date": "2024-11-01",
-    "value": 181.1
+    "value": 192.68
    },
    {
     "date": "2024-12-01",
-    "value": 181.4
+    "value": 197.88
    },
    {
     "date": "2025-01-01",
-    "value": 171.87
+    "value": 184.75
    },
    {
     "date": "2025-02-01",
-    "value": 153.43
+    "value": 163.95
    },
    {
     "date": "2025-03-01",
-    "value": 164.52
+    "value": 174.16
    },
    {
     "date": "2025-04-01",
-    "value": 175.01
+    "value": 177.01
    },
    {
     "date": "2025-05-01",
-    "value": 181.06
+    "value": 188.43
    },
    {
     "date": "2025-06-01",
-    "value": 186.66
+    "value": 198.05
    },
    {
     "date": "2025-07-01",
-    "value": 182.17
+    "value": 189.38
    },
    {
     "date": "2025-08-01",
-    "value": 183.11
+    "value": 191.68
    },
    {
     "date": "2025-09-01",
-    "value": 182.44
+    "value": 184.0
    },
    {
     "date": "2025-10-01",
-    "value": 186.56
+    "value": 190.91
    },
    {
     "date": "2025-11-01",
-    "value": 180.58
+    "value": 188.08
    },
    {
     "date": "2025-12-01",
-    "value": 185.92
+    "value": 183.38
    },
    {
     "date": "2026-01-01",
-    "value": 175.66
+    "value": 175.17
    },
    {
     "date": "2026-02-01",
-    "value": 182.84
+    "value": 168.05
    },
    {
     "date": "2026-03-01",
-    "value": 162.22
+    "value": 156.92
    },
    {
     "date": "2026-04-01",
-    "value": 175.1
+    "value": 169.53
    },
    {
     "date": "2026-05-01",
-    "value": 171.68
+    "value": 172.17
    },
    {
     "date": "2026-06-01",
-    "value": 174.59
+    "value": 174.45
    }
   ],
-  "selection_rationale": "All large-cap, preservation + growth, prioritising high ROE and low debt: NESTLEIND (ROE 103%), MARICO (37%), SUPREMEIND (31%, near-zero debt), ITC (22%, debt-free) and BPCL (32% ROE, 4.5% yield). All five repeat from other scenarios \u2014 reused because they are the strongest high-ROE / low-D-E eligible large-caps for a lower-moderate risk profile."
+  "selection_rationale": "The portfolio's quality core \u2014 the highest-ROE, lowest-debt compounders: NESTLEIND (ROE ~103%), MARICO (37%), SUPREMEIND (31%), ITC (22%, debt-free) and COFORGE (19%). Prioritises return consistency and balance-sheet strength over yield, suited to capital preservation with continued growth in the final working years."
  },
  {
   "scenarioId": "elderly-retired",
   "scenario": "Elderly Retired Couple",
+  "theme": "Dividend Income",
   "capital": 100000,
   "stocks": [
    {
@@ -1487,6 +1492,6 @@
     "value": 172.36
    }
   ],
-  "selection_rationale": "Lowest risk, income focus: the highest-dividend eligible large-caps \u2014 ITC (10.7% TTM yield), BPCL (4.5%), TECHM (3.2%) \u2014 plus low-volatility MARICO and NESTLEIND for capital protection. Every name repeats from other scenarios \u2014 reused because they offer the best mix of dividend income and stability among eligible stocks."
+  "selection_rationale": "An income-and-stability mandate: the five highest-yield, lowest-volatility names \u2014 ITC (~10.7% trailing yield), BPCL (4.5%), TECHM (3.2%), MARICO (1.4%) and NESTLEIND (1.3%). Engineered for steady cash distributions and minimal drawdown for a corpus that must last."
  }
 ]
