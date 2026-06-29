@@ -8,9 +8,9 @@
 
 **Live:** https://nse-time-capsule.vercel.app
 
-MarketMind is a stock-market backtesting simulator I built to teach fundamental
+MarketMind is a stock-market  simulator I built to teach my schoolmates fundamental
 analysis the way it actually works: research real companies, build a portfolio
-for a real-life situation, then find out how it would have done.
+for a real-life situation, then find out how it would have done. As part of a financial literacy programme run by my school, students have to come up with a crucial finance topic that anyone needs to know regardless of their profession, research on it and teach the topic to their classmates. I picked the topic of investing; starting my project with a presentation on investing, I used this simulator as a game for my classmates to make this session a whole lot more interactive. 
 
 ## Overview
 
