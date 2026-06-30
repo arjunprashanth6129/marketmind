@@ -8,9 +8,15 @@
 
 **Live:** https://nse-time-capsule.vercel.app
 
-MarketMind is a stock-market  simulator I built to teach my schoolmates fundamental
-analysis the way it actually works: research real companies, build a portfolio
-for a real-life situation, then find out how it would have done. As part of a financial literacy programme run by my school, students have to come up with a crucial finance topic that anyone needs to know regardless of their profession, research on it and teach the topic to their classmates. I picked the topic of investing; starting my project with a presentation on investing, I used this simulator as a game for my classmates to make this session a whole lot more interactive. 
+Market Mind was born out of an idea to make a school project on financial literacy interactive, educative, relatable and by leveraging the power of technology. The school assignment required us to pick a topic in finance that is underserved and that can be beneficial to students to learn, regardless of their career choices or professions. I picked the topic of personal investing because I believe every young teen or highschooler should understand the power of money and empower themselves with real world knowledge on how to use the stock market and how to invest. 
+
+Market Mind is a stock-market simulator I built to teach my schoolmates fundamental
+analysis, emulating the way the stock market actually works: 
+- Research real companies, 
+- Build a portfolio for their real-life situation, 
+- Find out how the portfolio would have performed, if deployed as a real investment in the market. 
+- Learn by doing method deployed to educate fellow school students about the fundamentals of investing in the Indian stock market 
+
 
 ## Overview
 
@@ -27,9 +33,6 @@ case (Tata Motors) a full demerger. If you pull raw prices, a 5:1 split shows up
 as an 80% overnight crash and every return you compute after that is wrong. So
 every figure here was recomputed from split- and bonus-adjusted data,
 cross-checked, and then frozen into static files so the numbers never drift.
-
-I originally built it for a Financial Literacy Project session, where it ran as
-the live "reveal" at the end: each team saw how their picks performed and why.
 
 ## What's in it
 
