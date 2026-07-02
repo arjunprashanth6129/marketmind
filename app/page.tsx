@@ -378,11 +378,7 @@ export default function Landing() {
 
         {/* Footer */}
         <footer className="border-t border-white/10">
-          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              Built by{" "}
-              <span className="font-medium text-slate-200">{PROJECT.author}</span>
-            </div>
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-end">
             <div className="flex items-center gap-4">
               <a href={PROJECT.github} target="_blank" rel="noopener noreferrer" className="hover:text-white">
                 GitHub
