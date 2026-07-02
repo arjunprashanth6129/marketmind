@@ -40,6 +40,10 @@ yarn-error.log*
 .nse-venv/
 .screen-venv/
 
+# python
+__pycache__/
+*.py[cod]
+
 # vercel
 .vercel
 

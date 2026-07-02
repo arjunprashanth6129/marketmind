@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-data_pipeline-3776ab?logo=python&logoColor=white)](https://www.python.org)
 [![Vercel](https://img.shields.io/badge/Deployed-Vercel-000?logo=vercel)](https://vercel.com)
 
-**Live:** https://nse-time-capsule.vercel.app
+**Live demo:** https://nse-time-capsule.vercel.app &nbsp;·&nbsp; [Stock screener](https://nse-time-capsule.vercel.app/screener) &nbsp;·&nbsp; [Portfolio simulator](https://nse-time-capsule.vercel.app/simulator) &nbsp;·&nbsp; [Methodology](https://nse-time-capsule.vercel.app/methodology)
 
 Market Mind was born out of an idea to make a school project on financial literacy interactive, educative, relatable and by leveraging the power of technology. The school assignment required us to pick a topic in finance that is underserved and that can be beneficial to students to learn, regardless of their career choices or professions. I picked the topic of personal investing because I believe every young teen or highschooler should understand the power of money and empower themselves with real world knowledge on how to use the stock market and how to invest. 
 
@@ -33,6 +33,16 @@ case (Tata Motors) a full demerger. If you pull raw prices, a 5:1 split shows up
 as an 80% overnight crash and every return you compute after that is wrong. So
 every figure here was recomputed from split- and bonus-adjusted data,
 cross-checked, and then frozen into static files so the numbers never drift.
+
+## Screenshots
+
+| Landing | Stock screener |
+|---|---|
+| [![Landing page](docs/screenshots/landing.png)](https://nse-time-capsule.vercel.app) | [![Stock screener](docs/screenshots/screener.png)](https://nse-time-capsule.vercel.app/screener) |
+
+| Methodology | Portfolio simulator (host-gated) |
+|---|---|
+| [![Methodology](docs/screenshots/methodology.png)](https://nse-time-capsule.vercel.app/methodology) | [![Portfolio simulator](docs/screenshots/simulator.png)](https://nse-time-capsule.vercel.app/simulator) |
 
 ## What's in it
 
@@ -138,8 +148,8 @@ came from real outcomes instead of just a theoretical presentation.
 ## Running it locally
 
 ```bash
-git clone https://github.com/arjunprashanth6129/nse-time-capsule
-cd nse-time-capsule
+git clone https://github.com/arjunprashanth6129/marketmind
+cd marketmind
 npm install
 cp .env.example .env.local      # set SIMULATOR_PASSWORD for the host gate
 npm run dev                     # http://localhost:3000
@@ -150,16 +160,17 @@ host-only `/simulator` page.
 
 ## Regenerating the data
 
-The Python scripts at the repo root rebuild the static data layer. They need a
-virtualenv with `yfinance`, `pandas`, `beautifulsoup4`, `lxml`, and `requests`:
+The Python scripts in `scripts/` rebuild the static data layer. Run them from the
+repo root, in a virtualenv with `yfinance`, `pandas`, `beautifulsoup4`, `lxml`,
+and `requests`:
 
 ```bash
-python yf_fetch.py            # adjusted prices, returns, splits, shares, dividends
-python screener_fetch.py      # screener.in FY2015-FY2021 fundamentals (cached)
-python build_financials.py    # writes data/financials.json
-python build_snapshot.py      # writes data/snapshot-2021.json
-python fetch_prices.py        # monthly series -> data/prices.json + nifty.json
-python build_portfolios.py    # eligibility screen + the 5 ideal portfolios
+python scripts/yf_fetch.py            # adjusted prices, returns, splits, shares, dividends
+python scripts/screener_fetch.py      # screener.in FY2015-FY2021 fundamentals (cached)
+python scripts/build_financials.py    # writes data/financials.json
+python scripts/build_snapshot.py      # writes data/snapshot-2021.json
+python scripts/fetch_prices.py        # monthly series -> data/prices.json + nifty.json
+python scripts/build_portfolios.py    # eligibility screen + the 5 ideal portfolios
 ```
 
 ## License

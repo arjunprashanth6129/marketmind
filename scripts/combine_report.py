@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Combine yfinance + screener data, compute derived metrics, run sanity checks,
-write data/final-verified-stock-universe.md and missing-data-report.md."""
+write data/final-verified-stock-universe.md and data/missing-data-report.md."""
 import json, os
 
 y=json.load(open("data/yf.json"))
@@ -258,8 +258,8 @@ mm.append("screener.in's standard P&L lumps all operating expenses into one line
           "substitutes **Operating Profit Margin (OPM%)** from screener as a clearly-labelled proxy; banks have no "
           "margin line and are n/a.")
 mm.append("")
-open("missing-data-report.md","w").write("\n".join(mm))
-print("WROTE data/final-verified-stock-universe.md and missing-data-report.md")
+open("data/missing-data-report.md","w").write("\n".join(mm))
+print("WROTE data/final-verified-stock-universe.md and data/missing-data-report.md")
 print("good_neg",good_neg)
 print("bad_pos",bad_pos)
 print("outliers",outliers)

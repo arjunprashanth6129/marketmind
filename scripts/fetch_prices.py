@@ -1,78 +1,47 @@
-"""Fetch monthly closing prices (Jan 2000 - June 2026) for all 35 stocks + Nifty 50.
+#!/usr/bin/env python3
+"""Monthly auto_adjust=True price series for the 50-stock universe + ^NSEI.
+Output schema matches the app: {ticker: [{date:'YYYY-MM-01', close}]}.
+Monthly bar close = that month's last trading-day adjusted close (yfinance '1mo')."""
+import json
+import pandas as pd, yfinance as yf
 
-Writes data/prices.json  ->  { id: [ {date:"YYYY-MM", close: float}, ... ] }
-       data/nifty.json   ->  [ {date:"YYYY-MM", close: float}, ... ]
+GOOD=["BIOCON","ASTRAL","HDFCBANK","CYIENT","MPHASIS","KOTAKBANK","GARFIBRES","DRREDDY","GODREJCP",
+ "KAJARIACER","HAVELLS","AMBUJACEM","COLPAL","ADANIGREEN","VOLTAS","RELIANCE","HCLTECH","JYOTHYLAB",
+ "CIPLA","BAJAJFINSV","CERA","TECHM","BRITANNIA","TATACONSUM","ZENSARTECH","DIVISLAB","BAJFINANCE",
+ "MARICO","NESTLEIND","SUPREMEIND","SUNDARMFIN","GRINDWELL","RPOWER","AXISBANK","ITC","COFORGE",
+ "BPCL","YESBANK","VBL","INFY"]
+BAD=["RAJESHEXPO","JPASSOCIAT","RELAXO","AAVAS","AARTIIND","ZEEL","GUJGASLTD","IGL","PAYTM","WIPRO"]
+ALL=GOOD+BAD
 
-Prices are split-adjusted but NOT dividend-adjusted (yfinance auto_adjust=False),
-so the series reads as the recognisable "stock price" and stays internally
-consistent across the whole window -> the screener entry price and the simulator
-returns use the same basis. Run from the project root with the venv active:
+END="2026-06-19"
+def monthly(sym):
+    df=yf.download(sym,start="1999-12-01",end=END,interval="1mo",auto_adjust=True,progress=False,threads=False)
+    if df is None or df.empty: return None
+    c=df["Close"]
+    if isinstance(c,pd.DataFrame): c=c.iloc[:,0]
+    c=c.dropna()
+    out=[]
+    for ts,v in c.items():
+        out.append({"date":f"{ts.year:04d}-{ts.month:02d}-01","close":round(float(v),2)})
+    # dedupe by date keeping last
+    seen={}
+    for p in out: seen[p["date"]]=p["close"]
+    return [{"date":d,"close":seen[d]} for d in sorted(seen)]
 
-    python scripts/fetch_prices.py
-"""
-import json, time, os, sys
-import yfinance as yf
-from stocks import STOCKS, NIFTY, START, END
+prices={}
+for i,t in enumerate(ALL,1):
+    s=monthly(t+".NS")
+    if s is None:
+        print(i,t,"NO DATA"); continue
+    prices[t]=s
+    jun21=next((p["close"] for p in s if p["date"]=="2021-06-01"),None)
+    jun26=next((p["close"] for p in s if p["date"]=="2026-06-01"),None)
+    print(f"{i:2} {t:11} n={len(s)} first={s[0]['date']} 2021-06={jun21} 2026-06={jun26}")
+json.dump(prices,open("data/prices.json","w"),separators=(",",":"))
+print("WROTE data/prices.json", len(prices),"tickers")
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, "data")
-os.makedirs(DATA, exist_ok=True)
-
-
-def fetch_monthly(yahoo):
-    """Return list of {date:'YYYY-MM', close: float} monthly closes, or [] on failure."""
-    for attempt in range(3):
-        try:
-            df = yf.download(yahoo, start=START, end=END, interval="1mo",
-                             progress=False, auto_adjust=False, threads=False)
-            if df is None or df.empty:
-                return []
-            close = df["Close"]
-            # yfinance returns a single-column DataFrame for one ticker; squeeze it
-            if hasattr(close, "columns"):
-                close = close.iloc[:, 0]
-            out = []
-            for ts, val in close.items():
-                if val != val:  # NaN
-                    continue
-                out.append({"date": ts.strftime("%Y-%m-01"), "close": round(float(val), 2)})
-            return out
-        except Exception as e:
-            print(f"    attempt {attempt+1} failed: {e}", file=sys.stderr)
-            time.sleep(3)
-    return []
-
-
-def main():
-    prices = {}
-    coverage = []
-    for i, (sid, yahoo, name, sector) in enumerate(STOCKS, 1):
-        print(f"[{i}/{len(STOCKS)}] {sid} ({yahoo}) ...", flush=True)
-        series = fetch_monthly(yahoo)
-        prices[sid] = series
-        first = series[0]["date"] if series else "NONE"
-        last = series[-1]["date"] if series else "NONE"
-        coverage.append((sid, len(series), first, last))
-        print(f"      {len(series)} months  {first} -> {last}", flush=True)
-        # incremental save so a mid-run failure doesn't lose progress
-        with open(os.path.join(DATA, "prices.json"), "w") as f:
-            json.dump(prices, f, separators=(",", ":"))
-        time.sleep(1.2)
-
-    print(f"\nNifty 50 ({NIFTY[1]}) ...", flush=True)
-    nifty = fetch_monthly(NIFTY[1])
-    with open(os.path.join(DATA, "nifty.json"), "w") as f:
-        json.dump(nifty, f, separators=(",", ":"))
-    print(f"      {len(nifty)} months  "
-          f"{nifty[0]['date'] if nifty else 'NONE'} -> {nifty[-1]['date'] if nifty else 'NONE'}")
-
-    print("\n=== COVERAGE ===")
-    for sid, n, first, last in coverage:
-        flag = "  <-- starts after 2000-01" if first not in ("2000-01", "NONE") else ""
-        if n == 0:
-            flag = "  <-- NO DATA"
-        print(f"{sid:12} {n:4} months  {first} -> {last}{flag}")
-
-
-if __name__ == "__main__":
-    main()
+nif=monthly("^NSEI")
+json.dump(nif,open("data/nifty.json","w"),separators=(",",":"))
+j21=next((p["close"] for p in nif if p["date"]=="2021-06-01"),None)
+j26=next((p["close"] for p in nif if p["date"]=="2026-06-01"),None)
+print(f"NIFTY n={len(nif)} 2021-06={j21} 2026-06={j26} ret={round((j26/j21-1)*100,1)}%")
