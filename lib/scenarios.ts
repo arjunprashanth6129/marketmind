@@ -1,11 +1,21 @@
-// The 5 portfolio-building scenarios - CLIENT-SAFE metadata only.
+// The 5 portfolio-building scenarios.
 // Names + descriptions per the project spec; capex + accent colours mirror the
 // FLP "Team Scenarios" handout.
 //
-// IMPORTANT: the verified "ideal portfolio" for each scenario is intentionally
-// NOT referenced here. data/ideal-portfolios.json is read ONLY by the
-// server-side scoring module (lib/scoring.ts, imported by the "use server"
-// action) so the ideal stock picks never ship to the client/student.
+// Each scenario also carries a fundamental-weight profile (`fund`). The scoring
+// layer (lib/scoring.ts) computes the same five 0-1 sub-scores for every stock
+// - growth, value, income, stability, quality - and weights them per scenario,
+// so the *same* stock scores differently for a risk-hungry graduate than for a
+// capital-preserving retiree. Weights sum to 1 within each scenario. Tune these
+// numbers to reshape what each investor profile rewards; no logic changes.
+
+export interface FundWeights {
+  growth: number; // rewards high ROE + revenue/profit CAGR (compounders)
+  value: number; // rewards low P/E (penalises overpaying)
+  income: number; // rewards dividend yield
+  stability: number; // rewards low leverage, large-cap size, positive CFO
+  quality: number; // rewards CFO, promoter holding, earnings consistency
+}
 
 export interface Scenario {
   id: string;
@@ -15,6 +25,7 @@ export interface Scenario {
   capexLabel: string;
   accent: string; // hex, matches the printed handout
   risk: string; // risk-level label shown on the scenario card
+  fund: FundWeights; // per-scenario fundamental emphasis (sums to 1)
 }
 
 export const SCENARIOS: Scenario[] = [
@@ -27,6 +38,8 @@ export const SCENARIOS: Scenario[] = [
     capexLabel: "Rs. 50,000",
     accent: "#3b5bdb",
     risk: "High risk",
+    // Chases compounders; tolerates a rich P/E, needs no dividend.
+    fund: { growth: 0.45, value: 0.05, income: 0.0, stability: 0.1, quality: 0.4 },
   },
   {
     id: "newly-married",
@@ -37,6 +50,7 @@ export const SCENARIOS: Scenario[] = [
     capexLabel: "Rs. 2,00,000",
     accent: "#7048e8",
     risk: "Moderate-high risk",
+    fund: { growth: 0.35, value: 0.1, income: 0.05, stability: 0.15, quality: 0.35 },
   },
   {
     id: "young-family",
@@ -47,6 +61,7 @@ export const SCENARIOS: Scenario[] = [
     capexLabel: "Rs. 3,00,000",
     accent: "#e8830c",
     risk: "Moderate risk",
+    fund: { growth: 0.25, value: 0.15, income: 0.1, stability: 0.2, quality: 0.3 },
   },
   {
     id: "pre-retirement",
@@ -57,6 +72,7 @@ export const SCENARIOS: Scenario[] = [
     capexLabel: "Rs. 5,00,000",
     accent: "#d6455e",
     risk: "Lower-moderate risk",
+    fund: { growth: 0.1, value: 0.2, income: 0.2, stability: 0.25, quality: 0.25 },
   },
   {
     id: "elderly-retired",
@@ -67,6 +83,8 @@ export const SCENARIOS: Scenario[] = [
     capexLabel: "Rs. 1,00,000",
     accent: "#2f9e7f",
     risk: "Low risk",
+    // Capital preservation: income + stability + valuation over growth.
+    fund: { growth: 0.05, value: 0.2, income: 0.3, stability: 0.25, quality: 0.2 },
   },
 ];
 

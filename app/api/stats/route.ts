@@ -1,7 +1,7 @@
 import snapshot from "@/data/snapshot-2021.json";
 import nifty from "@/data/nifty.json";
-import ideal from "@/data/ideal-portfolios.json";
 import { PROJECT } from "@/lib/stats";
+import { SCENARIOS } from "@/lib/scenarios";
 
 // Public JSON stats endpoint - derives key figures live from the data layer.
 export const dynamic = "force-static";
@@ -24,9 +24,12 @@ export function GET() {
     priceHistory: { from: "2000-01", to: "2026-06" },
     simulationWindow: { entry: "2021-06", exit: "2026-06" },
     niftyBenchmarkReturnPct: niftyReturn,
-    scenarios: (ideal as { scenarioId: string; portfolio_total_return_pct: number }[]).map(
-      (p) => ({ id: p.scenarioId, idealReturnPct: p.portfolio_total_return_pct }),
-    ),
+    scoring: {
+      final: "0.5 * performance + 0.5 * fundamentals",
+      performance: "participant return vs the Nifty 50",
+      fundamentals: "scenario-weighted per-stock quality (growth/value/income/stability/quality)",
+    },
+    scenarios: SCENARIOS.map((s) => ({ id: s.id, name: s.name, risk: s.risk, fund: s.fund })),
     repo: PROJECT.github,
     generatedAt: "static-build",
   });

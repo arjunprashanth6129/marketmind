@@ -40,8 +40,7 @@ export interface HoldingResult {
 export interface TimelinePoint {
   date: string;
   portfolio: number; // indexed to 100 at June 2021
-  nifty: number | null; // indexed to 100 at June 2021 (visual reference only)
-  ideal: number | null; // ideal portfolio, indexed to 100 (filled by scoring)
+  nifty: number | null; // Nifty 50, indexed to 100 at June 2021 (scoring benchmark)
 }
 
 export interface PortfolioResult {
@@ -51,9 +50,9 @@ export interface PortfolioResult {
   totalReturn: number; // %
   timeline: TimelinePoint[];
   // Scoring (filled by the server-side scoring layer; 0 in the bare base result).
-  idealReturn: number; // scenario ideal-portfolio total return %
-  performanceScore: number; // 0-10 (participant return vs ideal portfolio)
-  fundamentalScore: number; // 0-10 (avg per-stock fundamental quality)
+  niftyReturn: number; // Nifty 50 total return % over the window (performance benchmark)
+  performanceScore: number; // 0-10 (participant return vs the Nifty 50)
+  fundamentalScore: number; // 0-10 (scenario-weighted avg per-stock quality)
   finalScore: number; // 0-10 = performance*0.5 + fundamental*0.5
 }
 
@@ -72,9 +71,8 @@ function priceMap(id: string): Map<string, number> {
   return m;
 }
 
-// Base (unscored) portfolio computation. Scoring (performance vs the scenario's
-// ideal portfolio + per-stock fundamentals) is layered on server-side in
-// lib/scoring.ts so the ideal-portfolio data never reaches the client.
+// Base (unscored) portfolio computation. Scoring (performance vs the Nifty 50 +
+// scenario-weighted per-stock fundamentals) is layered on in lib/scoring.ts.
 export function computePortfolio(holdings: Holding[]): PortfolioResult {
   const clean = holdings.filter((h) => h.id && h.qty > 0);
 
@@ -141,7 +139,6 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
       portfolio: base > 0 ? (val / base) * 100 : 100,
       nifty:
         nifty0 != null && niftyV != null ? (niftyV / nifty0) * 100 : null,
-      ideal: null,
     });
   }
 
@@ -151,7 +148,7 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
     exitValue,
     totalReturn,
     timeline,
-    idealReturn: 0,
+    niftyReturn: 0,
     performanceScore: 0,
     fundamentalScore: 0,
     finalScore: 0,

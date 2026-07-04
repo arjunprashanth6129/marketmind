@@ -39,7 +39,7 @@ function FeatureCard({
 
 /* A lightweight, pure-CSS/SVG "product preview" - looks like the live app. */
 function AppMockup() {
-  // three indexed performance lines (participant / ideal / nifty)
+  // two indexed performance lines (participant vs the Nifty 50 benchmark)
   const pts = (seed: number, end: number) => {
     const a: number[] = [];
     for (let i = 0; i <= 24; i++) {
@@ -51,8 +51,7 @@ function AppMockup() {
   };
   const series = [
     { d: pts(1, 176), stroke: "#818cf8", w: 2.4, dash: "" }, // participant
-    { d: pts(3, 150), stroke: "#fbbf24", w: 1.8, dash: "5 4" }, // ideal
-    { d: pts(5, 134), stroke: "#94a3b8", w: 1.4, dash: "1 4" }, // nifty
+    { d: pts(5, 134), stroke: "#fbbf24", w: 1.8, dash: "5 4" }, // nifty (benchmark)
   ];
   const all = series.flatMap((s) => s.d);
   const min = Math.min(...all),
@@ -114,10 +113,7 @@ function AppMockup() {
             <span className="h-0.5 w-4 rounded bg-indigo-400" /> Your portfolio
           </span>
           <span className="flex items-center gap-1">
-            <span className="h-0.5 w-4 rounded bg-amber-400" /> Ideal
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-0.5 w-4 rounded bg-slate-400" /> Nifty 50
+            <span className="h-0.5 w-4 rounded bg-amber-400" /> Nifty 50
           </span>
         </div>
       </div>
@@ -258,12 +254,12 @@ export default function Landing() {
               {
                 icon: "🎯",
                 title: "Dual Scoring System",
-                body: "50% portfolio performance vs a scenario-specific ideal portfolio, 50% fundamental-analysis quality score.",
+                body: "50% portfolio performance vs the Nifty 50, 50% scenario-weighted fundamental-analysis quality.",
               },
               {
                 icon: "🧭",
                 title: "5 Investor Scenarios",
-                body: "Risk-matched ideal portfolios from Fresh Graduate to Retired Couple - each verified to beat the Nifty 50.",
+                body: "Fresh Graduate to Retired Couple - each risk profile weights the fundamentals differently, so the same stock scores to fit.",
               },
             ].map((f, i) => (
               <Reveal key={f.title} delay={i * 90}>
@@ -296,7 +292,7 @@ export default function Landing() {
                 {
                   k: "Static Data Layer",
                   sub: "JSON",
-                  items: ["prices · financials", "snapshot-2021 ratios", "ideal-portfolios · nifty"],
+                  items: ["prices · financials", "snapshot-2021 ratios", "nifty benchmark series"],
                 },
                 {
                   k: "Frontend",
@@ -306,7 +302,7 @@ export default function Landing() {
                 {
                   k: "Scoring + Deploy",
                   sub: "TS / Vercel",
-                  items: ["dual-component engine", "server-only ideal data", "Vercel edge + SSG"],
+                  items: ["dual-component engine", "scenario-weighted rubric", "Vercel edge + SSG"],
                 },
               ].map((c, i) => (
                 <div key={c.k} className="relative">

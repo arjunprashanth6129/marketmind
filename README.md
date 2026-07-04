@@ -53,8 +53,7 @@ cross-checked, and then frozen into static files so the numbers never drift.
   record rather than on hindsight.
 - **Portfolio simulator** (`/simulator`, password-gated for the host): pick a
   scenario, build a portfolio inside a capital budget, and watch it plotted
-  against that scenario's ideal portfolio and the Nifty 50, with a score out
-  of 10.
+  against the Nifty 50 benchmark, with a score out of 10.
 - **Scoring**: half the score is how the portfolio actually performed, the other
   half is the quality of the picks. Details below.
 
@@ -85,31 +84,49 @@ faster, free to host, and reproducible.
 Final Score (0-10) = 0.5 * Performance + 0.5 * Fundamentals
 ```
 
-**Performance (0-10)** compares the participant's total return to the ideal
-portfolio's return for that scenario, both indexed to 100 at June 2021:
+**Performance (0-10)** compares the participant's total return to the Nifty 50
+(+53.7% over the window), both indexed to 100 at June 2021:
 
 ```
-relative = participant_return / ideal_return
-10 if relative >= 1.0   (capped, you can't beat "perfect")
- 9 if 0.90 to 0.99 ... down to 1 if 0 to 0.19
- 0 if the portfolio lost money
+relative = participant_return / nifty_return
+score    = 1 + 6 * min(relative, 1.5)   (rounded, capped 1-10)
+
+matching the Nifty  -> ~7      beating it by 50%+ -> 10
+half the Nifty      -> ~4      a losing portfolio -> 0
 ```
 
-**Fundamentals (0-10)** averages a per-stock rubric over the holdings:
+**Fundamentals (0-10)** is scenario-specific. Every stock gets five 0-1
+sub-scores from its June-2021 numbers, and each scenario weights them
+differently before they're averaged across the holdings:
 
-| Metric | Points |
+| Sub-score | Built from |
 |---|---|
-| ROE | >25% = 3, 15-25% = 2, 5-15% = 1, else 0 |
-| Debt / Equity | <0.3 = 2, 0.3-1.0 = 1, >1.0 = 0 (banks/NBFCs: 1 if ROE and CFO are healthy) |
-| Cash flow from ops | positive = 2, negative = 0 |
-| Revenue/profit consistency | both 3yr CAGRs positive and EPS tracks profit = 2, partial = 1, declining = 0 |
-| Promoter holding | >50% = 1, 25-50% = 0.5, under 25% / none = 0 |
+| Growth | ROE + revenue/profit 3yr CAGR (a compounder) |
+| Value | P/E — low is better (penalises overpaying) |
+| Income | dividend yield |
+| Stability | low Debt/Equity + large-cap size + positive cash flow |
+| Quality | cash flow + promoter holding + earnings consistency |
 
-A "trap" stock (one of the deliberate weak picks) scores 0 on the fundamental
-side no matter what the rubric says. The 50/50 split is the whole point: I didn't
-want a lucky punt to win, and I didn't want good-looking fundamentals to win if
-the bet went nowhere. Splitting them forces you to get both the process and the
-outcome right.
+```
+Fundamentals = 10 * sum( weight[scenario][k] * subscore[k] )
+```
+
+| Scenario | Growth | Value | Income | Stability | Quality |
+|---|---|---|---|---|---|
+| Fresh Graduate | 0.45 | 0.05 | 0.00 | 0.10 | 0.40 |
+| Newly Married | 0.35 | 0.10 | 0.05 | 0.15 | 0.35 |
+| Young Family | 0.25 | 0.15 | 0.10 | 0.20 | 0.30 |
+| Pre-Retirement | 0.10 | 0.20 | 0.20 | 0.25 | 0.25 |
+| Elderly Retired | 0.05 | 0.20 | 0.30 | 0.25 | 0.20 |
+
+So a high-ROE, high-P/E compounder scores well for a Fresh Graduate (growth and
+quality dominate, valuation barely counts) but poorly for an Elderly Retired
+couple (where income, stability and valuation carry the weight). There's no
+blocklist — a weak stock just earns low sub-scores, and an expensive-but-good
+business can look fine on fundamentals yet still get punished on the performance
+half. The 50/50 split is the whole point: I didn't want a lucky punt to win, and
+I didn't want good-looking fundamentals to win if the bet went nowhere.
+Splitting them forces you to get both the process and the outcome right.
 
 ## Architecture
 
@@ -120,12 +137,14 @@ outcome right.
  yfinance prices       -->  prices.json        -->  /  landing            -->  SSG:
  screener.in fund.          financials.json         /screener  (SSG)            50 stock
  corp-action fixes          snapshot-2021.json      /screener/[ticker]          pages +
- eligibility screen         ideal-portfolios.json   /simulator (gated)          edge fns
- portfolio builder          nifty.json              /api/stats
+ verification passes        nifty.json              /simulator (gated)          edge fns
+                                                     /api/stats
 ```
 
-The ideal-portfolio file is read only on the server (by the scoring action), so
-the "answer key" never reaches the browser.
+Scoring runs in a server action behind the host password gate, so results only
+reveal when the host runs a submission. Both halves — performance vs the Nifty
+and the scenario-weighted fundamentals — are computed purely from the public
+snapshot data, so there's no hidden data and the maths is fully explainable.
 
 ## Tech stack
 
@@ -170,7 +189,6 @@ python scripts/screener_fetch.py      # screener.in FY2015-FY2021 fundamentals (
 python scripts/build_financials.py    # writes data/financials.json
 python scripts/build_snapshot.py      # writes data/snapshot-2021.json
 python scripts/fetch_prices.py        # monthly series -> data/prices.json + nifty.json
-python scripts/build_portfolios.py    # eligibility screen + the 5 ideal portfolios
 ```
 
 ## License

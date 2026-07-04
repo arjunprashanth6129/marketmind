@@ -20,7 +20,7 @@ export async function runSimulation(
     .filter((h) => h && h.id && Number(h.qty) > 0)
     .map((h) => ({ id: String(h.id), qty: Math.floor(Number(h.qty)) }));
   if (clean.length === 0) return { error: "Add at least one holding." };
-  // Scoring (performance vs the scenario's ideal portfolio + fundamentals) runs
-  // here on the server; the ideal stock picks never leave the server.
+  // Scoring (performance vs the Nifty 50 + scenario-weighted fundamentals) runs
+  // here on the server, behind the host password gate.
   return scoreSimulation(String(scenarioId), clean);
 }

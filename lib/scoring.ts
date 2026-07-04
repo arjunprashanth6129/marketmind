@@ -1,129 +1,135 @@
-// SERVER-ONLY scoring layer.
+// Scoring layer: performance vs the Nifty 50 + scenario-weighted fundamentals.
 //
-// This module imports data/ideal-portfolios.json (the verified "model answer"
-// portfolios). It must ONLY be imported by the "use server" action
-// (app/simulator/actions.ts) - never by a client component - so the ideal
-// stock picks never reach the student. Only the *indexed performance line*
-// (numbers) and the resulting scores cross to the client, never the tickers.
+// There is no hidden "answer key" any more - both halves of the score run on
+// public June-2021 snapshot data and the public Nifty series, so the maths is
+// fully explainable to students. It still runs behind the "use server" action
+// (app/simulator/actions.ts) so results only reveal when the host runs them.
 
-import idealPortfolios from "@/data/ideal-portfolios.json";
 import { computePortfolio, type Holding, type PortfolioResult } from "./calc";
-import { getSnapshot } from "./data";
-
-// The 10 deliberate "Bad" list tickers - auto-zero on the fundamental component.
-const BAD = new Set([
-  "RAJESHEXPO", "JPASSOCIAT", "RELAXO", "AAVAS", "AARTIIND",
-  "ZEEL", "GUJGASLTD", "IGL", "PAYTM", "WIPRO",
-]);
-
-interface IdealEntry {
-  return: number;
-  series: Map<string, number>;
-}
-const IDEAL = new Map<string, IdealEntry>(
-  (
-    idealPortfolios as {
-      scenarioId: string;
-      portfolio_total_return_pct: number;
-      monthly_indexed_series: { date: string; value: number }[];
-    }[]
-  ).map((p) => [
-    p.scenarioId,
-    {
-      return: p.portfolio_total_return_pct,
-      series: new Map(p.monthly_indexed_series.map((s) => [s.date, s.value])),
-    },
-  ]),
-);
+import { getSnapshot, getNiftySim, type Snapshot } from "./data";
+import { getScenario } from "./scenarios";
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
+const clamp = (lo: number, hi: number, n: number) => Math.max(lo, Math.min(hi, n));
 
-// Per-stock fundamental score (0-10) from June-2021 snapshot data.
-export function fundamentalScore(id: string): number {
-  if (BAD.has(id)) return 0; // Bad-list stock: auto-zero regardless of metrics
-  const s = getSnapshot(id);
-  if (!s) return 0;
-  let pts = 0;
+// Nifty 50 total return over the fixed window (first vs last month of the
+// simulator series). Computed once - the window is frozen, so this is constant.
+const NIFTY_RETURN = (() => {
+  const s = getNiftySim();
+  if (s.length < 2) return 0;
+  return (s[s.length - 1].close / s[0].close - 1) * 100;
+})();
 
-  // ROE: >25 = 3, 15-25 = 2, 5-15 = 1, <5/neg = 0
+export function niftyReturnPct(): number {
+  return round1(NIFTY_RETURN);
+}
+
+// ---- The five 0-1 fundamental sub-scores (same for every stock) ----------
+
+const cfoPositive = (s: Snapshot) => (!(s.cfoNegativeYears ?? []).includes("FY2021") ? 1 : 0);
+
+// Growth: high ROE + healthy revenue/profit CAGR → a compounder.
+function growthSub(s: Snapshot): number {
   const roe = s.roe;
-  if (roe != null) {
-    if (roe > 25) pts += 3;
-    else if (roe >= 15) pts += 2;
-    else if (roe >= 5) pts += 1;
-  }
+  const roeScore =
+    roe == null ? 0 : roe > 25 ? 1 : roe >= 15 ? 0.7 : roe >= 10 ? 0.4 : roe >= 5 ? 0.2 : 0;
 
-  // CFO: positive = 2, negative = 0  (FY2021 not flagged negative)
-  const cfoPositive = !(s.cfoNegativeYears ?? []).includes("FY2021");
-  if (cfoPositive) pts += 2;
+  const cagrs = [s.revenueGrowth3yr, s.profitGrowth3yr].filter((x): x is number => x != null);
+  const avg = cagrs.length ? cagrs.reduce((a, b) => a + b, 0) / cagrs.length : null;
+  const cagrScore =
+    avg == null ? 0 : avg > 20 ? 1 : avg >= 10 ? 0.7 : avg >= 5 ? 0.4 : avg >= 0 ? 0.2 : 0;
 
-  // D/E: <0.3 = 2, 0.3-1.0 = 1, >1.0 = 0.
-  // Banks/NBFCs (D/E n/a): 1 pt if ROE and CFO are both healthy.
+  return 0.5 * roeScore + 0.5 * cagrScore;
+}
+
+// Value: low P/E scores high; loss-making / no earnings (null or <=0) → 0.
+function valueSub(s: Snapshot): number {
+  const pe = s.pe;
+  if (pe == null || pe <= 0) return 0;
+  return pe < 12 ? 1 : pe < 18 ? 0.8 : pe < 25 ? 0.6 : pe < 35 ? 0.35 : pe < 50 ? 0.15 : 0;
+}
+
+// Income: dividend yield.
+function incomeSub(s: Snapshot): number {
+  const dy = s.dividendYield;
+  if (dy == null || dy <= 0) return 0;
+  return dy >= 4 ? 1 : dy >= 3 ? 0.8 : dy >= 2 ? 0.6 : dy >= 1 ? 0.35 : 0.1;
+}
+
+// Stability: low leverage + large-cap size + positive operating cash flow.
+function stabilitySub(s: Snapshot): number {
   const de = s.debtToEquity;
-  if (de == null) {
-    if (roe != null && roe >= 10 && cfoPositive) pts += 1;
-  } else if (de < 0.3) pts += 2;
-  else if (de <= 1.0) pts += 1;
+  const deScore =
+    de == null ? 0.5 // banks/NBFCs: D/E not meaningful → neutral
+      : de < 0.3 ? 1 : de < 0.6 ? 0.8 : de < 1 ? 0.5 : de < 2 ? 0.25 : 0;
+  const cap = s.marketCapCategory;
+  const capScore =
+    cap === "Large" ? 1 : cap === "Mid" ? 0.6 : cap === "Small" ? 0.3 : cap === "Micro" ? 0.1 : 0.3;
+  return 0.45 * deScore + 0.35 * capScore + 0.2 * cfoPositive(s);
+}
 
-  // Revenue/Profit consistency: both 3yr CAGR positive AND EPS "tracks net
-  // profit" = 2; partial = 1; declining (negative CAGR or loss flag) = 0.
-  const rev = s.revenueGrowth3yr;
-  const prof = s.profitGrowth3yr;
+// Quality: cash flow, promoter skin-in-the-game, earnings consistency.
+function qualitySub(s: Snapshot): number {
+  const pr = s.promoterHolding;
+  const promoterScore = pr == null ? 0 : pr > 50 ? 1 : pr >= 25 ? 0.6 : pr > 0 ? 0.2 : 0;
+
   const note = s.epsConsistencyNote ?? "";
   const tracks = /in line|tracks net profit/i.test(note);
   const lossFlag = /loss-making/i.test(note);
-  if (lossFlag || (rev != null && rev < 0) || (prof != null && prof < 0)) {
-    // declining → 0 pts
-  } else if (rev != null && prof != null && rev > 0 && prof > 0 && tracks) {
-    pts += 2;
-  } else {
-    pts += 1; // partial
-  }
+  const rev = s.revenueGrowth3yr;
+  const prof = s.profitGrowth3yr;
+  let consistency: number;
+  if (lossFlag || (rev != null && rev < 0) || (prof != null && prof < 0)) consistency = 0;
+  else if (rev != null && prof != null && rev > 0 && prof > 0 && tracks) consistency = 1;
+  else consistency = 0.5;
 
-  // Promoter holding: >50 = 1, 25-50 = 0.5, <25 / no promoter = 0
-  const pr = s.promoterHolding;
-  if (pr != null && pr > 50) pts += 1;
-  else if (pr != null && pr >= 25) pts += 0.5;
-
-  return Math.min(10, pts);
+  return 0.4 * cfoPositive(s) + 0.3 * promoterScore + 0.3 * consistency;
 }
 
-// Performance score (0-10): participant return vs the scenario IDEAL return.
-export function performanceScore(participantReturn: number, idealReturn: number): number {
+// Per-stock fundamental score (0-10), weighted by the scenario's profile.
+export function fundamentalScore(id: string, scenarioId: string): number {
+  const s = getSnapshot(id);
+  const scenario = getScenario(scenarioId);
+  if (!s || !scenario) return 0;
+  const w = scenario.fund;
+  const total =
+    w.growth * growthSub(s) +
+    w.value * valueSub(s) +
+    w.income * incomeSub(s) +
+    w.stability * stabilitySub(s) +
+    w.quality * qualitySub(s);
+  return clamp(0, 10, total * 10);
+}
+
+// Performance score (0-10): participant return vs the Nifty 50.
+// Matching the index scores ~7; beating it by 50%+ caps at 10; a loss = 0.
+export function performanceScore(participantReturn: number, benchmarkReturn: number): number {
   if (participantReturn < 0) return 0;
-  if (idealReturn <= 0) return 10;
-  const rel = participantReturn / idealReturn;
-  if (rel >= 1) return 10; // cap at 10 even if they beat the ideal
-  return Math.max(1, Math.floor(rel * 10));
+  if (benchmarkReturn <= 0) return 10;
+  const rel = participantReturn / benchmarkReturn;
+  return clamp(1, 10, Math.round(1 + 6 * Math.min(rel, 1.5)));
 }
 
 export function scoreSimulation(
   scenarioId: string,
   holdings: Holding[],
 ): PortfolioResult | { error: string } {
-  const ideal = IDEAL.get(scenarioId);
-  if (!ideal) return { error: "Unknown scenario." };
+  if (!getScenario(scenarioId)) return { error: "Unknown scenario." };
 
   const result = computePortfolio(holdings);
 
-  // per-stock fundamental scores
+  // per-stock fundamental scores, weighted for this scenario
   result.holdings = result.holdings.map((h) => ({
     ...h,
-    fundamentalScore: fundamentalScore(h.id),
+    fundamentalScore: fundamentalScore(h.id, scenarioId),
   }));
   const fund = result.holdings.length
     ? result.holdings.reduce((s, h) => s + (h.fundamentalScore ?? 0), 0) /
       result.holdings.length
     : 0;
-  const perf = performanceScore(result.totalReturn, ideal.return);
+  const perf = performanceScore(result.totalReturn, NIFTY_RETURN);
 
-  // merge the ideal portfolio's indexed line into the timeline (numbers only)
-  result.timeline = result.timeline.map((t) => ({
-    ...t,
-    ideal: ideal.series.get(t.date) ?? null,
-  }));
-
-  result.idealReturn = ideal.return;
+  result.niftyReturn = round1(NIFTY_RETURN);
   result.performanceScore = perf;
   result.fundamentalScore = round1(fund);
   result.finalScore = round1(perf * 0.5 + fund * 0.5);

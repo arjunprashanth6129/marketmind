@@ -83,7 +83,6 @@ export default function Methodology() {
             writes plain JSON (<code className="text-cyan-200">prices.json</code>,{" "}
             <code className="text-cyan-200">financials.json</code>,{" "}
             <code className="text-cyan-200">snapshot-2021.json</code>,{" "}
-            <code className="text-cyan-200">ideal-portfolios.json</code>,{" "}
             <code className="text-cyan-200">nifty.json</code>). Next.js statically
             generates all 50 stock pages from those files. It's fast, costs
             nothing to host, and anyone can reproduce it.
@@ -110,7 +109,7 @@ export default function Methodology() {
           </p>
         </Section>
 
-        <Section id="fundamentals" title="Fundamentals and the eligible-stock screen">
+        <Section id="fundamentals" title="Fundamentals and the teaching universe">
           <p>
             FY2015 to FY2021 financials and the June-2021 ratios came from
             screener.in, scraped politely (a 2-second gap between requests, with
@@ -120,48 +119,69 @@ export default function Methodology() {
             and Net-Profit 3-year CAGR, EPS, CFO, P/E, and Promoter Holding.
           </p>
           <p>
-            A stock only makes it into an ideal portfolio if it beat the Nifty 50
-            (+{PROJECT.niftyReturn}%) and has fundamentals to back it up: ROE of at
-            least 10%, but only when the rest of the picture holds up too
-            (positive cash flow, sensible leverage, no loss years, no governance
-            flag). For a bank or NBFC, negative operating cash flow is normal when
-            the loan book is growing, so I treat that as expected rather than a
-            warning sign.
+            The universe is a deliberately mixed set of 50 NSE names - roughly 40
+            solid businesses and 10 weaker ones - spread across market caps and
+            sectors. There is no blocklist or hidden "good stocks" flag: every
+            stock is scored purely on its own June-2021 numbers (see the scoring
+            section below), so a weak pick loses marks because its fundamentals
+            are weak, not because it was tagged. For a bank or NBFC, negative
+            operating cash flow is normal when the loan book is growing, so the
+            scoring treats a bank's non-meaningful Debt-Equity as neutral rather
+            than a warning sign.
           </p>
         </Section>
 
         <Section id="scoring" title="The dual scoring system">
           <p>
             A submitted portfolio is scored out of 10 as an even split between how
-            it performed and how good the picks were:
+            it performed and how good the picks were for that investor:
           </p>
           <Formula>{`Final = 0.5 x Performance  +  0.5 x Fundamentals`}</Formula>
           <p>
             <strong>Performance (0-10)</strong> measures the participant's total
-            return against that scenario's ideal-portfolio return, both indexed to
-            100 at June 2021:
+            return against the Nifty 50 (+{PROJECT.niftyReturn}% over the window),
+            both indexed to 100 at June 2021:
           </p>
-          <Formula>{`relative = participant_return / ideal_return
-10 if relative >= 1.0   (capped; you can't beat "perfect")
- 9 if 0.90 to 0.99 ... down to 1 if 0 to 0.19
- 0 if the portfolio lost money`}</Formula>
+          <Formula>{`relative = participant_return / nifty_return
+score   = 1 + 6 x min(relative, 1.5)   (rounded, capped 1-10)
+matching the Nifty  -> ~7      beating it by 50%+ -> 10
+half the Nifty      -> ~4      a losing portfolio -> 0`}</Formula>
           <p>
-            I grade against the ideal portfolio rather than the Nifty on purpose.
-            A flat index is the same target for everyone; the ideal portfolio is
-            the best sensible answer for that specific risk profile, which is a
-            fairer and more useful thing to aim at. The Nifty line still shows on
-            the chart as a familiar reference point.
+            The index is the benchmark everyone knows, so it's the honest thing to
+            grade against: matching it is a solid ~7, adding real value over it
+            gets you to 10, and trailing it pulls you down. The Nifty line is drawn
+            right on the results chart so you can see exactly where you sat
+            relative to it.
           </p>
           <p>
-            <strong>Fundamentals (0-10)</strong> is the average of a per-stock
-            rubric across the holdings:
+            <strong>Fundamentals (0-10)</strong> is where the scenario comes in.
+            Every stock gets five 0-1 sub-scores from its June-2021 numbers, and
+            each scenario weights them differently before averaging across your
+            holdings:
           </p>
-          <Formula>{`ROE        >25% = 3 | 15-25% = 2 | 5-15% = 1 | else 0
-D/E        <0.3 = 2 | 0.3-1.0 = 1 | >1.0 = 0   (banks/NBFC: 1 if ROE+CFO healthy)
-CFO        positive = 2 | negative = 0
-Consistency rev & profit CAGR positive + EPS tracks profit = 2 | partial 1 | 0
-Promoter   >50% = 1 | 25-50% = 0.5 | <25% / none = 0
-A "trap" stock scores 0 here regardless of its metrics.`}</Formula>
+          <Formula>{`Growth     high ROE + revenue/profit CAGR (a compounder)
+Value      low P/E  (penalises overpaying)
+Income     dividend yield
+Stability  low leverage + large-cap size + positive cash flow
+Quality    cash flow + promoter holding + earnings consistency
+
+Fundamentals = 10 x sum( weight[scenario][k] x subscore[k] )`}</Formula>
+          <p>
+            The weights are what make a pick "right" or "wrong" for a person. A
+            Fresh Graduate leans hard on growth and quality and barely cares about
+            valuation, so a high-ROE, high-P/E compounder scores well. Hand the
+            exact same stock to an Elderly Retired couple - where income,
+            stability and valuation carry most of the weight - and that rich P/E
+            and missing dividend drag it down. Same company, same numbers,
+            different verdict, because the two investors need different things.
+          </p>
+          <p>
+            Note that there's no blocklist: a weak stock simply earns low
+            sub-scores, and an expensive-but-good business can still score fine on
+            fundamentals while getting punished on the performance half when its
+            return trails the index - which is exactly the lesson that good
+            fundamentals and a good outcome are not the same thing.
+          </p>
           <p>
             The 50/50 weighting is deliberate. Score on returns alone and a lucky
             punt wins; score on fundamentals alone and you reward a good-looking
@@ -186,8 +206,8 @@ A "trap" stock scores 0 here regardless of its metrics.`}</Formula>
               backtest a close approximation rather than a tick-by-tick model.
             </li>
             <li>
-              Each ideal portfolio is one reasonable construction for its
-              scenario, not a proven mathematical optimum.
+              The scenario weights are a reasoned teaching model of each risk
+              profile, not a proven mathematical optimum.
             </li>
           </ul>
         </Section>

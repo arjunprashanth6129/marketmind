@@ -253,14 +253,14 @@ export default function Simulator({
                 weight="50%"
                 score={result.performanceScore}
                 accent={scenario.accent}
-                hint={`Your return ${pctSigned(result.totalReturn)} vs ideal portfolio +${result.idealReturn}%`}
+                hint={`Your return ${pctSigned(result.totalReturn)} vs Nifty 50 +${result.niftyReturn}%`}
               />
               <ComponentScore
                 label="Fundamentals"
                 weight="50%"
                 score={result.fundamentalScore}
                 accent={scenario.accent}
-                hint="Average June-2021 quality of your chosen stocks"
+                hint={`June-2021 quality of your picks, weighted for a ${scenario.name.toLowerCase()}`}
               />
             </div>
           </div>
@@ -271,13 +271,12 @@ export default function Simulator({
                 Indexed performance (100 = June 2021)
               </h2>
               <span className="text-xs text-slate-500">
-                Portfolio vs Ideal vs Nifty 50
+                Portfolio vs Nifty 50
               </span>
             </div>
             <p className="mb-3 text-xs text-slate-500">
               Indexed to 100 at June 2021. Solid = your portfolio, dashed = the
-              scenario&apos;s ideal portfolio (scoring benchmark), dotted = Nifty
-              50 (visual reference only, not used for scoring).
+              Nifty 50 (the performance benchmark you&apos;re scored against).
             </p>
             <PerfChart data={result.timeline} accent={scenario.accent} />
           </div>
