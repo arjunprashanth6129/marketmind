@@ -1,18 +1,11 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { STOCKS } from "@/lib/stocks";
 import { entryPrice } from "@/lib/data";
+import { isAuthed } from "@/lib/auth";
 import LoginGate from "./LoginGate";
 import Simulator from "./Simulator";
 
 export const metadata = { title: "Portfolio Simulator - host only" };
-
-async function isAuthed(): Promise<boolean> {
-  const pw = process.env.SIMULATOR_PASSWORD;
-  if (!pw) return false;
-  const store = await cookies();
-  return store.get("sim_session")?.value === pw;
-}
 
 export default async function SimulatorPage() {
   const configured = Boolean(process.env.SIMULATOR_PASSWORD);

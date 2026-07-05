@@ -237,7 +237,7 @@ open("data/final-verified-stock-universe.md","w").write("\n".join(md))
 # missing-data report
 mm=["# Missing / Substituted Data Report","",
     "Fields that could not be sourced cleanly from screener.in or yfinance after trying both. "
-    "Per spec, these are reported (not fabricated). Grouped by field.",""]
+    "Where a field could not be sourced cleanly it is reported here rather than filled in. Grouped by field.",""]
 from collections import defaultdict
 byfield=defaultdict(list)
 seen=set()

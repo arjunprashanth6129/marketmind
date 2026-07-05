@@ -18,13 +18,6 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    ) {
-      setShown(true);
-      return;
-    }
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -40,11 +33,13 @@ export default function Reveal({
     return () => io.disconnect();
   }, []);
 
+  // Reduced-motion users get an instant reveal (no transition/rise) via the
+  // motion-reduce variants; everyone else gets the fade-in + rise.
   return (
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out ${
+      className={`transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
         shown ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
       } ${className}`}
     >

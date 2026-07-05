@@ -24,28 +24,24 @@ export default function CountUp({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setN(value);
-      return;
-    }
     let raf = 0;
-    let start = 0;
-    const animate = (t: number) => {
-      if (!start) start = t;
-      const p = Math.min(1, (t - start) / durationMs);
-      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-      setN(value * eased);
-      if (p < 1) raf = requestAnimationFrame(animate);
-    };
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          raf = requestAnimationFrame(animate);
-          io.disconnect();
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+          setN(value);
+          return;
         }
+        let start = 0;
+        const animate = (t: number) => {
+          if (!start) start = t;
+          const p = Math.min(1, (t - start) / durationMs);
+          const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+          setN(value * eased);
+          if (p < 1) raf = requestAnimationFrame(animate);
+        };
+        raf = requestAnimationFrame(animate);
       },
       { threshold: 0.4 },
     );

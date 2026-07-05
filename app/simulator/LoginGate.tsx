@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LoginGate({ configured }: { configured: boolean }) {
@@ -70,9 +71,9 @@ export default function LoginGate({ configured }: { configured: boolean }) {
             {loading ? "Checking…" : "Unlock"}
           </button>
         </form>
-        <a href="/" className="mt-4 block text-center text-xs text-slate-500 hover:text-slate-300">
+        <Link href="/" className="mt-4 block text-center text-xs text-slate-500 hover:text-slate-300">
           ← Back to home
-        </a>
+        </Link>
       </div>
     </div>
   );

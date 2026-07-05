@@ -4,7 +4,7 @@ export const PROJECT = {
   tagline: "Financial Literacy Simulator",
   description:
     "A full-stack backtesting simulator that teaches fundamental analysis through hands-on portfolio construction - built on verified NSE historical data.",
-  github: "https://github.com/arjunprashanth6129/nse-time-capsule",
+  github: "https://github.com/arjunprashanth6129/marketmind",
   live: "https://nse-time-capsule.vercel.app",
   author: "Arjun",
   niftyReturn: 53.7, // verified Nifty 50 return, Jun 2021 -> Jun 2026

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import {
   CartesianGrid,
   Line,
@@ -15,7 +15,19 @@ import {
 import { monthLabel } from "@/lib/format";
 import type { TimelinePoint } from "@/lib/calc";
 
-function TooltipBox({ active, payload, accent }: any) {
+// Render the chart only after hydration (recharts measures the DOM).
+const emptySubscribe = () => () => {};
+function useMounted() {
+  return useSyncExternalStore(emptySubscribe, () => true, () => false);
+}
+
+interface TooltipBoxProps {
+  active?: boolean;
+  payload?: { payload: TimelinePoint }[];
+  accent?: string;
+}
+
+function TooltipBox({ active, payload, accent }: TooltipBoxProps) {
   if (!active || !payload?.length) return null;
   const p = payload[0].payload as TimelinePoint;
   return (
@@ -47,8 +59,7 @@ export default function PerfChart({
   }
   const ticks = Array.from(years.values());
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   if (!mounted) return <div className="h-80 w-full rounded-md bg-slate-900" />;
 
   return (

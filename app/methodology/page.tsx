@@ -73,7 +73,7 @@ export default function Methodology() {
         <Section id="static" title="Why static JSON instead of a database">
           <p>
             The dataset is frozen. The simulation window (June 2021 to June 2026)
-            and the June-2021 fundamentals are never going to change, so there's
+            and the June-2021 fundamentals are never going to change, so there&apos;s
             nothing for a live database or third-party API to do at runtime
             except add latency, an API key to manage, and a way for results to
             quietly drift.
@@ -84,7 +84,7 @@ export default function Methodology() {
             <code className="text-cyan-200">financials.json</code>,{" "}
             <code className="text-cyan-200">snapshot-2021.json</code>,{" "}
             <code className="text-cyan-200">nifty.json</code>). Next.js statically
-            generates all 50 stock pages from those files. It's fast, costs
+            generates all 50 stock pages from those files. It&apos;s fast, costs
             nothing to host, and anyone can reproduce it.
           </p>
         </Section>
@@ -98,14 +98,14 @@ export default function Methodology() {
             which then poisons every return you calculate.
           </p>
           <p>
-            Splits are the easy case. Demergers aren't, and auto-adjust doesn't
+            Splits are the easy case. Demergers aren&apos;t, and auto-adjust doesn&apos;t
             touch them. When Tata Motors split into its passenger- and
             commercial-vehicle businesses in 2025, the surviving ticker fell by
             the value of the part that left. I reconstructed that by adding the
-            demerged entity's value back, so the figure reflects what someone who
+            demerged entity&apos;s value back, so the figure reflects what someone who
             held since June 2021 actually ended up with. Market caps use the real
             June-2021 price times the shares outstanding back then, with the split
-            factor applied, not today's share count.
+            factor applied, not today&apos;s share count.
           </p>
         </Section>
 
@@ -115,18 +115,18 @@ export default function Methodology() {
             screener.in, scraped politely (a 2-second gap between requests, with
             everything cached to disk) and then cross-checked. Ten metrics are
             stored per stock: ROE, Debt/Equity, Dividend Yield, Operating Margin
-            (a stand-in for gross margin, which screener doesn't expose), Revenue
+            (a stand-in for gross margin, which screener doesn&apos;t expose), Revenue
             and Net-Profit 3-year CAGR, EPS, CFO, P/E, and Promoter Holding.
           </p>
           <p>
             The universe is a deliberately mixed set of 50 NSE names - roughly 40
             solid businesses and 10 weaker ones - spread across market caps and
-            sectors. There is no blocklist or hidden "good stocks" flag: every
+            sectors. There is no blocklist or hidden &quot;good stocks&quot; flag: every
             stock is scored purely on its own June-2021 numbers (see the scoring
             section below), so a weak pick loses marks because its fundamentals
             are weak, not because it was tagged. For a bank or NBFC, negative
             operating cash flow is normal when the loan book is growing, so the
-            scoring treats a bank's non-meaningful Debt-Equity as neutral rather
+            scoring treats a bank&apos;s non-meaningful Debt-Equity as neutral rather
             than a warning sign.
           </p>
         </Section>
@@ -138,7 +138,7 @@ export default function Methodology() {
           </p>
           <Formula>{`Final = 0.5 x Performance  +  0.5 x Fundamentals`}</Formula>
           <p>
-            <strong>Performance (0-10)</strong> measures the participant's total
+            <strong>Performance (0-10)</strong> measures the participant&apos;s total
             return against the Nifty 50 (+{PROJECT.niftyReturn}% over the window),
             both indexed to 100 at June 2021:
           </p>
@@ -147,7 +147,7 @@ score   = 1 + 6 x min(relative, 1.5)   (rounded, capped 1-10)
 matching the Nifty  -> ~7      beating it by 50%+ -> 10
 half the Nifty      -> ~4      a losing portfolio -> 0`}</Formula>
           <p>
-            The index is the benchmark everyone knows, so it's the honest thing to
+            The index is the benchmark everyone knows, so it&apos;s the honest thing to
             grade against: matching it is a solid ~7, adding real value over it
             gets you to 10, and trailing it pulls you down. The Nifty line is drawn
             right on the results chart so you can see exactly where you sat
@@ -167,7 +167,7 @@ Quality    cash flow + promoter holding + earnings consistency
 
 Fundamentals = 10 x sum( weight[scenario][k] x subscore[k] )`}</Formula>
           <p>
-            The weights are what make a pick "right" or "wrong" for a person. A
+            The weights are what make a pick &quot;right&quot; or &quot;wrong&quot; for a person. A
             Fresh Graduate leans hard on growth and quality and barely cares about
             valuation, so a high-ROE, high-P/E compounder scores well. Hand the
             exact same stock to an Elderly Retired couple - where income,
@@ -176,7 +176,7 @@ Fundamentals = 10 x sum( weight[scenario][k] x subscore[k] )`}</Formula>
             different verdict, because the two investors need different things.
           </p>
           <p>
-            Note that there's no blocklist: a weak stock simply earns low
+            Note that there&apos;s no blocklist: a weak stock simply earns low
             sub-scores, and an expensive-but-good business can still score fine on
             fundamentals while getting punished on the performance half when its
             return trails the index - which is exactly the lesson that good
@@ -195,11 +195,11 @@ Fundamentals = 10 x sum( weight[scenario][k] x subscore[k] )`}</Formula>
           <ul className="list-disc space-y-2 pl-5 text-slate-300">
             <li>
               Returns are price returns, not total returns. Dividends show up as a
-              fundamental metric but aren't reinvested into the performance number.
+              fundamental metric but aren&apos;t reinvested into the performance number.
             </li>
             <li>
               The universe is a hand-picked 50 stocks (40 solid names plus 10
-              deliberate weak ones), so it's a teaching set, not an index.
+              deliberate weak ones), so it&apos;s a teaching set, not an index.
             </li>
             <li>
               Holdings are whole shares on a monthly price grid, which makes the

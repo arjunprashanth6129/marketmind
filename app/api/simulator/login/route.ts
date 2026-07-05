@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { safeEqual, sessionToken, SESSION_COOKIE } from "@/lib/auth";
 
 export async function POST(request: Request) {
   const pw = process.env.SIMULATOR_PASSWORD;
@@ -11,15 +12,15 @@ export async function POST(request: Request) {
   let password = "";
   try {
     const body = await request.json();
-    password = String(body?.password ?? "");
+    password = String(body?.password ?? "").slice(0, 256);
   } catch {
     return Response.json({ error: "Bad request." }, { status: 400 });
   }
-  if (password !== pw) {
+  if (!safeEqual(password, pw)) {
     return Response.json({ error: "Incorrect password." }, { status: 401 });
   }
   const store = await cookies();
-  store.set("sim_session", pw, {
+  store.set(SESSION_COOKIE, sessionToken(pw), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

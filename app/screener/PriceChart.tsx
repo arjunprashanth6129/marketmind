@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import {
   Area,
   AreaChart,
@@ -18,7 +18,13 @@ interface Pt {
   close: number;
 }
 
-function TooltipBox({ active, payload }: any) {
+// Render the chart only after hydration (recharts measures the DOM).
+const emptySubscribe = () => () => {};
+function useMounted() {
+  return useSyncExternalStore(emptySubscribe, () => true, () => false);
+}
+
+function TooltipBox({ active, payload }: { active?: boolean; payload?: { payload: Pt }[] }) {
   if (!active || !payload?.length) return null;
   const p = payload[0].payload as Pt;
   return (
@@ -42,8 +48,7 @@ export default function PriceChart({ data }: { data: Pt[] }) {
     (_, i) => i % 2 === 0,
   );
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   if (!mounted) return <div className="h-72 w-full rounded-md bg-gray-50" />;
 
   return (

@@ -1,6 +1,6 @@
 {
-  "name": "nse-time-capsule",
-  "version": "0.1.0",
+  "name": "marketmind",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,5 +23,8 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
   }
 }

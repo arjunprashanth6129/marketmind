@@ -1,6 +1,6 @@
 # Missing / Substituted Data Report
 
-Fields that could not be sourced cleanly from screener.in or yfinance after trying both. Per spec, these are reported (not fabricated). Grouped by field.
+Fields that could not be sourced cleanly from screener.in or yfinance after trying both. Where a field could not be sourced cleanly it is reported here rather than filled in. Grouped by field.
 
 ## Debt-to-Equity
 - **HDFCBANK** - bank: screener has no clean Borrowings row (deposits dominate); D/E not meaningful

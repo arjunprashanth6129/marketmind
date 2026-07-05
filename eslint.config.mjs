@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Deploy output - never lint build artifacts.
+    ".vercel/**",
   ]),
 ]);
 
