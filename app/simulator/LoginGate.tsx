@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { IconLock } from "../components/Icons";
 
 export default function LoginGate({ configured }: { configured: boolean }) {
   const [password, setPassword] = useState("");
@@ -34,45 +35,67 @@ export default function LoginGate({ configured }: { configured: boolean }) {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-slate-950 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-xl">
-        <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-cyan-400/20 ring-1 ring-inset ring-white/10">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <rect x="3" y="11" width="18" height="11" rx="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-        </div>
-        <h1 className="text-xl font-bold text-slate-100">Portfolio Simulator</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Host-only access - for session facilitator use. Enter the shared host
+    <div className="relative grid min-h-screen place-items-center px-5">
+      <div aria-hidden className="grid-bg absolute inset-0" />
+      <div className="relative w-full max-w-sm rounded-xl border border-line bg-ink-850 p-8 shadow-2xl shadow-ink-950/60">
+        <span className="grid h-11 w-11 place-items-center rounded-lg border border-line-strong bg-ink-800 text-accent">
+          <IconLock className="h-5 w-5" />
+        </span>
+
+        <h1 className="mt-5 text-xl font-semibold tracking-tight text-fg">
+          Portfolio Simulator
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+          Host-only access, for session facilitator use. Enter the shared host
           password to run the backtest.
         </p>
+
         {!configured && (
-          <p className="mt-3 rounded-md bg-amber-500/10 px-3 py-2 text-xs text-amber-400">
-            SIMULATOR_PASSWORD is not set on the server. Add it to{" "}
-            <code>.env.local</code> (or Vercel env vars) and restart.
+          <p className="mt-4 rounded-lg border border-warn/25 bg-warn/[0.07] px-3.5 py-2.5 text-xs leading-relaxed text-warn">
+            <code className="font-mono">SIMULATOR_PASSWORD</code> is not set on
+            the server. Add it to <code className="font-mono">.env.local</code>{" "}
+            (or your Vercel env vars) and restart.
           </p>
         )}
-        <form onSubmit={submit} className="mt-5 space-y-3">
-          <input
-            type="password"
-            autoFocus
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2.5 text-sm text-slate-100 focus:border-blue-500 focus:outline-none"
-          />
-          {error && <p className="text-sm text-red-400">{error}</p>}
+
+        <form onSubmit={submit} className="mt-6 space-y-3">
+          <div>
+            <label htmlFor="host-password" className="sr-only">
+              Host password
+            </label>
+            <input
+              id="host-password"
+              type="password"
+              autoFocus
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? "login-error" : undefined}
+              className="w-full rounded-lg border border-line-strong bg-ink-900 px-3.5 py-2.5 text-sm text-fg placeholder:text-fg-dim focus:border-accent focus:outline-none"
+            />
+          </div>
+
+          {error && (
+            <p id="login-error" role="alert" className="text-sm text-neg">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
             disabled={loading || !configured}
-            className="w-full rounded-md bg-[var(--color-brand)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-50"
+            className="w-full cursor-pointer rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors duration-200 hover:bg-[#6ba0ff] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Checking…" : "Unlock"}
           </button>
         </form>
-        <Link href="/" className="mt-4 block text-center text-xs text-slate-500 hover:text-slate-300">
-          ← Back to home
+
+        <Link
+          href="/"
+          className="mt-5 block text-center text-xs text-fg-dim transition-colors duration-200 hover:text-fg"
+        >
+          Back to home
         </Link>
       </div>
     </div>

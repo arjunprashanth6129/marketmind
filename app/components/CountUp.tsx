@@ -19,7 +19,10 @@ export default function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(0);
+  // Start at the real value so the figure is correct during SSR, without JS,
+  // and whenever the element never scrolls into view. The count-up only takes
+  // over once the observer actually fires.
+  const [n, setN] = useState(value);
 
   useEffect(() => {
     const el = ref.current;
@@ -33,6 +36,7 @@ export default function CountUp({
           setN(value);
           return;
         }
+        setN(0);
         let start = 0;
         const animate = (t: number) => {
           if (!start) start = t;

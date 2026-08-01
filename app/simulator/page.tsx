@@ -4,6 +4,7 @@ import { entryPrice } from "@/lib/data";
 import { isAuthed } from "@/lib/auth";
 import LoginGate from "./LoginGate";
 import Simulator from "./Simulator";
+import { IconLock, IconLogo } from "../components/Icons";
 
 export const metadata = { title: "Portfolio Simulator - host only" };
 
@@ -21,19 +22,28 @@ export default async function SimulatorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800">
-        <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-3">
-          <Link href="/" className="font-semibold text-slate-100">
-            MarketMind
+    <>
+      {/* The simulator keeps a dedicated header because of the logout action,
+          but mirrors SiteHeader's structure so the chrome stays consistent. */}
+      <header className="sticky top-0 z-30 border-b border-line bg-ink-900/85 backdrop-blur-md">
+        <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3">
+          <Link
+            href="/"
+            className="group flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-fg"
+          >
+            <span className="grid h-8 w-8 place-items-center rounded-md border border-line-strong bg-ink-800 p-1.5 text-accent transition-colors duration-200 group-hover:border-accent">
+              <IconLogo />
+            </span>
+            <span className="text-[15px]">MarketMind</span>
           </Link>
-          <span className="rounded-full bg-slate-800 px-2 py-0.5 text-xs text-slate-400">
+          <span className="hidden items-center gap-1.5 rounded-full border border-line-strong bg-ink-850 px-2.5 py-1 text-[11px] font-medium text-fg-muted sm:inline-flex">
+            <IconLock className="h-3 w-3" />
             Simulator · host only
           </span>
           <form action="/api/simulator/logout" method="post" className="ml-auto">
             <button
-              className="text-xs text-slate-400 hover:text-slate-200"
               type="submit"
+              className="cursor-pointer rounded-md px-3 py-1.5 text-[13px] font-medium text-fg-muted transition-colors duration-200 hover:bg-ink-850 hover:text-fg"
             >
               Log out
             </button>
@@ -41,16 +51,19 @@ export default async function SimulatorPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-6">
-        <div className="mb-5">
-          <h1 className="text-2xl font-bold">Portfolio Simulator</h1>
-          <p className="mt-1 text-sm text-slate-400">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+        <div className="mb-7 max-w-2xl">
+          <p className="eyebrow">Host console</p>
+          <h1 className="mt-2 text-[28px] font-semibold tracking-tight text-fg sm:text-3xl">
+            Portfolio Simulator
+          </h1>
+          <p className="mt-3 text-[15px] leading-relaxed text-fg-muted">
             Pick a scenario, enter a team&apos;s portfolio, and reveal how it
             performed over the fixed June 2021 → June 2026 window.
           </p>
         </div>
         <Simulator stocks={stocks} entryPrices={entryPrices} />
       </main>
-    </div>
+    </>
   );
 }

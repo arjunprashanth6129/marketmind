@@ -16,10 +16,9 @@ export default function Og() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background:
-            "linear-gradient(135deg, #0b1120 0%, #111a2e 55%, #1e1b4b 100%)",
+          background: "#0b0f18",
           padding: "72px",
-          color: "#e2e8f0",
+          color: "#e8edf7",
           fontFamily: "sans-serif",
         }}
       >
@@ -28,17 +27,23 @@ export default function Og() {
             style={{
               width: 56,
               height: 56,
-              borderRadius: 14,
-              background: "linear-gradient(135deg,#6366f1,#22d3ee)",
+              borderRadius: 12,
+              border: "1px solid #2a3651",
+              background: "#161f30",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 34,
-              fontWeight: 800,
-              color: "#0b1120",
             }}
           >
-            ₹
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M4 17.5 9 11l3.5 3.5L20 6"
+                stroke="#4d8dff"
+                strokeWidth={2.25}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
           <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: -0.5 }}>
             {PROJECT.name}
@@ -57,12 +62,21 @@ export default function Og() {
           >
             A backtesting simulator that teaches fundamental analysis.
           </div>
-          <div style={{ fontSize: 28, color: "#94a3b8", maxWidth: 900 }}>
+          <div style={{ fontSize: 28, color: "#9aa8c0", maxWidth: 900 }}>
             Verified NSE data · 50 stocks · dual scoring vs the Nifty 50 &amp; scenario fundamentals
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 40, fontSize: 24, color: "#cbd5e1" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 40,
+            fontSize: 24,
+            color: "#7c8aa4",
+            borderTop: "1px solid #1c2537",
+            paddingTop: 28,
+          }}
+        >
           <span>Next.js · TypeScript</span>
           <span>Python data pipeline</span>
           <span>Vercel</span>

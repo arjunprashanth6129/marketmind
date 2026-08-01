@@ -1,4 +1,5 @@
-import Header from "../components/Header";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 import { STOCKS } from "@/lib/stocks";
 import { getSnapshot } from "@/lib/data";
 import ScreenerGrid, { type ScreenerRow } from "./ScreenerGrid";
@@ -29,24 +30,23 @@ export default function ScreenerLanding() {
 
   return (
     <>
-      <Header />
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-6">
-          <div className="text-xs font-semibold uppercase tracking-wide text-[var(--color-brand)]">
-            Stock Screener
-          </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl">
-            {STOCKS.length} NSE stocks, as they looked in June 2021
+      <SiteHeader active="screener" context="Data frozen · June 2021" />
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10">
+        <div className="mb-8 max-w-2xl">
+          <p className="eyebrow">Stock screener</p>
+          <h1 className="mt-2 text-[28px] font-semibold tracking-tight text-fg sm:text-4xl">
+            {STOCKS.length} NSE companies, as they looked in June 2021
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-gray-600">
-            Browse the universe at its starting point for the simulation. Each
-            company opens to a full time-capsule page - snapshot ratios,
-            FY2015-FY2021 financials, a long-term price chart and peer
-            comparison. Nothing here shows data beyond June 2021.
+          <p className="mt-4 text-[15px] leading-relaxed text-fg-muted">
+            The universe at the simulation&apos;s starting line. Every company
+            opens to a full time-capsule page: snapshot ratios, FY2015-FY2021
+            financials, a long-term price chart, and a peer comparison. Nothing
+            here shows data past June 2021.
           </p>
         </div>
         <ScreenerGrid rows={rows} />
       </main>
+      <SiteFooter />
     </>
   );
 }

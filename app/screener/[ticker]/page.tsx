@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Header from "../../components/Header";
+import SiteHeader from "../../components/SiteHeader";
+import SiteFooter from "../../components/SiteFooter";
 import PriceChart from "../PriceChart";
 import {
   STOCK_IDS,
@@ -39,14 +40,47 @@ export function generateMetadata({ params }: { params: Promise<{ ticker: string 
   });
 }
 
-const CAT_COLORS: Record<string, string> = {
-  Large: "bg-blue-100 text-blue-800",
-  Mid: "bg-purple-100 text-purple-800",
-  Small: "bg-orange-100 text-orange-800",
-  Micro: "bg-red-100 text-red-800",
+const CAT_STYLE: Record<string, string> = {
+  Large: "border-accent/30 bg-accent/10 text-accent",
+  Mid: "border-[#8b7cf6]/30 bg-[#8b7cf6]/10 text-[#a996ff]",
+  Small: "border-warn/30 bg-warn/10 text-warn",
+  Micro: "border-neg/30 bg-neg/10 text-neg",
 };
 
-function Chip({
+/* ---------------- primitives ---------------- */
+
+function Panel({
+  id,
+  title,
+  meta,
+  note,
+  children,
+}: {
+  id?: string;
+  title: string;
+  meta?: string;
+  note?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      className="scroll-mt-32 overflow-hidden rounded-xl border border-line bg-ink-850/50"
+    >
+      <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line px-5 py-3.5">
+        <h2 className="text-[15px] font-semibold text-fg">{title}</h2>
+        {meta && <span className="text-xs text-fg-dim">{meta}</span>}
+      </div>
+      <div className="p-5">
+        {note && <p className="mb-4 text-xs leading-relaxed text-fg-dim">{note}</p>}
+        {children}
+      </div>
+    </section>
+  );
+}
+
+/** Key-figure tile used in the snapshot strip. */
+function Metric({
   label,
   value,
   hint,
@@ -56,34 +90,57 @@ function Chip({
   hint?: string;
 }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white px-3 py-2">
-      <div className="text-[11px] uppercase tracking-wide text-gray-400">
+    <div className="px-4 py-3.5">
+      <div className="text-[10px] uppercase tracking-wider text-fg-dim">
         {label}
       </div>
-      <div className="tnum text-base font-bold text-gray-900">{value}</div>
-      {hint && <div className="text-[10px] text-gray-400">{hint}</div>}
+      <div className="tnum mt-1 text-[17px] font-semibold text-fg">{value}</div>
+      {hint && <div className="mt-0.5 text-[10px] text-fg-dim">{hint}</div>}
     </div>
   );
 }
 
 function Na() {
-  return <span className="text-gray-300">n/a</span>;
+  return <span className="text-fg-dim/60">n/a</span>;
+}
+
+/** Inline callout. `tone` maps to the semantic colours, never decorative ones. */
+function Callout({
+  tone,
+  children,
+}: {
+  tone: "warn" | "neg" | "neutral";
+  children: React.ReactNode;
+}) {
+  const styles = {
+    warn: "border-warn/25 bg-warn/[0.07] text-warn",
+    neg: "border-neg/25 bg-neg/[0.07] text-neg",
+    neutral: "border-line-strong bg-ink-800 text-fg-muted",
+  }[tone];
+  return (
+    <div className={`rounded-lg border px-4 py-2.5 text-xs leading-relaxed ${styles}`}>
+      {children}
+    </div>
+  );
 }
 
 function SubNav() {
   const items = [
     ["chart", "Price chart"],
     ["pnl", "Profit & Loss"],
-    ["cashflow", "Cash Flow"],
+    ["cashflow", "Cash flow"],
     ["peers", "Peers"],
   ];
   return (
-    <nav className="sticky top-[57px] z-10 -mx-4 mb-6 flex gap-1 overflow-x-auto border-b border-gray-200 bg-[var(--background)]/95 px-4 py-2 text-sm backdrop-blur thin-scroll">
+    <nav
+      aria-label="Sections"
+      className="sticky top-[57px] z-20 -mx-5 mb-6 flex gap-1 overflow-x-auto border-b border-line bg-ink-900/90 px-5 py-2.5 backdrop-blur-md thin-scroll"
+    >
       {items.map(([id, label]) => (
         <a
           key={id}
           href={`#${id}`}
-          className="whitespace-nowrap rounded-md px-3 py-1 font-medium text-gray-600 hover:bg-white hover:text-[var(--color-brand)]"
+          className="whitespace-nowrap rounded-md px-3 py-1.5 text-[13px] font-medium text-fg-muted transition-colors duration-200 hover:bg-ink-850 hover:text-fg"
         >
           {label}
         </a>
@@ -91,6 +148,8 @@ function SubNav() {
     </nav>
   );
 }
+
+/* ---------------- page ---------------- */
 
 export default async function StockDetail({
   params,
@@ -105,16 +164,13 @@ export default async function StockDetail({
   const fin = getFinancials(ticker);
   const prices = getScreenerPrices(ticker);
 
-  const get = (y: string, k: keyof YearFin): number | null =>
-    fin[y]?.[k] ?? null;
+  const get = (y: string, k: keyof YearFin): number | null => fin[y]?.[k] ?? null;
 
-  // Compounded growth (3yr FY18→21, 5yr FY16→21) + EPS-consistency note are
-  // precomputed in the snapshot.
   const epsNote =
     snap.epsConsistencyNote ??
     "Not enough FY2015-FY2021 data to assess EPS consistency.";
 
-  // EPS cells to flag red: years inside a run of >=3 consecutive YoY declines.
+  // EPS cells to flag: years inside a run of >=3 consecutive YoY declines.
   const epsDeclineYears = (() => {
     const vals = FIN_YEARS.map((y) => get(y, "eps"));
     const decl = vals.map(
@@ -141,62 +197,70 @@ export default async function StockDetail({
     snap: getSnapshot(id)!,
   }));
 
-  const startYear = prices.length ? prices[0].date.slice(0, 4) : "-";
+  const startYear = prices.length ? prices[0].date.slice(0, 4) : DASH;
 
   return (
     <>
-      <Header />
-      <main className="mx-auto max-w-5xl px-4 py-6">
-        <nav className="flex items-center gap-1.5 text-sm text-gray-500">
-          <Link href="/" className="hover:text-[var(--color-brand)]">
-            Home
-          </Link>
-          <span className="text-gray-300">/</span>
-          <Link href="/screener" className="hover:text-[var(--color-brand)]">
+      <SiteHeader active="screener" context="Data frozen · June 2021" />
+
+      <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-6">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-[13px]">
+          <Link
+            href="/screener"
+            className="text-fg-muted transition-colors duration-200 hover:text-fg"
+          >
             Screener
           </Link>
-          <span className="text-gray-300">/</span>
-          <span className="font-medium text-gray-700">{meta.name}</span>
+          <span aria-hidden className="text-fg-dim">
+            /
+          </span>
+          <span className="font-medium text-fg">{meta.name}</span>
         </nav>
 
-        {/* ---- Header ---- */}
-        <section className="mt-3 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-gray-900">{meta.name}</h1>
+        {/* ---- Company header ---- */}
+        <section className="mt-4 overflow-hidden rounded-xl border border-line bg-ink-850/50">
+          <div className="flex flex-wrap items-start justify-between gap-4 p-5">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h1 className="text-2xl font-semibold tracking-tight text-fg">
+                  {meta.name}
+                </h1>
                 {snap.marketCapCategory && (
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
-                      CAT_COLORS[snap.marketCapCategory]
+                    className={`rounded border px-2 py-0.5 text-[11px] font-medium ${
+                      CAT_STYLE[snap.marketCapCategory]
                     }`}
                   >
                     {snap.marketCapCategory} cap
                   </span>
                 )}
               </div>
-              <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
-                <span className="font-mono">{meta.id}</span>
-                <span>·</span>
+              <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[13px] text-fg-dim">
+                <span className="tnum font-medium text-fg-muted">{meta.id}</span>
+                <span aria-hidden>·</span>
                 <span>{meta.sector}</span>
-                <span>·</span>
+                <span aria-hidden>·</span>
                 <span>NSE</span>
               </div>
             </div>
+
             <div className="text-right">
               {snap.ipoMonth ? (
                 <>
-                  <div className="tnum text-2xl font-bold text-gray-400">-</div>
-                  <div className="text-[11px] font-medium text-amber-700">
+                  <div className="tnum text-2xl font-semibold text-fg-dim">
+                    {DASH}
+                  </div>
+                  <div className="mt-0.5 text-[11px] font-medium text-warn">
                     Not listed · IPO {monthLabel(snap.ipoMonth)}
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="tnum text-2xl font-bold text-gray-900">
+                  <div className="tnum text-2xl font-semibold text-fg">
                     {rupee(snap.price)}
                   </div>
-                  <div className="text-[11px] uppercase tracking-wide text-gray-400">
+                  <div className="mt-0.5 text-[10px] uppercase tracking-wider text-fg-dim">
                     Close · June 2021
                   </div>
                 </>
@@ -205,61 +269,84 @@ export default async function StockDetail({
           </div>
 
           {snap.companyBlurb && (
-            <div className="mt-4 rounded-lg border-l-2 border-[var(--color-brand)] bg-gray-50 px-4 py-3">
-              <p className="text-sm italic leading-relaxed text-gray-600">
+            <div className="border-t border-line px-5 py-4">
+              <p className="border-l-2 border-accent/60 pl-4 text-[14px] leading-relaxed text-fg-muted">
                 {snap.companyBlurb}
               </p>
             </div>
           )}
 
-          {snap.ipoMonth && (
-            <div className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
-              <strong>Not yet listed as of June 2021.</strong> {meta.name} IPO&apos;d
-              in {monthLabel(snap.ipoMonth)}, so June-2021 snapshot ratios are
-              unavailable. The simulator uses its first listed close (
-              {rupee(snap.effectiveEntry)}) as the effective entry price.
-            </div>
-          )}
-          {snap.negNetWorth && (
-            <div className="mt-3 rounded-md bg-red-50 px-3 py-2 text-xs text-red-700">
-              <strong>Negative net worth (FY2021).</strong> Accumulated losses
-              exceed equity, so ROE and Debt/Equity are not meaningful and are
-              left blank.
+          {(snap.ipoMonth || snap.negNetWorth) && (
+            <div className="space-y-2 border-t border-line px-5 py-4">
+              {snap.ipoMonth && (
+                <Callout tone="warn">
+                  <strong className="font-semibold">
+                    Not yet listed as of June 2021.
+                  </strong>{" "}
+                  {meta.name} IPO&apos;d in {monthLabel(snap.ipoMonth)}, so
+                  June-2021 snapshot ratios are unavailable. The simulator uses
+                  its first listed close ({rupee(snap.effectiveEntry)}) as the
+                  effective entry price.
+                </Callout>
+              )}
+              {snap.negNetWorth && (
+                <Callout tone="neg">
+                  <strong className="font-semibold">
+                    Negative net worth (FY2021).
+                  </strong>{" "}
+                  Accumulated losses exceed equity, so ROE and Debt/Equity are
+                  not meaningful and are left blank.
+                </Callout>
+              )}
             </div>
           )}
 
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-            <Chip label="Market Cap" value={croreCompact(snap.marketCap)} />
-            <Chip label="Stock P/E" value={ratio(snap.pe, 1)} />
-            <Chip
-              label="ROE"
-              value={snap.negNetWorth ? "N/A" : pct(snap.roe)}
-              hint={snap.negNetWorth ? "negative equity" : "FY2021"}
-            />
-            <Chip label="Div Yield" value={pct(snap.dividendYield, 2)} />
-            <Chip
-              label="Debt / Equity"
-              value={snap.negNetWorth ? "N/A" : ratio(snap.debtToEquity, 2)}
-              hint={snap.negNetWorth ? "negative equity" : "FY2021"}
-            />
-            <Chip
-              label="Promoter Hold."
-              value={pct(snap.promoterHolding, 2)}
-              hint={
-                snap.promoterHolding == null
-                  ? "no promoter"
-                  : snap.promoterHoldingAsOf === "2021"
-                    ? "Jun 2021"
-                    : `≈ FY${snap.promoterHoldingAsOf}*`
-              }
-            />
-          </div>
-          <p className="mt-3 text-[11px] text-gray-400">
-            Snapshot ratios derived from real FY2021 financials and the
-            split/bonus-adjusted June-2021 close.{" "}
-            {snap.opm != null && (
-              <>Operating margin (OPM) FY2021: {pct(snap.opm)}. </>
-            )}
+          {/* Snapshot metrics - hairline grid, no nested cards. */}
+          <dl className="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-3 lg:grid-cols-6">
+            <div className="contents">
+              <div className="bg-ink-900">
+                <Metric label="Market Cap" value={croreCompact(snap.marketCap)} />
+              </div>
+              <div className="bg-ink-900">
+                <Metric label="Stock P/E" value={ratio(snap.pe, 1)} />
+              </div>
+              <div className="bg-ink-900">
+                <Metric
+                  label="ROE"
+                  value={snap.negNetWorth ? "N/A" : pct(snap.roe)}
+                  hint={snap.negNetWorth ? "negative equity" : "FY2021"}
+                />
+              </div>
+              <div className="bg-ink-900">
+                <Metric label="Div Yield" value={pct(snap.dividendYield, 2)} />
+              </div>
+              <div className="bg-ink-900">
+                <Metric
+                  label="Debt / Equity"
+                  value={snap.negNetWorth ? "N/A" : ratio(snap.debtToEquity, 2)}
+                  hint={snap.negNetWorth ? "negative equity" : "FY2021"}
+                />
+              </div>
+              <div className="bg-ink-900">
+                <Metric
+                  label="Promoter Hold."
+                  value={pct(snap.promoterHolding, 2)}
+                  hint={
+                    snap.promoterHolding == null
+                      ? "no promoter"
+                      : snap.promoterHoldingAsOf === "2021"
+                        ? "Jun 2021"
+                        : `≈ FY${snap.promoterHoldingAsOf}*`
+                  }
+                />
+              </div>
+            </div>
+          </dl>
+
+          <p className="border-t border-line px-5 py-3 text-[11px] leading-relaxed text-fg-dim">
+            Snapshot ratios derived from real FY2021 financials and the split-
+            and bonus-adjusted June-2021 close.{" "}
+            {snap.opm != null && <>Operating margin (OPM) FY2021: {pct(snap.opm)}. </>}
             {snap.promoterHoldingAsOf &&
               snap.promoterHoldingAsOf !== "2021" &&
               "* Promoter holding shown is the earliest figure available from screener (June-2021 value not published)."}
@@ -270,229 +357,271 @@ export default async function StockDetail({
           <SubNav />
         </div>
 
-        {/* ---- Price chart ---- */}
-        <section id="chart" className="scroll-mt-28 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-1 flex items-baseline justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Price history · {startYear} - June 2021
-            </h2>
-            <span className="text-xs text-gray-400">monthly close</span>
-          </div>
-          <p className="mb-3 text-xs text-gray-500">
-            Long-term track record shown to participants <em>before</em> they
-            pick. This chart never extends past June 2021.
-          </p>
-          {prices.length > 0 ? (
-            <PriceChart data={prices} />
-          ) : (
-            <div className="grid h-72 place-items-center rounded-md bg-gray-50 text-center text-sm text-gray-500">
-              <span>
-                Not listed as of June 2021
-                {snap.ipoMonth ? ` - IPO ${monthLabel(snap.ipoMonth)}` : ""}.
-                <br />
-                No pre-June-2021 price history to display.
-              </span>
-            </div>
-          )}
-        </section>
+        <div className="space-y-6">
+          {/* ---- Price chart ---- */}
+          <Panel
+            id="chart"
+            title={`Price history · ${startYear} - June 2021`}
+            meta="Monthly close"
+            note={
+              <>
+                The long-term track record shown to participants{" "}
+                <em>before</em> they pick. This chart never extends past June
+                2021.
+              </>
+            }
+          >
+            {prices.length > 0 ? (
+              <PriceChart data={prices} />
+            ) : (
+              <div className="grid h-72 place-items-center rounded-lg border border-dashed border-line-strong bg-ink-900 px-6 text-center text-sm leading-relaxed text-fg-dim">
+                <span>
+                  Not listed as of June 2021
+                  {snap.ipoMonth ? ` — IPO ${monthLabel(snap.ipoMonth)}` : ""}.
+                  <br />
+                  No pre-June-2021 price history to display.
+                </span>
+              </div>
+            )}
+          </Panel>
 
-        {/* ---- P&L ---- */}
-        <section id="pnl" className="mt-6 scroll-mt-28 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-1 text-lg font-semibold text-gray-900">
-            Profit &amp; Loss
-          </h2>
-          <p className="mb-3 text-xs text-gray-500">
-            Year-by-year, FY2015-FY2021 (₹ Crore). Any unavailable year shows as{" "}
-            <span className="text-gray-400">n/a</span>.
-          </p>
-          <div className="overflow-x-auto thin-scroll">
-            <table className="w-full min-w-[640px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-gray-200 text-right text-xs text-gray-500">
-                  <th className="py-2 text-left font-medium">Metric</th>
-                  {FIN_YEARS.map((y) => (
-                    <th key={y} className="px-2 py-2 font-medium">
-                      {y}
+          {/* ---- P&L ---- */}
+          <Panel
+            id="pnl"
+            title="Profit & Loss"
+            meta="₹ Crore"
+            note="Year by year, FY2015-FY2021. Any unavailable year shows as n/a."
+          >
+            <div className="-mx-5 overflow-x-auto px-5 thin-scroll">
+              <table className="w-full min-w-[640px] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-line text-right">
+                    <th
+                      scope="col"
+                      className="py-2 text-left text-[11px] font-medium uppercase tracking-wider text-fg-dim"
+                    >
+                      Metric
                     </th>
+                    {FIN_YEARS.map((y) => (
+                      <th
+                        key={y}
+                        scope="col"
+                        className="tnum px-2 py-2 text-[11px] font-medium text-fg-dim"
+                      >
+                        {y}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {(
+                    [
+                      ["Revenue", "revenue", crore],
+                      ["Net Profit", "netProfit", crore],
+                      [
+                        "EPS (₹)",
+                        "eps",
+                        (v: number | null) => (v == null ? DASH : num(v, 2)),
+                      ],
+                    ] as const
+                  ).map(([label, key, fmt]) => (
+                    <tr
+                      key={key}
+                      className="border-b border-line/60 text-right last:border-b-0"
+                    >
+                      <th
+                        scope="row"
+                        className="py-2.5 text-left text-[13px] font-medium text-fg-muted"
+                      >
+                        {label}
+                      </th>
+                      {FIN_YEARS.map((y) => {
+                        const v = get(y, key as keyof YearFin);
+                        const red =
+                          (key === "netProfit" && v != null && v < 0) ||
+                          (key === "eps" && epsDeclineYears.has(y));
+                        return (
+                          <td
+                            key={y}
+                            className={`tnum px-2 py-2.5 ${
+                              red ? "font-semibold text-neg" : "text-fg"
+                            }`}
+                          >
+                            {v == null ? <Na /> : fmt(v)}
+                          </td>
+                        );
+                      })}
+                    </tr>
                   ))}
-                </tr>
-              </thead>
-              <tbody className="tnum">
-                {(
-                  [
-                    ["Revenue", "revenue", crore],
-                    ["Net Profit", "netProfit", crore],
-                    ["EPS (₹)", "eps", (v: number | null) => (v == null ? DASH : num(v, 2))],
-                  ] as const
-                ).map(([label, key, fmt]) => (
-                  <tr key={key} className="border-b border-gray-100 text-right">
-                    <td className="py-2 text-left font-medium text-gray-700">
-                      {label}
-                    </td>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <CagrCard
+                title="Compounded revenue growth"
+                three={snap.revenueGrowth3yr}
+                five={snap.revenueGrowth5yr}
+              />
+              <CagrCard
+                title="Compounded profit growth"
+                three={snap.profitGrowth3yr}
+                five={snap.profitGrowth5yr}
+              />
+            </div>
+
+            <div className="mt-4">
+              <Callout tone="warn">
+                <strong className="font-semibold">EPS consistency:</strong>{" "}
+                {epsNote}
+              </Callout>
+            </div>
+
+            <p className="mt-3 text-[11px] leading-relaxed text-fg-dim">
+              Windows: 3-year (FY2018→FY2021) and 5-year (FY2016→FY2021). A
+              window shows n/a where a required base year is missing, for
+              example a stock that listed after FY2016.
+            </p>
+          </Panel>
+
+          {/* ---- Cash flow ---- */}
+          <Panel
+            id="cashflow"
+            title="Cash flow from operations"
+            meta="₹ Crore"
+            note="FY2015-FY2021. Negative operating cash flow is flagged in red."
+          >
+            <div className="-mx-5 overflow-x-auto px-5 thin-scroll">
+              <table className="w-full min-w-[640px] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-line text-right">
+                    <th
+                      scope="col"
+                      className="py-2 text-left text-[11px] font-medium uppercase tracking-wider text-fg-dim"
+                    >
+                      Metric
+                    </th>
+                    {FIN_YEARS.map((y) => (
+                      <th
+                        key={y}
+                        scope="col"
+                        className="tnum px-2 py-2 text-[11px] font-medium text-fg-dim"
+                      >
+                        {y}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="text-right">
+                    <th
+                      scope="row"
+                      className="py-2.5 text-left text-[13px] font-medium text-fg-muted"
+                    >
+                      Cash from ops
+                    </th>
                     {FIN_YEARS.map((y) => {
-                      const v = get(y, key as keyof YearFin);
-                      const red =
-                        (key === "netProfit" && v != null && v < 0) ||
-                        (key === "eps" && epsDeclineYears.has(y));
+                      const v = get(y, "cfo");
                       return (
                         <td
                           key={y}
-                          className={`px-2 py-2 ${
-                            red
-                              ? "font-semibold text-[var(--color-neg)]"
-                              : "text-gray-800"
+                          className={`tnum px-2 py-2.5 ${
+                            v != null && v < 0
+                              ? "font-semibold text-neg"
+                              : "text-fg"
                           }`}
                         >
-                          {v == null ? <Na /> : fmt(v)}
+                          {v == null ? <Na /> : crore(v)}
                         </td>
                       );
                     })}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* CAGR rows */}
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <CagrCard
-              title="Compounded Revenue Growth"
-              three={snap.revenueGrowth3yr}
-              five={snap.revenueGrowth5yr}
-            />
-            <CagrCard
-              title="Compounded Profit Growth"
-              three={snap.profitGrowth3yr}
-              five={snap.profitGrowth5yr}
-            />
-          </div>
-          <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
-            <strong>EPS consistency:</strong> {epsNote}
-          </p>
-          <p className="mt-2 text-[11px] text-gray-400">
-            Windows: 3-Yr (FY2018→FY2021) and 5-Yr (FY2016→FY2021). A window
-            shows n/a where a required base year is missing (e.g. a stock that
-            listed after FY2016).
-          </p>
-        </section>
-
-        {/* ---- Cash Flow ---- */}
-        <section id="cashflow" className="mt-6 scroll-mt-28 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-1 text-lg font-semibold text-gray-900">
-            Cash Flow from Operations
-          </h2>
-          <p className="mb-3 text-xs text-gray-500">
-            FY2015-FY2021 (₹ Crore). Negative operating cash flow is flagged in
-            red.
-          </p>
-          <div className="overflow-x-auto thin-scroll">
-            <table className="w-full min-w-[640px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-gray-200 text-right text-xs text-gray-500">
-                  <th className="py-2 text-left font-medium">Metric</th>
-                  {FIN_YEARS.map((y) => (
-                    <th key={y} className="px-2 py-2 font-medium">
-                      {y}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="tnum">
-                <tr className="text-right">
-                  <td className="py-2 text-left font-medium text-gray-700">
-                    Cash from Ops
-                  </td>
-                  {FIN_YEARS.map((y) => {
-                    const v = get(y, "cfo");
-                    return (
-                      <td
-                        key={y}
-                        className={`px-2 py-2 ${
-                          v != null && v < 0
-                            ? "font-semibold text-[var(--color-neg)]"
-                            : "text-gray-800"
-                        }`}
-                      >
-                        {v == null ? <Na /> : crore(v)}
-                      </td>
-                    );
-                  })}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* ---- Peers ---- */}
-        <section id="peers" className="mt-6 scroll-mt-28 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-1 text-lg font-semibold text-gray-900">
-            Peer comparison · {meta.sector}
-          </h2>
-          <p className="mb-3 text-xs text-gray-500">
-            Compared only against peers within these {STOCK_IDS.length} stocks,
-            all as of June 2021.
-          </p>
-          {hasNoPeers(ticker) ? (
-            <p className="rounded-md bg-gray-50 px-3 py-2 text-sm text-gray-600">
-              {peerNote(ticker)}
-            </p>
-          ) : (
-            <div className="overflow-x-auto thin-scroll">
-              <table className="w-full min-w-[640px] border-collapse text-sm">
-                <thead>
-                  <tr className="border-b border-gray-200 text-right text-xs text-gray-500">
-                    <th className="py-2 text-left font-medium">Company</th>
-                    <th className="px-2 py-2 font-medium">P/E</th>
-                    <th className="px-2 py-2 font-medium">Div Yield</th>
-                    <th className="px-2 py-2 font-medium">ROE</th>
-                    <th className="px-2 py-2 font-medium">D/E</th>
-                    <th className="px-2 py-2 font-medium">Market Cap</th>
-                  </tr>
-                </thead>
-                <tbody className="tnum">
-                  {peerRows.map(({ id, meta: m, snap: s }) => {
-                    const self = id === ticker;
-                    return (
-                      <tr
-                        key={id}
-                        className={`border-b border-gray-100 text-right ${
-                          self ? "bg-blue-50/60" : ""
-                        }`}
-                      >
-                        <td className="py-2 text-left">
-                          {self ? (
-                            <span className="font-semibold text-[var(--color-brand)]">
-                              {m.name}
-                            </span>
-                          ) : (
-                            <Link
-                              href={`/screener/${id}`}
-                              className="text-gray-700 hover:text-[var(--color-brand)] hover:underline"
-                            >
-                              {m.name}
-                            </Link>
-                          )}
-                        </td>
-                        <td className="px-2 py-2 text-gray-800">{ratio(s.pe, 1)}</td>
-                        <td className="px-2 py-2 text-gray-800">{pct(s.dividendYield, 2)}</td>
-                        <td className="px-2 py-2 text-gray-800">{pct(s.roe)}</td>
-                        <td className="px-2 py-2 text-gray-800">{ratio(s.debtToEquity, 2)}</td>
-                        <td className="px-2 py-2 text-gray-800">
-                          {croreCompact(s.marketCap)}
-                        </td>
-                      </tr>
-                    );
-                  })}
                 </tbody>
               </table>
             </div>
-          )}
-        </section>
+          </Panel>
 
-        <p className="mt-6 text-center text-xs text-gray-400">
-          Time capsule · data frozen at June 2021 · fixed reproducible dataset
-        </p>
+          {/* ---- Peers ---- */}
+          <Panel
+            id="peers"
+            title={`Peer comparison · ${meta.sector}`}
+            note={`Compared only against peers within these ${STOCK_IDS.length} stocks, all as of June 2021.`}
+          >
+            {hasNoPeers(ticker) ? (
+              <p className="rounded-lg border border-line-strong bg-ink-800 px-4 py-3 text-sm text-fg-muted">
+                {peerNote(ticker)}
+              </p>
+            ) : (
+              <div className="-mx-5 overflow-x-auto px-5 thin-scroll">
+                <table className="w-full min-w-[640px] border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b border-line text-right">
+                      <th
+                        scope="col"
+                        className="py-2 text-left text-[11px] font-medium uppercase tracking-wider text-fg-dim"
+                      >
+                        Company
+                      </th>
+                      {["P/E", "Div Yield", "ROE", "D/E", "Market Cap"].map((h) => (
+                        <th
+                          key={h}
+                          scope="col"
+                          className="px-2 py-2 text-[11px] font-medium uppercase tracking-wider text-fg-dim"
+                        >
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {peerRows.map(({ id, meta: m, snap: s }) => {
+                      const self = id === ticker;
+                      return (
+                        <tr
+                          key={id}
+                          className={`border-b border-line/60 text-right last:border-b-0 ${
+                            self ? "bg-accent/[0.07]" : ""
+                          }`}
+                        >
+                          <th scope="row" className="py-2.5 text-left font-normal">
+                            {self ? (
+                              <span className="font-semibold text-accent">
+                                {m.name}
+                              </span>
+                            ) : (
+                              <Link
+                                href={`/screener/${id}`}
+                                className="text-fg-muted transition-colors duration-200 hover:text-accent"
+                              >
+                                {m.name}
+                              </Link>
+                            )}
+                          </th>
+                          <td className="tnum px-2 py-2.5 text-fg">
+                            {ratio(s.pe, 1)}
+                          </td>
+                          <td className="tnum px-2 py-2.5 text-fg">
+                            {pct(s.dividendYield, 2)}
+                          </td>
+                          <td className="tnum px-2 py-2.5 text-fg">{pct(s.roe)}</td>
+                          <td className="tnum px-2 py-2.5 text-fg">
+                            {ratio(s.debtToEquity, 2)}
+                          </td>
+                          <td className="tnum px-2 py-2.5 text-fg">
+                            {croreCompact(s.marketCap)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </Panel>
+        </div>
       </main>
+
+      <SiteFooter />
     </>
   );
 }
@@ -507,17 +636,13 @@ function CagrCard({
   five: number | null;
 }) {
   const cell = (label: string, v: number | null) => (
-    <div className="flex-1 rounded-md bg-gray-50 px-2 py-2 text-center">
-      <div className="text-[10px] uppercase tracking-wide text-gray-400">
+    <div className="flex-1 rounded-lg border border-line bg-ink-900 px-3 py-2.5 text-center">
+      <div className="text-[10px] uppercase tracking-wider text-fg-dim">
         {label}
       </div>
       <div
-        className={`tnum text-sm font-bold ${
-          v == null
-            ? "text-gray-300"
-            : v >= 0
-              ? "text-[var(--color-pos)]"
-              : "text-[var(--color-neg)]"
+        className={`tnum mt-1 text-[15px] font-semibold ${
+          v == null ? "text-fg-dim/60" : v >= 0 ? "text-pos" : "text-neg"
         }`}
       >
         {v == null ? "n/a" : pctSigned(v)}
@@ -525,8 +650,8 @@ function CagrCard({
     </div>
   );
   return (
-    <div className="rounded-lg border border-gray-200 p-3">
-      <div className="mb-2 text-xs font-semibold text-gray-700">{title}</div>
+    <div className="rounded-lg border border-line bg-ink-850 p-3">
+      <div className="mb-2.5 text-[12px] font-medium text-fg-muted">{title}</div>
       <div className="flex gap-2">
         {cell("3 Yr", three)}
         {cell("5 Yr", five)}
