@@ -36,12 +36,16 @@ export default function CardFlip({
 }: CardFlipProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
+  // Both faces occupy the same grid cell rather than being absolutely
+  // positioned inside a fixed-height box. That way the card grows to fit
+  // whichever face is taller - a fixed height silently clipped the back of
+  // cards whose description wrapped to an extra line.
   const face =
-    "absolute inset-0 h-full w-full [backface-visibility:hidden] overflow-hidden rounded-xl border border-line bg-ink-900";
+    "[grid-area:1/1] relative [backface-visibility:hidden] overflow-hidden rounded-xl border border-line bg-ink-900";
 
   return (
     <div
-      className="group relative h-[300px] w-full [perspective:2000px]"
+      className="group relative h-full w-full [perspective:2000px]"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
       onFocusCapture={() => setIsFlipped(true)}
@@ -54,7 +58,7 @@ export default function CardFlip({
     >
       <div
         className={cn(
-          "relative h-full w-full [transform-style:preserve-3d]",
+          "grid h-full min-h-[300px] w-full [transform-style:preserve-3d]",
           "transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)]",
           "motion-reduce:transition-none",
           isFlipped ? "[transform:rotateY(180deg)]" : "[transform:rotateY(0deg)]",

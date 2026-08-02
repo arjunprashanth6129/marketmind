@@ -279,7 +279,7 @@ export default function Landing() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f, i) => (
-              <Reveal key={f.title} delay={i * 70}>
+              <Reveal key={f.title} delay={i * 70} className="h-full">
                 <CardFlip
                   title={f.title}
                   subtitle={f.subtitle}
