@@ -66,7 +66,7 @@ function C({ children }: { children: React.ReactNode }) {
 export default function Methodology() {
   return (
     <>
-      <SiteHeader active="methodology" />
+      <SiteHeader />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10">
         <div className="gap-12 lg:grid lg:grid-cols-[minmax(0,1fr)_200px]">

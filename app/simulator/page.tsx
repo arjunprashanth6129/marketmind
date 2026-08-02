@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { STOCKS } from "@/lib/stocks";
 import { entryPrice } from "@/lib/data";
@@ -62,7 +63,9 @@ export default async function SimulatorPage() {
             performed over the fixed June 2021 → June 2026 window.
           </p>
         </div>
-        <Simulator stocks={stocks} entryPrices={entryPrices} />
+        <Suspense fallback={null}>
+          <Simulator stocks={stocks} entryPrices={entryPrices} />
+        </Suspense>
       </main>
     </>
   );

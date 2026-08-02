@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
+import { animate, stagger } from "animejs";
 import { SCENARIOS } from "@/lib/scenarios";
+import { recallScenario } from "@/lib/game";
 import { rupee, pct, pctSigned, num } from "@/lib/format";
 import type { PortfolioResult } from "@/lib/calc";
 import { runSimulation } from "./actions";
-import PerfChart from "./PerfChart";
+import PerfPanel from "./PerfPanel";
 import { IconArrowRight } from "../components/Icons";
 
 interface StockOpt {
@@ -51,7 +54,16 @@ export default function Simulator({
   stocks: StockOpt[];
   entryPrices: Record<string, number>;
 }) {
-  const [scenarioId, setScenarioId] = useState(SCENARIOS[0].id);
+  // Pre-select the scenario assigned by /play. The query param survives a
+  // shared link; sessionStorage covers the round trip through the login gate,
+  // which drops the query string.
+  const paramScenario = useSearchParams().get("scenario");
+  const [scenarioId, setScenarioId] = useState(() => {
+    const wanted = paramScenario ?? recallScenario();
+    return SCENARIOS.some((s) => s.id === wanted)
+      ? (wanted as string)
+      : SCENARIOS[0].id;
+  });
   const [slots, setSlots] = useState<Slot[]>(EMPTY_SLOTS);
   const [result, setResult] = useState<PortfolioResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -102,6 +114,26 @@ export default function Simulator({
   }
 
   const nameOf = (id: string) => stocks.find((s) => s.id === id)?.name ?? id;
+
+  // Stagger the result panels in so the reveal reads as one motion rather than
+  // a block of content appearing at once.
+  const resultsRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (!result || !resultsRef.current) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const panels = resultsRef.current.querySelectorAll(":scope > *");
+    if (!panels.length) return;
+    const anim = animate(panels, {
+      opacity: [0, 1],
+      translateY: [14, 0],
+      delay: stagger(90),
+      duration: 480,
+      ease: "outQuad",
+    });
+    return () => {
+      anim.pause();
+    };
+  }, [result]);
 
   return (
     <div className="space-y-6">
@@ -295,7 +327,7 @@ export default function Simulator({
 
       {/* ---- Results ---- */}
       {result && (
-        <section id="results" className="space-y-6 scroll-mt-24">
+        <section id="results" ref={resultsRef} className="space-y-6 scroll-mt-24">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Stat
               label="Total return"
@@ -336,20 +368,7 @@ export default function Simulator({
             </div>
           </Panel>
 
-          <Panel
-            title="Indexed performance"
-            action={
-              <span className="text-xs text-fg-dim">
-                100 = June 2021 · portfolio vs Nifty 50
-              </span>
-            }
-          >
-            <p className="mb-4 text-xs leading-relaxed text-fg-dim">
-              Solid line is your portfolio; dashed is the Nifty 50, the
-              benchmark you&apos;re scored against.
-            </p>
-            <PerfChart data={result.timeline} accent={scenario.accent} />
-          </Panel>
+          <PerfPanel data={result.timeline} accent={scenario.accent} />
 
           <Panel title="Holdings breakdown">
             <div className="-mx-5 overflow-x-auto px-5 thin-scroll">
@@ -463,16 +482,49 @@ function ScoreCard({ score }: { score: number }) {
   // Red at 0 through amber at 5 to green at 10.
   const hue = Math.max(0, Math.min(120, (score / 10) * 120));
   const color = `hsl(${hue} 70% 52%)`;
-  const deg = (score / 10) * 360;
+
+  // The score is the payoff of the whole exercise, so sweep the dial and count
+  // the number up rather than snapping to the result.
+  const dialRef = useRef<HTMLDivElement | null>(null);
+  const [shown, setShown] = useState(score);
+
+  useEffect(() => {
+    const dial = dialRef.current;
+    const reduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!dial || reduced) {
+      setShown(score);
+      if (dial) {
+        dial.style.background = `conic-gradient(${color} ${(score / 10) * 360}deg, #1e2a40 0deg)`;
+      }
+      return;
+    }
+    const proxy = { v: 0 };
+    const anim = animate(proxy, {
+      v: score,
+      duration: 1100,
+      ease: "outCubic",
+      onUpdate: () => {
+        setShown(Math.round(proxy.v * 10) / 10);
+        dial.style.background = `conic-gradient(${color} ${(proxy.v / 10) * 360}deg, #1e2a40 0deg)`;
+      },
+    });
+    return () => {
+      anim.pause();
+    };
+  }, [score, color]);
+
   return (
     <div className="flex items-center gap-4 rounded-xl border border-line bg-ink-850/50 p-4">
       <div
+        ref={dialRef}
         className="relative grid h-[68px] w-[68px] shrink-0 place-items-center rounded-full"
-        style={{ background: `conic-gradient(${color} ${deg}deg, #1e2a40 0deg)` }}
+        style={{ background: `conic-gradient(${color} 0deg, #1e2a40 0deg)` }}
       >
         <div className="grid h-[54px] w-[54px] place-items-center rounded-full bg-ink-850">
           <span className="tnum text-xl font-semibold" style={{ color }}>
-            {score}
+            {shown}
           </span>
         </div>
       </div>

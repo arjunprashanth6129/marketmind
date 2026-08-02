@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
-import PriceChart from "../PriceChart";
+import ScenarioBannerSlot from "../../components/ScenarioBannerSlot";
+import PricePanel from "../PricePanel";
 import {
   STOCK_IDS,
   getStockMeta,
@@ -14,6 +15,7 @@ import {
   getSnapshot,
   getFinancials,
   getScreenerPrices,
+  getScreenerCandles,
   FIN_YEARS,
   type YearFin,
 } from "@/lib/data";
@@ -163,6 +165,7 @@ export default async function StockDetail({
 
   const fin = getFinancials(ticker);
   const prices = getScreenerPrices(ticker);
+  const candles = getScreenerCandles(ticker);
 
   const get = (y: string, k: keyof YearFin): number | null => fin[y]?.[k] ?? null;
 
@@ -201,9 +204,10 @@ export default async function StockDetail({
 
   return (
     <>
-      <SiteHeader active="screener" context="Data frozen · June 2021" />
+      <SiteHeader context="Data frozen · June 2021" />
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-6">
+        <ScenarioBannerSlot compact />
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-[13px]">
           <Link
@@ -359,21 +363,14 @@ export default async function StockDetail({
 
         <div className="space-y-6">
           {/* ---- Price chart ---- */}
-          <Panel
-            id="chart"
-            title={`Price history · ${startYear} - June 2021`}
-            meta="Monthly close"
-            note={
-              <>
-                The long-term track record shown to participants{" "}
-                <em>before</em> they pick. This chart never extends past June
-                2021.
-              </>
-            }
-          >
-            {prices.length > 0 ? (
-              <PriceChart data={prices} />
-            ) : (
+          {prices.length > 0 ? (
+            <PricePanel
+              title={`Price history · ${startYear} - June 2021`}
+              prices={prices}
+              candles={candles}
+            />
+          ) : (
+            <Panel id="chart" title="Price history" meta="Monthly close">
               <div className="grid h-72 place-items-center rounded-lg border border-dashed border-line-strong bg-ink-900 px-6 text-center text-sm leading-relaxed text-fg-dim">
                 <span>
                   Not listed as of June 2021
@@ -382,8 +379,8 @@ export default async function StockDetail({
                   No pre-June-2021 price history to display.
                 </span>
               </div>
-            )}
-          </Panel>
+            </Panel>
+          )}
 
           {/* ---- P&L ---- */}
           <Panel

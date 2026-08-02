@@ -4,6 +4,7 @@ import {
   ANCHOR_MONTH,
   END_MONTH,
   getSimPrices,
+  getSimCandles,
   getNiftySim,
   entryPrice,
   exitPrice,
@@ -41,6 +42,14 @@ export interface TimelinePoint {
   date: string;
   portfolio: number; // indexed to 100 at June 2021
   nifty: number | null; // Nifty 50, indexed to 100 at June 2021 (scoring benchmark)
+  // Candle view. `open` is the previous month's close so bodies chain
+  // continuously. `high`/`low` are the weighted sum of each holding's monthly
+  // high/low: an outer envelope of where the portfolio could have traded, not
+  // a realised high, since the holdings do not peak on the same day. The UI
+  // labels it as an envelope for exactly that reason.
+  open: number;
+  high: number | null;
+  low: number | null;
 }
 
 export interface PortfolioResult {
@@ -124,22 +133,50 @@ export function computePortfolio(holdings: Holding[]): PortfolioResult {
   const niftyMap = new Map(getNiftySim().map((p) => [p.date, p.close]));
   const nifty0 = niftyMap.get(ANCHOR_MONTH) ?? null;
 
+  // Per-holding monthly high/low, used to build the candle envelope.
+  const candleMaps = new Map(
+    clean.map((h) => [
+      h.id,
+      new Map(getSimCandles(h.id).map((c) => [c.date, c])),
+    ]),
+  );
+
   let base = 0;
   const timeline: TimelinePoint[] = [];
+  let prevIndex = 100;
   for (const date of grid) {
     let val = 0;
+    let hiVal = 0;
+    let loVal = 0;
+    let haveRange = clean.length > 0;
     for (const h of clean) {
       const price = maps.get(h.id)!.get(date) ?? firstClose.get(h.id) ?? null;
       if (price != null) val += price * h.qty;
+      const candle = candleMaps.get(h.id)?.get(date);
+      if (candle) {
+        hiVal += candle.h * h.qty;
+        loVal += candle.l * h.qty;
+      } else if (price != null) {
+        // Delisted ticker with no candles: fall back to the close so the
+        // envelope stays defined rather than dropping the whole month.
+        hiVal += price * h.qty;
+        loVal += price * h.qty;
+      } else {
+        haveRange = false;
+      }
     }
     if (date === ANCHOR_MONTH) base = val;
     const niftyV = niftyMap.get(date);
+    const index = base > 0 ? (val / base) * 100 : 100;
     timeline.push({
       date,
-      portfolio: base > 0 ? (val / base) * 100 : 100,
-      nifty:
-        nifty0 != null && niftyV != null ? (niftyV / nifty0) * 100 : null,
+      portfolio: index,
+      nifty: nifty0 != null && niftyV != null ? (niftyV / nifty0) * 100 : null,
+      open: prevIndex,
+      high: haveRange && base > 0 ? Math.max((hiVal / base) * 100, index, prevIndex) : null,
+      low: haveRange && base > 0 ? Math.min((loVal / base) * 100, index, prevIndex) : null,
     });
+    prevIndex = index;
   }
 
   return {

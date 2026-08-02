@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-data_pipeline-3776ab?logo=python&logoColor=white)](https://www.python.org)
 [![Vercel](https://img.shields.io/badge/Deployed-Vercel-000?logo=vercel)](https://vercel.com)
 
-**Live demo:** https://nse-time-capsule.vercel.app &nbsp;·&nbsp; [Stock screener](https://nse-time-capsule.vercel.app/screener) &nbsp;·&nbsp; [Portfolio simulator](https://nse-time-capsule.vercel.app/simulator) &nbsp;·&nbsp; [Methodology](https://nse-time-capsule.vercel.app/methodology)
+**Live demo:** https://nse-time-capsule.vercel.app &nbsp;·&nbsp; [Play the game](https://nse-time-capsule.vercel.app/play) &nbsp;·&nbsp; [Stock screener](https://nse-time-capsule.vercel.app/screener) &nbsp;·&nbsp; [Portfolio simulator](https://nse-time-capsule.vercel.app/simulator) &nbsp;·&nbsp; [Methodology](https://nse-time-capsule.vercel.app/methodology)
 
 Market Mind was born out of an idea to make a school project on financial literacy interactive, educative, relatable and by leveraging the power of technology. The school assignment required us to pick a topic in finance that is underserved and that can be beneficial to students to learn, regardless of their career choices or professions. I picked the topic of personal investing because I believe every young teen or highschooler should understand the power of money and empower themselves with real world knowledge on how to use the stock market and how to invest. 
 
@@ -46,16 +46,38 @@ cross-checked, and then frozen into static files so the numbers never drift.
 
 ## What's in it
 
-- **Stock screener** (`/screener`): the 50-company universe as of June 2021.
-  Every stock has a ratio snapshot, annual financials from FY2015 to FY2021, a
-  long-term price chart, a peer comparison, and a short plain-English write-up.
-  Nothing past June 2021 is shown, so you're judging companies on their track
-  record rather than on hindsight.
+- **Guided play flow** (`/play`): the way a participant is meant to start. You
+  are dealt one of the five investor scenarios at random, then carried through
+  research and portfolio construction as a three-step game — assignment,
+  research, build and score. The assigned investor follows you across pages, so
+  you always know who you're buying for.
+- **Stock screener** (`/screener`): the 50-company universe as of June 2021, as
+  a sortable data table. Every stock has a ratio snapshot, annual financials
+  from FY2015 to FY2021, a long-term price chart with a **line/candlestick
+  toggle**, a peer comparison, and a short plain-English write-up. Nothing past
+  June 2021 is shown, so you're judging companies on their track record rather
+  than on hindsight.
 - **Portfolio simulator** (`/simulator`, password-gated for the host): pick a
   scenario, build a portfolio inside a capital budget, and watch it plotted
-  against the Nifty 50 benchmark, with a score out of 10.
+  against the Nifty 50 benchmark, with a score out of 10. The performance chart
+  has the same line/candlestick toggle.
 - **Scoring**: half the score is how the portfolio actually performed, the other
   half is the quality of the picks. Details below.
+
+### Charts
+
+Both charts switch between a line/area view and real monthly **candlesticks**.
+Candle bars are aggregated from *daily* auto-adjusted bars — open is the first
+trading day, high and low are the true monthly extremes, close is the last —
+and then re-anchored so every candle close equals the close in `prices.json`,
+the single source of truth for every quoted price and score
+(`scripts/reconcile_ohlc.py`). Three delisted tickers have no candle data and
+fall back to the line view.
+
+In the simulator the candle body is real (last month's close to this month's),
+but the wick is an **envelope**: the weighted high and low of the holdings.
+Because holdings don't peak on the same day that is an outer bound rather than
+a realised high, and the chart says so in a caption.
 
 ## How the data was built
 
@@ -152,7 +174,8 @@ snapshot data, so there's no hidden data and the maths is fully explainable.
 |---|---|---|
 | Frontend | Next.js (App Router), TypeScript | static generation for the 50 stock pages; types across the data layer catch mistakes early |
 | Styling | Tailwind CSS | quick to iterate, no component-library weight |
-| Charts | Recharts | declarative SVG charts, easy to theme |
+| Charts | Recharts, plus a hand-rolled SVG candlestick | Recharts covers the line/area views; candles are a few rects and lines, so drawing them directly avoids a second chart runtime |
+| Motion | anime.js | drives the scenario reel, the score dial and the result reveal; every animation is behind a `prefers-reduced-motion` check |
 | Data | Python (yfinance, BeautifulSoup, pandas) | the obvious toolkit for market data and scraping |
 | Storage | static JSON | the data is fixed, so a database buys nothing but complexity |
 | Hosting | Vercel | painless Next.js deploys |
@@ -189,7 +212,23 @@ python scripts/screener_fetch.py      # screener.in FY2015-FY2021 fundamentals (
 python scripts/build_financials.py    # writes data/financials.json
 python scripts/build_snapshot.py      # writes data/snapshot-2021.json
 python scripts/fetch_prices.py        # monthly series -> data/prices.json + nifty.json
+python scripts/fix_price_outliers.py  # repairs corrupt monthly closes (see below)
+python scripts/fetch_ohlc.py          # monthly OHLC bars -> data/ohlc.json
+python scripts/reconcile_ohlc.py      # anchors candle closes to prices.json
 ```
+
+**Run the last three in that order after `fetch_prices.py`.** Yahoo's monthly
+(`interval="1mo"`) endpoint returns a wildly wrong close for a handful of
+months — HDFCBANK 2006-04 comes back as 139.23 against ~32 either side, WIPRO
+2006-04 as 253.36 against ~48 — while its daily series for the same months is
+clean. A single 4x spike rescales the whole y-axis and makes the long-term
+charts look broken.
+
+`fix_price_outliers.py` re-derives each month from daily bars and only rewrites
+where the two disagree by more than 35%, so genuine corporate actions and real
+crashes (ADANIGREEN's Feb-2023 decline, for instance) are left alone. It leaves
+every June-2021 anchor and June-2026 exit untouched, so entry prices, returns
+and scores never move.
 
 ## License
 

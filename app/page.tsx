@@ -5,6 +5,7 @@ import SiteFooter from "./components/SiteFooter";
 import Reveal from "./components/Reveal";
 import CountUp from "./components/CountUp";
 import HeroPanel from "./components/HeroPanel";
+import CardFlip from "./components/CardFlip";
 import {
   IconArrowRight,
   IconCandles,
@@ -51,22 +52,62 @@ const FEATURES = [
   {
     Icon: IconCandles,
     title: "50-stock NSE universe",
-    body: "Verified price history from 2000, FY2015-FY2021 annual financials, and ten fundamental metrics for every company.",
+    subtitle: "The market, frozen at June 2021.",
+    description:
+      "Fifty real NSE companies with nothing from the future leaking in.",
+    features: [
+      "Price history back to 2000",
+      "FY2015-FY2021 financials",
+      "Ten fundamental metrics",
+      "Line and candlestick views",
+    ],
+    href: "/screener",
+    ctaLabel: "Open the screener",
   },
   {
     Icon: IconClock,
     title: "Real backtesting engine",
-    body: "June 2021 to June 2026 on split- and bonus-adjusted prices, indexed to 100, with a Nifty 50 benchmark overlay.",
+    subtitle: "Five years of what actually happened.",
+    description:
+      "Split- and bonus-adjusted prices replayed across the full window.",
+    features: [
+      "June 2021 to June 2026",
+      "Indexed to 100 at entry",
+      "Nifty 50 benchmark overlay",
+      "Corporate actions handled",
+    ],
+    href: "/methodology",
+    ctaLabel: "How it works",
   },
   {
     Icon: IconScale,
     title: "Dual scoring system",
-    body: "Half the mark is realised performance against the Nifty 50; half is scenario-weighted fundamental quality.",
+    subtitle: "Good process and good outcome, scored apart.",
+    description:
+      "Half the mark is realised return, half is the quality of the picks.",
+    features: [
+      "50% performance vs Nifty 50",
+      "50% fundamental quality",
+      "Scenario-weighted rubric",
+      "No hidden good-stock list",
+    ],
+    href: "/methodology#scoring",
+    ctaLabel: "Read the rubric",
   },
   {
     Icon: IconUsers,
     title: "Five investor scenarios",
-    body: "Fresh graduate through retired couple. Each profile weights the fundamentals differently, so the same stock scores to fit.",
+    subtitle: "The same stock, judged differently.",
+    description:
+      "Each profile needs something different, so each weights the metrics its own way.",
+    features: [
+      "Fresh graduate to retiree",
+      "Own capital budget",
+      "Own risk appetite",
+      "Drawn at random when you play",
+    ],
+    href: "/play",
+    ctaLabel: "Draw an investor",
   },
 ];
 
@@ -236,20 +277,18 @@ export default function Landing() {
             </SectionHead>
           </Reveal>
 
-          <div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
-            {FEATURES.map(({ Icon, title, body }, i) => (
-              <Reveal key={title} delay={i * 70}>
-                <div className="group h-full bg-ink-900 p-7 transition-colors duration-200 hover:bg-ink-850">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-line-strong bg-ink-850 text-accent transition-colors duration-200 group-hover:border-accent/50">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-5 text-[15px] font-semibold text-fg">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-fg-muted">
-                    {body}
-                  </p>
-                </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURES.map((f, i) => (
+              <Reveal key={f.title} delay={i * 70}>
+                <CardFlip
+                  title={f.title}
+                  subtitle={f.subtitle}
+                  description={f.description}
+                  features={f.features}
+                  icon={<f.Icon className="h-5 w-5" />}
+                  href={f.href}
+                  ctaLabel={f.ctaLabel}
+                />
               </Reveal>
             ))}
           </div>
@@ -349,6 +388,64 @@ export default function Landing() {
               </div>
             </div>
           </Reveal>
+        </section>
+
+        {/* ---------- Play the game ---------- */}
+        <section className="relative overflow-hidden border-t border-line">
+          <div aria-hidden className="grid-bg absolute inset-0" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(42rem 24rem at 50% 120%, rgba(77,141,255,0.16), transparent 65%)",
+            }}
+          />
+          <div className="relative mx-auto max-w-3xl px-5 py-24 text-center">
+            <Reveal>
+              <p className="eyebrow">Try it yourself</p>
+              <h2 className="mt-3 text-[30px] font-semibold tracking-tight text-fg sm:text-4xl">
+                Three steps. One real outcome.
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-fg-muted">
+                Get handed an investor at random, research the June-2021 market
+                on their behalf, then build a portfolio and find out how it
+                actually did.
+              </p>
+
+              <ol className="mx-auto mt-9 grid max-w-2xl gap-3 sm:grid-cols-3">
+                {[
+                  ["01", "Get your investor", "Drawn at random"],
+                  ["02", "Research the market", "50 companies, June 2021"],
+                  ["03", "Build & score", "Backtested to June 2026"],
+                ].map(([n, title, sub]) => (
+                  <li
+                    key={n}
+                    className="rounded-xl border border-line bg-ink-900/70 p-4 text-left backdrop-blur"
+                  >
+                    <span className="tnum text-[11px] font-medium text-accent">
+                      {n}
+                    </span>
+                    <p className="mt-1.5 text-[14px] font-semibold text-fg">
+                      {title}
+                    </p>
+                    <p className="mt-0.5 text-[12px] text-fg-dim">{sub}</p>
+                  </li>
+                ))}
+              </ol>
+
+              <Link
+                href="/play"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-xl bg-accent px-7 py-4 text-[15px] font-semibold text-ink-950 shadow-lg shadow-accent/20 transition-colors duration-200 hover:bg-[#6ba0ff]"
+              >
+                Invest in the Market
+                <IconArrowRight className="h-[18px] w-[18px] transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+              <p className="mt-4 text-xs text-fg-dim">
+                Takes about ten minutes · no sign-up
+              </p>
+            </Reveal>
+          </div>
         </section>
       </main>
 

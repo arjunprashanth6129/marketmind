@@ -1,5 +1,7 @@
 import SiteHeader from "../components/SiteHeader";
 import SiteFooter from "../components/SiteFooter";
+import { Suspense } from "react";
+import ScenarioBannerSlot from "../components/ScenarioBannerSlot";
 import { STOCKS } from "@/lib/stocks";
 import { getSnapshot } from "@/lib/data";
 import ScreenerGrid, { type ScreenerRow } from "./ScreenerGrid";
@@ -30,8 +32,9 @@ export default function ScreenerLanding() {
 
   return (
     <>
-      <SiteHeader active="screener" context="Data frozen · June 2021" />
+      <SiteHeader context="Data frozen · June 2021" />
       <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10">
+        <ScenarioBannerSlot />
         <div className="mb-8 max-w-2xl">
           <p className="eyebrow">Stock screener</p>
           <h1 className="mt-2 text-[28px] font-semibold tracking-tight text-fg sm:text-4xl">
@@ -44,7 +47,9 @@ export default function ScreenerLanding() {
             here shows data past June 2021.
           </p>
         </div>
-        <ScreenerGrid rows={rows} />
+        <Suspense fallback={null}>
+          <ScreenerGrid rows={rows} />
+        </Suspense>
       </main>
       <SiteFooter />
     </>

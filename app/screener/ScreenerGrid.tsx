@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { SECTOR_ORDER } from "@/lib/stocks";
 import { croreCompact, pct, ratio, rupee } from "@/lib/format";
 import { IconSearch } from "../components/Icons";
@@ -87,6 +88,13 @@ function SortMark({ dir }: { dir: "asc" | "desc" }) {
 }
 
 export default function ScreenerGrid({ rows }: { rows: ScreenerRow[] }) {
+  // Carry the play-flow scenario into stock links so the assignment banner
+  // survives drill-down. Read on the client so the page stays static.
+  const scenarioId = useSearchParams().get("scenario");
+  const hrefFor = (id: string) =>
+    scenarioId
+      ? `/screener/${id}?scenario=${encodeURIComponent(scenarioId)}`
+      : `/screener/${id}`;
   const [sector, setSector] = useState("All");
   const [cap, setCap] = useState("All");
   const [q, setQ] = useState("");
@@ -243,7 +251,7 @@ export default function ScreenerGrid({ rows }: { rows: ScreenerRow[] }) {
                 className="group border-b border-line/70 transition-colors duration-150 last:border-b-0 hover:bg-ink-850"
               >
                 <td className="px-4 py-3">
-                  <Link href={`/screener/${r.id}`} className="block">
+                  <Link href={hrefFor(r.id)} className="block">
                     <span className="font-medium text-fg transition-colors duration-200 group-hover:text-accent">
                       {r.name}
                     </span>
@@ -289,7 +297,7 @@ export default function ScreenerGrid({ rows }: { rows: ScreenerRow[] }) {
         {filtered.map((r) => (
           <Link
             key={r.id}
-            href={`/screener/${r.id}`}
+            href={hrefFor(r.id)}
             className="block p-4 transition-colors duration-200 active:bg-ink-850"
           >
             <div className="flex items-start justify-between gap-3">

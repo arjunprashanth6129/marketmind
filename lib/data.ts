@@ -3,6 +3,7 @@
 
 import pricesJson from "@/data/prices.json";
 import niftyJson from "@/data/nifty.json";
+import ohlcJson from "@/data/ohlc.json";
 import financialsJson from "@/data/financials.json";
 import snapshotJson from "@/data/snapshot-2021.json";
 
@@ -12,6 +13,15 @@ export const END_MONTH = "2026-06-01"; // fixed reproducible end of window
 export interface PricePoint {
   date: string; // "YYYY-MM-01"
   close: number;
+}
+
+/** Monthly OHLC bar. Close always equals the PricePoint close for that month. */
+export interface Candle {
+  date: string; // "YYYY-MM-01"
+  o: number;
+  h: number;
+  l: number;
+  c: number;
 }
 
 export interface YearFin {
@@ -50,6 +60,11 @@ export interface Snapshot {
 
 const prices = pricesJson as Record<string, PricePoint[]>;
 const nifty = niftyJson as PricePoint[];
+// Real monthly OHLC, re-anchored so every close matches `prices` exactly
+// (see scripts/reconcile_ohlc.py). Three delisted tickers have no bars and
+// fall back to the line chart in the UI.
+const ohlc = ohlcJson as Record<string, Candle[]>;
+const NIFTY_OHLC_KEY = "__NIFTY__";
 const financials = financialsJson as Record<
   string,
   Record<string, YearFin | null>
@@ -88,6 +103,30 @@ export function getSimPrices(id: string): PricePoint[] {
 
 export function getNiftySim(): PricePoint[] {
   return nifty.filter((p) => p.date >= ANCHOR_MONTH && p.date <= END_MONTH);
+}
+
+/** All monthly candles for a stock (empty for the delisted tickers). */
+export function getCandles(id: string): Candle[] {
+  return ohlc[id] ?? [];
+}
+
+/** Screener candle view: everything up to the June-2021 freeze. */
+export function getScreenerCandles(id: string): Candle[] {
+  return getCandles(id).filter((c) => c.date <= ANCHOR_MONTH);
+}
+
+/** Simulator candle view: the June 2021 - June 2026 window. */
+export function getSimCandles(id: string): Candle[] {
+  return getCandles(id).filter(
+    (c) => c.date >= ANCHOR_MONTH && c.date <= END_MONTH,
+  );
+}
+
+/** Nifty 50 candles across the simulator window. */
+export function getNiftyCandles(): Candle[] {
+  return (ohlc[NIFTY_OHLC_KEY] ?? []).filter(
+    (c) => c.date >= ANCHOR_MONTH && c.date <= END_MONTH,
+  );
 }
 
 export function priceAt(id: string, month: string): number | null {

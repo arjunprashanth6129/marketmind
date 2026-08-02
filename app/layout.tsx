@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Sans, JetBrains_Mono, Geist } from "next/font/google";
 import { PROJECT } from "@/lib/stats";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // Plex Sans for prose and labels; JetBrains Mono for every figure. The pairing
 // reads as research software rather than generic startup sans.
@@ -61,7 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plexSans.variable} ${jetMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", plexSans.variable, jetMono.variable, "font-sans", geist.variable)}
     >
       <body className="flex min-h-full flex-col bg-ink-900 text-fg">
         {children}
