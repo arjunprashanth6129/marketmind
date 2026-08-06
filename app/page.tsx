@@ -405,7 +405,7 @@ export default function Landing() {
             <Reveal>
               <p className="eyebrow">Try it yourself</p>
               <h2 className="mt-3 text-[30px] font-semibold tracking-tight text-fg sm:text-4xl">
-                Three steps. One real outcome.
+                Four steps. One real outcome.
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-fg-muted">
                 Get handed an investor at random, research the June-2021 market
@@ -413,11 +413,12 @@ export default function Landing() {
                 actually did.
               </p>
 
-              <ol className="mx-auto mt-9 grid max-w-2xl gap-3 sm:grid-cols-3">
+              <ol className="mx-auto mt-9 grid max-w-3xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   ["01", "Get your investor", "Drawn at random"],
                   ["02", "Research the market", "50 companies, June 2021"],
-                  ["03", "Build & score", "Backtested to June 2026"],
+                  ["03", "Build the portfolio", "Inside a capital budget"],
+                  ["04", "Score it", "Backtested to June 2026"],
                 ].map(([n, title, sub]) => (
                   <li
                     key={n}

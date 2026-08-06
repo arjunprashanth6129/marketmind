@@ -6,6 +6,7 @@ import { isAuthed } from "@/lib/auth";
 import { SIMULATOR_LOCKED } from "@/lib/flags";
 import LoginGate from "./LoginGate";
 import Simulator from "./Simulator";
+import BackToBuilder from "./BackToBuilder";
 import { IconLock, IconLogo } from "../components/Icons";
 
 export const metadata = {
@@ -60,6 +61,9 @@ export default async function SimulatorPage() {
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+        <Suspense fallback={null}>
+          <BackToBuilder />
+        </Suspense>
         <div className="mb-7 max-w-2xl">
           <p className="eyebrow">Host console</p>
           <h1 className="mt-2 text-[28px] font-semibold tracking-tight text-fg sm:text-3xl">

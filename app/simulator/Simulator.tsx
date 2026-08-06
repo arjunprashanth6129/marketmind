@@ -4,12 +4,13 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { animate, stagger } from "animejs";
 import { SCENARIOS } from "@/lib/scenarios";
-import { recallScenario } from "@/lib/game";
+import { recallPortfolio, recallScenario } from "@/lib/game";
 import { rupee, pct, pctSigned, num } from "@/lib/format";
 import type { PortfolioResult } from "@/lib/calc";
 import { runSimulation } from "./actions";
 import PerfPanel from "./PerfPanel";
 import { IconArrowRight } from "../components/Icons";
+import { useMounted } from "../components/useMounted";
 
 interface StockOpt {
   id: string;
@@ -54,6 +55,23 @@ export default function Simulator({
   stocks: StockOpt[];
   entryPrices: Record<string, number>;
 }) {
+  // Both the scenario and the drafted portfolio come from sessionStorage,
+  // which the prerendered HTML cannot see. Waiting for mount keeps the first
+  // client render identical to the server's and avoids a hydration mismatch.
+  const mounted = useMounted();
+  if (!mounted) {
+    return <div aria-hidden className="h-[520px] rounded-xl border border-line bg-ink-850/40" />;
+  }
+  return <SimulatorInner stocks={stocks} entryPrices={entryPrices} />;
+}
+
+function SimulatorInner({
+  stocks,
+  entryPrices,
+}: {
+  stocks: StockOpt[];
+  entryPrices: Record<string, number>;
+}) {
   // Pre-select the scenario assigned by /play. The query param survives a
   // shared link; sessionStorage covers the round trip through the login gate,
   // which drops the query string.
@@ -64,7 +82,17 @@ export default function Simulator({
       ? (wanted as string)
       : SCENARIOS[0].id;
   });
-  const [slots, setSlots] = useState<Slot[]>(EMPTY_SLOTS);
+  // Prefill from the /build draft so arriving from the builder lands on a
+  // ready-to-run ticket rather than five empty rows.
+  const [slots, setSlots] = useState<Slot[]>(() => {
+    const draft = recallPortfolio();
+    if (!draft.length) return EMPTY_SLOTS;
+    const filled: Slot[] = draft
+      .slice(0, SLOT_COUNT)
+      .map((h) => ({ id: h.id, qty: String(h.qty) }));
+    while (filled.length < SLOT_COUNT) filled.push({ id: "", qty: "" });
+    return filled;
+  });
   const [result, setResult] = useState<PortfolioResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();

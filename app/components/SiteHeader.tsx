@@ -6,6 +6,7 @@ import MorphicNav, { type NavItem } from "./MorphicNav";
 
 const NAV: NavItem[] = [
   { href: "/screener", name: "Screener" },
+  { href: "/build", name: "Portfolio" },
   { href: "/methodology", name: "Methodology" },
   {
     href: "/simulator",

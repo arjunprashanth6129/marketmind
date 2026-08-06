@@ -207,7 +207,7 @@ export default function Randomizer() {
       </div>
 
       <p className="mx-auto mt-5 w-fit rounded-full border border-line bg-ink-900/85 px-3.5 py-1.5 text-center text-xs text-fg-muted backdrop-blur">
-        Step 1 of 3 · Assignment → Research → Build &amp; score
+        Step 1 of 4 · Assignment → Research → Build → Score
       </p>
     </div>
   );

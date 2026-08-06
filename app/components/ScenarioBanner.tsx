@@ -67,7 +67,7 @@ export default function ScenarioBanner({
             </p>
           </div>
           <Link
-            href={`/simulator?scenario=${scenario.id}`}
+            href={`/build?scenario=${scenario.id}`}
             className="group inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-accent px-4 py-2.5 text-[13px] font-semibold text-ink-950 transition-colors duration-200 hover:bg-[#6ba0ff]"
           >
             Build portfolio
