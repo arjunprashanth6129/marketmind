@@ -14,6 +14,10 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Deploy output - never lint build artifacts.
     ".vercel/**",
+    // Python virtualenv for the data scripts. It is gitignored, but ESLint's
+    // flat config does not read .gitignore, so without this it lints the
+    // vendored matplotlib JS inside site-packages.
+    ".screen-venv/**",
   ]),
 ]);
 

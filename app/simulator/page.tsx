@@ -3,11 +3,14 @@ import Link from "next/link";
 import { STOCKS } from "@/lib/stocks";
 import { entryPrice } from "@/lib/data";
 import { isAuthed } from "@/lib/auth";
+import { SIMULATOR_LOCKED } from "@/lib/flags";
 import LoginGate from "./LoginGate";
 import Simulator from "./Simulator";
 import { IconLock, IconLogo } from "../components/Icons";
 
-export const metadata = { title: "Portfolio Simulator - host only" };
+export const metadata = {
+  title: SIMULATOR_LOCKED ? "Portfolio Simulator - host only" : "Portfolio Simulator",
+};
 
 export default async function SimulatorPage() {
   const configured = Boolean(process.env.SIMULATOR_PASSWORD);
@@ -38,17 +41,21 @@ export default async function SimulatorPage() {
             <span className="text-[15px]">MarketMind</span>
           </Link>
           <span className="hidden items-center gap-1.5 rounded-full border border-line-strong bg-ink-850 px-2.5 py-1 text-[11px] font-medium text-fg-muted sm:inline-flex">
-            <IconLock className="h-3 w-3" />
-            Simulator · host only
+            {SIMULATOR_LOCKED && <IconLock className="h-3 w-3" />}
+            {SIMULATOR_LOCKED ? "Simulator · host only" : "Simulator"}
           </span>
-          <form action="/api/simulator/logout" method="post" className="ml-auto">
-            <button
-              type="submit"
-              className="cursor-pointer rounded-md px-3 py-1.5 text-[13px] font-medium text-fg-muted transition-colors duration-200 hover:bg-ink-850 hover:text-fg"
-            >
-              Log out
-            </button>
-          </form>
+          {/* No session to end while the gate is lifted, so the logout control
+              would be a dead button. */}
+          {SIMULATOR_LOCKED && (
+            <form action="/api/simulator/logout" method="post" className="ml-auto">
+              <button
+                type="submit"
+                className="cursor-pointer rounded-md px-3 py-1.5 text-[13px] font-medium text-fg-muted transition-colors duration-200 hover:bg-ink-850 hover:text-fg"
+              >
+                Log out
+              </button>
+            </form>
+          )}
         </div>
       </header>
 

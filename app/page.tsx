@@ -66,18 +66,18 @@ const FEATURES = [
   },
   {
     Icon: IconClock,
-    title: "Real backtesting engine",
-    subtitle: "Five years of what actually happened.",
+    title: "Prices that survive the rewind",
+    subtitle: "A 5:1 split is not an 80% crash.",
     description:
-      "Split- and bonus-adjusted prices replayed across the full window.",
+      "A rewind only works if every price is adjusted for what happened since. Each one here was recomputed, not copied.",
     features: [
-      "June 2021 to June 2026",
-      "Indexed to 100 at entry",
-      "Nifty 50 benchmark overlay",
-      "Corporate actions handled",
+      "Split- and bonus-adjusted",
+      "Tata Motors demerger rebuilt",
+      "Corrupt vendor closes repaired",
+      "Like-for-like entry vs exit",
     ],
-    href: "/methodology",
-    ctaLabel: "How it works",
+    href: "/methodology#corporate-actions",
+    ctaLabel: "See the adjustments",
   },
   {
     Icon: IconScale,

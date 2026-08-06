@@ -7,6 +7,7 @@
 
 import { createHash, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { SIMULATOR_LOCKED } from "./flags";
 
 export const SESSION_COOKIE = "sim_session";
 
@@ -25,6 +26,11 @@ export function safeEqual(a: string, b: string): boolean {
 }
 
 export async function isAuthed(): Promise<boolean> {
+  // Gate temporarily lifted (see lib/flags.ts). Short-circuiting here covers
+  // every caller at once - the page and the runSimulation server action - so
+  // there is no path that stays half-locked.
+  if (!SIMULATOR_LOCKED) return true;
+
   const pw = process.env.SIMULATOR_PASSWORD;
   if (!pw) return false;
   const store = await cookies();

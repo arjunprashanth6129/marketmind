@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PROJECT } from "@/lib/stats";
+import { SIMULATOR_LOCKED } from "@/lib/flags";
 import { IconGitHub, IconLock, IconLogo } from "./Icons";
 import MorphicNav, { type NavItem } from "./MorphicNav";
 
@@ -9,7 +10,10 @@ const NAV: NavItem[] = [
   {
     href: "/simulator",
     name: "Simulator",
-    icon: <IconLock className="h-3.5 w-3.5 opacity-60" />,
+    // Only advertise the padlock while the gate is actually on.
+    icon: SIMULATOR_LOCKED ? (
+      <IconLock className="h-3.5 w-3.5 opacity-60" />
+    ) : undefined,
   },
 ];
 
