@@ -4,9 +4,10 @@ import { SIMULATOR_LOCKED } from "@/lib/flags";
 import { IconGitHub, IconLock, IconLogo } from "./Icons";
 import MorphicNav, { type NavItem } from "./MorphicNav";
 
+// /build is deliberately absent: it is a step inside the guided flow, reached
+// from the screener's scenario banner, not a standalone destination.
 const NAV: NavItem[] = [
   { href: "/screener", name: "Screener" },
-  { href: "/build", name: "Portfolio" },
   { href: "/methodology", name: "Methodology" },
   {
     href: "/simulator",
