@@ -7,8 +7,8 @@ export default function SiteFooter() {
     <footer className="mt-auto border-t border-line">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-fg-dim">
-          Data frozen at June 2021 · backtested to June 2026 · fixed,
-          reproducible dataset.
+          Data frozen at June 2021 · performance measured to June 2026 ·
+          fixed, reproducible dataset.
         </p>
         <div className="flex items-center gap-5">
           <Link

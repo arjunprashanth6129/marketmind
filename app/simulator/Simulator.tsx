@@ -22,8 +22,10 @@ interface Slot {
   qty: string;
 }
 
-const SLOT_COUNT = 5;
-const EMPTY_SLOTS: Slot[] = Array.from({ length: SLOT_COUNT }, () => ({ id: "", qty: "" }));
+// A starting number of blank rows, not a limit - rows can be added, and a
+// draft from the builder brings across as many holdings as it contains.
+const START_SLOTS = 5;
+const EMPTY_SLOTS: Slot[] = Array.from({ length: START_SLOTS }, () => ({ id: "", qty: "" }));
 
 const SCORE_LABEL = (r: number): string =>
   r <= 2 ? "Poor" : r <= 4 ? "Below par" : r <= 6 ? "Decent" : r <= 8 ? "Strong" : "Excellent";
@@ -90,10 +92,13 @@ function SimulatorInner({
 
   const [slots, setSlots] = useState<Slot[]>(() => {
     if (!draft.length) return EMPTY_SLOTS;
-    const filled: Slot[] = draft
-      .slice(0, SLOT_COUNT)
-      .map((h) => ({ id: h.id, qty: String(h.qty) }));
-    while (filled.length < SLOT_COUNT) filled.push({ id: "", qty: "" });
+    // Take every drafted holding, then pad with blanks so there is always a
+    // free row to type into.
+    const filled: Slot[] = draft.map((h) => ({
+      id: h.id,
+      qty: String(h.qty),
+    }));
+    while (filled.length < START_SLOTS) filled.push({ id: "", qty: "" });
     return filled;
   });
   // Arriving from the builder should land on the performance, so the editor
@@ -120,6 +125,10 @@ function SimulatorInner({
   function setSlot(i: number, patch: Partial<Slot>) {
     setSlots((prev) => prev.map((s, j) => (j === i ? { ...s, ...patch } : s)));
     setResult(null);
+  }
+
+  function addSlot() {
+    setSlots((prev) => [...prev, { id: "", qty: "" }]);
   }
 
   function reset() {
@@ -195,7 +204,7 @@ function SimulatorInner({
               ? "Running your portfolio…"
               : error
                 ? "Couldn't run your portfolio."
-                : "Backtested from your builder draft."}
+                : "Performance of the portfolio you built."}
           </p>
           <button
             type="button"
@@ -265,7 +274,7 @@ function SimulatorInner({
 
       {/* ---- Portfolio entry ---- */}
       <Panel
-        title="Portfolio (up to 5 stocks)"
+        title="Portfolio"
         action={
           <button
             type="button"
@@ -337,6 +346,14 @@ function SimulatorInner({
             );
           })}
         </div>
+
+        <button
+          type="button"
+          onClick={addSlot}
+          className="mt-3 cursor-pointer rounded-lg border border-dashed border-line-strong px-3 py-2 text-[12px] font-medium text-fg-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+        >
+          + Add stock
+        </button>
 
         {/* Budget meter */}
         <div className="mt-5 border-t border-line pt-4">

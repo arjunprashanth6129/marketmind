@@ -8,7 +8,7 @@ import { entryPrice, getSnapshot } from "@/lib/data";
 export const metadata = {
   title: "Portfolio Builder",
   description:
-    "Build a five-stock portfolio inside your investor's capital budget, priced at the June-2021 close.",
+    "Build a portfolio inside your investor's capital budget, priced at the June-2021 close.",
 };
 
 export default function BuildPage() {

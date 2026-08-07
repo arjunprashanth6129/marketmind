@@ -4,7 +4,7 @@
  * Portfolio builder - step 3 of the guided flow.
  *
  * Laid out as a trading terminal rather than a form: a scrollable universe
- * blotter on the left, an order ticket on the right, and a status strip across
+ * blotter on the left, the portfolio on the right, and a status strip across
  * the top carrying the mandate and the money. All of it is built from the same
  * ink surfaces, hairlines and JetBrains Mono figures as the screener, so the
  * density reads as Bloomberg without introducing a second visual language.
@@ -16,7 +16,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { animate, stagger } from "animejs";
 import { SCENARIOS } from "@/lib/scenarios";
 import {
-  MAX_POSITIONS,
   recallPortfolio,
   recallScenario,
   rememberPortfolio,
@@ -144,16 +143,11 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
   function addStock(id: string) {
     setPositions((prev) => {
       if (prev.some((p) => p.id === id)) return prev;
-      if (prev.length >= MAX_POSITIONS) return prev;
       justAdded.current = id;
-      // Seed an equal-weight slice - roughly a fifth of the mandate - rather
-      // than everything still uncommitted. Spending the whole budget on the
-      // first click would push every subsequent add over the limit.
-      const price = priceOf(id) ?? 0;
-      const remaining = Math.max(0, budget - used);
-      const target = Math.min(budget / MAX_POSITIONS, remaining);
-      const seed = price > 0 ? Math.floor(target / price) : 0;
-      return [...prev, { id, qty: Math.max(1, Math.min(seed, 999999)) }];
+      // Always start at a single share. The player sets the size themselves
+      // from the portfolio panel; guessing a quantity for them just means
+      // they have to undo it.
+      return [...prev, { id, qty: 1 }];
     });
   }
 
@@ -196,7 +190,7 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
 
   /* ---------------- animation ---------------- */
 
-  // Flash the row that was just added so the eye follows it into the ticket.
+  // Flash the row that was just bought so the eye follows it across.
   useEffect(() => {
     const id = justAdded.current;
     if (!id || reduced.current) {
@@ -291,7 +285,7 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
   }, [stocks, query, sector]);
 
   const held = new Set(positions.map((p) => p.id));
-  const full = positions.length >= MAX_POSITIONS;
+  // No position cap: the capital budget is the only constraint.
 
   return (
     <div>
@@ -323,7 +317,7 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
               )}
             />
             <span className="tnum uppercase tracking-wider text-fg-dim">
-              {filled.length}/{MAX_POSITIONS} positions
+              {filled.length} {filled.length === 1 ? "position" : "positions"}
             </span>
           </div>
         </div>
@@ -475,7 +469,7 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
           <div className="thin-scroll max-h-[560px] overflow-y-auto">
             <table className="w-full border-collapse text-sm">
               <caption className="sr-only">
-                Stock universe. Each row can be added to your portfolio.
+                Stock universe. Buy any row to add it to your portfolio.
               </caption>
               <thead className="sticky top-0 z-10 bg-ink-850">
                 <tr className="border-b border-line text-[10px] uppercase tracking-wider text-fg-dim">
@@ -486,14 +480,14 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
                     Jun-21 close
                   </th>
                   <th scope="col" className="px-4 py-2.5 text-right font-medium">
-                    <span className="sr-only">Add</span>
+                    <span className="sr-only">Buy</span>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {universe.map((s) => {
                   const isHeld = held.has(s.id);
-                  const disabled = isHeld || full;
+                  const disabled = isHeld;
                   return (
                     <tr
                       key={s.id}
@@ -528,22 +522,16 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
                           onClick={() => addStock(s.id)}
                           disabled={disabled}
                           title={
-                            isHeld
-                              ? "Already in your portfolio"
-                              : full
-                                ? `Portfolio is full (${MAX_POSITIONS} max)`
-                                : `Add ${s.id}`
+                            isHeld ? "Already in your portfolio" : `Buy ${s.id}`
                           }
                           className={cn(
                             "rounded-md border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider transition-colors duration-200",
                             isHeld
                               ? "cursor-default border-pos/30 bg-pos/10 text-pos"
-                              : full
-                                ? "cursor-not-allowed border-line text-fg-dim/50"
-                                : "cursor-pointer border-line-strong text-fg-muted hover:border-accent hover:bg-accent/10 hover:text-accent",
+                              : "cursor-pointer border-line-strong text-fg-muted hover:border-accent hover:bg-accent/10 hover:text-accent",
                           )}
                         >
-                          {isHeld ? "Held" : "Add"}
+                          {isHeld ? "Held" : "Buy"}
                         </button>
                       </td>
                     </tr>
@@ -565,7 +553,7 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
           <div className="overflow-hidden rounded-xl border border-line bg-ink-850/50">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <h2 className="text-[13px] font-semibold uppercase tracking-wider text-fg">
-                Order ticket
+                Your portfolio
               </h2>
               {positions.length > 0 && (
                 <button
@@ -583,8 +571,8 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
                 <div className="px-5 py-14 text-center">
                   <p className="text-sm text-fg-muted">No positions yet.</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-fg-dim">
-                    Add up to {MAX_POSITIONS} stocks from the universe to start
-                    building.
+                    Buy any stocks you like from the universe - the budget
+                    is the only limit.
                   </p>
                 </div>
               ) : (
@@ -727,13 +715,13 @@ function Builder({ stocks }: { stocks: BuilderStock[] }) {
                     : "cursor-not-allowed bg-ink-800 text-fg-dim",
                 )}
               >
-                Run the backtest
+                See how it performed
                 <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
 
               <p className="mt-2.5 text-center text-[11px] text-fg-dim">
                 {filled.length === 0
-                  ? "Add at least one position"
+                  ? "Place a buy order to build your portfolio"
                   : "Reveals June 2021 → June 2026 performance"}
               </p>
             </div>

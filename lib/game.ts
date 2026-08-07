@@ -9,6 +9,7 @@
 // only needs to survive the one hop from the builder into the simulator.
 
 import { SCENARIOS, type Scenario } from "./scenarios";
+import { STOCK_IDS } from "./stocks";
 
 export const SCENARIO_PARAM = "scenario";
 const STORAGE_KEY = "marketmind:scenario";
@@ -20,8 +21,15 @@ export interface DraftHolding {
   qty: number;
 }
 
-/** Matches MAX_HOLDINGS in the simulator's server action. */
-export const MAX_POSITIONS = 5;
+/**
+ * Defensive upper bound on holdings - not a limit players are meant to feel.
+ *
+ * The budget is the real constraint; how many names it is spread across is up
+ * to them. This only exists so the stored draft and the server action cannot
+ * be fed an unbounded array, and it is the size of the universe because you
+ * cannot hold more distinct companies than exist in it.
+ */
+export const HOLDINGS_HARD_CAP = STOCK_IDS.length;
 
 /** Resolve a scenario id from a query param, ignoring anything unrecognised. */
 export function scenarioFromParam(
@@ -87,7 +95,7 @@ export function recallPortfolio(): DraftHolding[] {
         qty: Math.floor(Number((h as DraftHolding)?.qty)),
       }))
       .filter((h) => h.id && Number.isFinite(h.qty) && h.qty > 0)
-      .slice(0, MAX_POSITIONS);
+      .slice(0, HOLDINGS_HARD_CAP);
   } catch {
     return [];
   }

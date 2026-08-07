@@ -4,8 +4,11 @@ import { type Holding, type PortfolioResult } from "@/lib/calc";
 import { scoreSimulation } from "@/lib/scoring";
 import { getSnapshot } from "@/lib/data";
 import { isAuthed } from "@/lib/auth";
+import { HOLDINGS_HARD_CAP } from "@/lib/game";
 
-const MAX_HOLDINGS = 5;
+// Players choose how many names to hold - the capital budget is the real
+// constraint. This bound only stops an unbounded array reaching the scorer.
+const MAX_HOLDINGS = HOLDINGS_HARD_CAP;
 const MAX_QTY = 1_000_000;
 
 export async function runSimulation(
