@@ -6,6 +6,7 @@ import { animate, stagger } from "animejs";
 import { SCENARIOS } from "@/lib/scenarios";
 import { recallPortfolio, recallScenario } from "@/lib/game";
 import { rupee, pct, pctSigned, num } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import type { PortfolioResult } from "@/lib/calc";
 import { runSimulation } from "./actions";
 import PerfPanel from "./PerfPanel";
@@ -82,10 +83,12 @@ function SimulatorInner({
       ? (wanted as string)
       : SCENARIOS[0].id;
   });
-  // Prefill from the /build draft so arriving from the builder lands on a
-  // ready-to-run ticket rather than five empty rows.
+  // The draft handed over by /build. Its presence is what tells us the
+  // portfolio was already assembled on the previous screen.
+  const [draft] = useState(() => recallPortfolio());
+  const fromBuilder = draft.length > 0;
+
   const [slots, setSlots] = useState<Slot[]>(() => {
-    const draft = recallPortfolio();
     if (!draft.length) return EMPTY_SLOTS;
     const filled: Slot[] = draft
       .slice(0, SLOT_COUNT)
@@ -93,6 +96,10 @@ function SimulatorInner({
     while (filled.length < SLOT_COUNT) filled.push({ id: "", qty: "" });
     return filled;
   });
+  // Arriving from the builder should land on the performance, so the editor
+  // starts collapsed behind a toggle rather than standing between the player
+  // and their result.
+  const [showEditor, setShowEditor] = useState(!fromBuilder);
   const [result, setResult] = useState<PortfolioResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -121,7 +128,7 @@ function SimulatorInner({
     setError(null);
   }
 
-  function submit() {
+  function submit({ scroll = true }: { scroll?: boolean } = {}) {
     setError(null);
     const holdings = slots
       .filter((s) => s.id && parseInt(s.qty, 10) > 0)
@@ -133,6 +140,7 @@ function SimulatorInner({
         setResult(null);
       } else {
         setResult(res);
+        if (!scroll) return;
         setTimeout(
           () => document.getElementById("results")?.scrollIntoView({ behavior: "smooth" }),
           50,
@@ -142,6 +150,18 @@ function SimulatorInner({
   }
 
   const nameOf = (id: string) => stocks.find((s) => s.id === id)?.name ?? id;
+
+  // The portfolio was already assembled and confirmed in the builder, so run
+  // it on arrival instead of making the player press submit on a form they
+  // have effectively already filled in. No scroll: the result renders first.
+  const autoRan = useRef(false);
+  useEffect(() => {
+    if (autoRan.current || !fromBuilder) return;
+    autoRan.current = true;
+    submit({ scroll: false });
+    // Fires once on mount; submit closes over the prefilled slots.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Stagger the result panels in so the reveal reads as one motion rather than
   // a block of content appearing at once.
@@ -164,9 +184,39 @@ function SimulatorInner({
   }, [result]);
 
   return (
-    <div className="space-y-6">
-      {/* ---- Scenario ---- */}
-      <Panel title="Choose a scenario">
+    // Flex + order rather than two branches of JSX: arriving from the builder
+    // puts the result first and the editor after it, without duplicating the
+    // whole panel tree.
+    <div className="flex flex-col gap-6">
+      {fromBuilder && (
+        <div className="order-1 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-ink-850/50 px-5 py-3.5">
+          <p className="text-[13px] text-fg-muted">
+            {pending && !result
+              ? "Running your portfolio…"
+              : error
+                ? "Couldn't run your portfolio."
+                : "Backtested from your builder draft."}
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowEditor((v) => !v)}
+            aria-expanded={showEditor}
+            className="cursor-pointer rounded-md border border-line-strong px-3 py-1.5 text-[12px] font-medium text-fg-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+          >
+            {showEditor ? "Hide editor" : "Adjust portfolio"}
+          </button>
+        </div>
+      )}
+
+      <div
+        className={cn(
+          "flex flex-col gap-6",
+          fromBuilder ? "order-3" : "order-1",
+          fromBuilder && !showEditor && "hidden",
+        )}
+      >
+        {/* ---- Scenario ---- */}
+        <Panel title="Choose a scenario">
         <div
           role="radiogroup"
           aria-label="Investor scenario"
@@ -338,7 +388,7 @@ function SimulatorInner({
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            onClick={submit}
+            onClick={() => submit()}
             disabled={pending}
             className="group inline-flex cursor-pointer items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors duration-200 hover:bg-[#6ba0ff] disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -351,11 +401,16 @@ function SimulatorInner({
             Reveals June 2021 → June 2026 performance
           </span>
         </div>
-      </Panel>
+        </Panel>
+      </div>
 
       {/* ---- Results ---- */}
       {result && (
-        <section id="results" ref={resultsRef} className="space-y-6 scroll-mt-24">
+        <section
+          id="results"
+          ref={resultsRef}
+          className="order-2 space-y-6 scroll-mt-24"
+        >
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Stat
               label="Total return"
