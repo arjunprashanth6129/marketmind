@@ -9,7 +9,7 @@ import ScenarioBanner from "./ScenarioBanner";
  * Client-side reader for the `?scenario=` play-flow param.
  *
  * Deliberately not read via server `searchParams`: the screener index and all
- * 50 stock pages are statically generated, and touching server searchParams
+ * 100 stock pages are statically generated, and touching server searchParams
  * would opt every one of them into dynamic rendering. Reading it on the client
  * inside Suspense keeps the static shell and just hydrates the banner in.
  */

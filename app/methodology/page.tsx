@@ -97,7 +97,7 @@ export default function Methodology() {
                 So the Python pipeline fetches and verifies everything once, then
                 writes plain JSON (<C>prices.json</C>, <C>financials.json</C>,{" "}
                 <C>snapshot-2021.json</C>, <C>nifty.json</C>). Next.js statically
-                generates all 50 stock pages from those files. It&apos;s fast,
+                generates all 100 stock pages from those files. It&apos;s fast,
                 costs nothing to host, and anyone can reproduce it.
               </p>
             </Section>
@@ -141,16 +141,32 @@ export default function Methodology() {
                 CFO, P/E, and Promoter Holding.
               </p>
               <p>
-                The universe is a deliberately mixed set of 50 NSE names -
-                roughly 40 solid businesses and 10 weaker ones - spread across
-                market caps and sectors. There is no blocklist or hidden
-                &quot;good stocks&quot; flag: every stock is scored purely on its
-                own June-2021 numbers (see the scoring section below), so a weak
-                pick loses marks because its fundamentals are weak, not because
-                it was tagged. For a bank or NBFC, negative operating cash flow
-                is normal when the loan book is growing, so the scoring treats a
-                bank&apos;s non-meaningful Debt-Equity as neutral rather than a
-                warning sign.
+                The universe is a deliberately mixed set of 100 NSE names spread
+                across market caps and sectors. It started as 50 and was later
+                doubled, with the second 50 chosen so that exactly half of them
+                were <strong className="font-semibold text-fg">small caps at
+                the June-2021 anchor</strong> and the rest large or mid. That
+                matters for teaching: small caps are where the widest outcomes
+                live, and the added names range from Zen Technologies at roughly
+                twenty times its money to Himatsingka Seide down by half.
+              </p>
+              <p>
+                Nothing about the cap label is asserted by hand. It is computed
+                from the June-2021 market cap, which is reconstructed as the
+                split-adjusted June-2021 close multiplied by today&apos;s share
+                count - both quoted on the same per-share basis, so the product
+                is the market cap as it stood at the anchor without needing to
+                know what the corporate actions in between were. Large is 20,000
+                Cr and above, mid 5,000 to 20,000, small below 5,000.
+              </p>
+              <p>
+                There is no blocklist or hidden &quot;good stocks&quot; flag:
+                every stock is scored purely on its own June-2021 numbers (see
+                the scoring section below), so a weak pick loses marks because
+                its fundamentals are weak, not because it was tagged. For a bank
+                or NBFC, negative operating cash flow is normal when the loan
+                book is growing, so the scoring treats a lender&apos;s
+                non-meaningful Debt-Equity as neutral rather than a warning sign.
               </p>
             </Section>
 
@@ -228,7 +244,7 @@ Fundamentals = 10 x sum( weight[scenario][k] x subscore[k] )`}</Formula>
               <ul className="space-y-3">
                 {[
                   "Returns are price returns, not total returns. Dividends show up as a fundamental metric but aren't reinvested into the performance number.",
-                  "The universe is a hand-picked 50 stocks (40 solid names plus 10 deliberate weak ones), so it's a teaching set, not an index.",
+                  "The universe is a hand-picked 100 stocks, half of the added 50 being small caps at the anchor, so it's a teaching set with a deliberate small-cap tilt rather than an index.",
                   "Holdings are whole shares on a monthly price grid, which makes the backtest a close approximation rather than a tick-by-tick model.",
                   "The scenario weights are a reasoned teaching model of each risk profile, not a proven mathematical optimum.",
                 ].map((item) => (

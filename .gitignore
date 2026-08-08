@@ -50,3 +50,7 @@ __pycache__/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Intermediate staging file for the universe expansion (regenerate with
+# scripts/fetch_new_stocks.py) - 3MB and not needed to build the app.
+data/_new_pool.json

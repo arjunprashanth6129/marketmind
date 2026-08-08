@@ -22,8 +22,8 @@ analysis, emulating the way the stock market actually works:
 
 Most "learn to invest" tools are either a wall of theory or a play-money game
 with no stakes. I wanted something in between. MarketMind freezes the Indian
-market at June 2021 and lets you study 50 real NSE companies exactly as they
-looked then, with no future data leaking in. You then build a 5-stock portfolio
+market at June 2021 and lets you study 100 real NSE companies exactly as they
+looked then, with no future data leaking in. You then build a portfolio
 for an assigned investor (a fresh graduate, a young family, a retired couple,
 and so on), and the app backtests it against real June 2021 to June 2026 prices.
 
@@ -48,10 +48,10 @@ cross-checked, and then frozen into static files so the numbers never drift.
 
 - **Guided play flow** (`/play`): the way a participant is meant to start. You
   are dealt one of the five investor scenarios at random, then carried through
-  research and portfolio construction as a three-step game — assignment,
-  research, build and score. The assigned investor follows you across pages, so
+  research and portfolio construction as a four-step game — assignment,
+  research, build, score. The assigned investor follows you across pages, so
   you always know who you're buying for.
-- **Stock screener** (`/screener`): the 50-company universe as of June 2021, as
+- **Stock screener** (`/screener`): the 100-company universe as of June 2021, as
   a sortable data table. Every stock has a ratio snapshot, annual financials
   from FY2015 to FY2021, a long-term price chart with a **line/candlestick
   toggle**, a peer comparison, and a short plain-English write-up. Nothing past
@@ -94,6 +94,16 @@ Fundamentals were scraped from screener.in (FY2015 to FY2021) with a 2-second
 delay between requests and on-disk caching so I wasn't hammering the site.
 Ten metrics are stored per stock. The Nifty 50 returned **+53.7%** over the
 window, and that's the line every portfolio gets measured against.
+
+The universe started at 50 names and was later doubled to 100. The second 50
+were picked so that **exactly half were small caps at the June-2021 anchor**
+(market cap under Rs 5,000 Cr) and the rest large or mid, because small caps are
+where the widest five-year outcomes live — the added names run from Zen
+Technologies at roughly twenty times its money to Himatsingka Seide down by
+half. Cap labels are computed, not asserted: the June-2021 market cap is the
+split-adjusted June-2021 close times today's share count, which are quoted on
+the same per-share basis, so the product is the market cap as it stood at the
+anchor regardless of what splits or bonuses happened in between.
 
 The whole dataset lives in static JSON rather than a database. Since everything
 is pinned to June 2021, the data never changes, so a live database or API would
@@ -157,7 +167,7 @@ Splitting them forces you to get both the process and the outcome right.
  (run once, offline)        (committed)             (TypeScript)
  ------------------         --------------          ----------------         --------
  yfinance prices       -->  prices.json        -->  /  landing            -->  SSG:
- screener.in fund.          financials.json         /screener  (SSG)            50 stock
+ screener.in fund.          financials.json         /screener  (SSG)           100 stock
  corp-action fixes          snapshot-2021.json      /screener/[ticker]          pages +
  verification passes        nifty.json              /simulator (gated)          edge fns
                                                      /api/stats
@@ -172,7 +182,7 @@ snapshot data, so there's no hidden data and the maths is fully explainable.
 
 | Layer | Choice | Why |
 |---|---|---|
-| Frontend | Next.js (App Router), TypeScript | static generation for the 50 stock pages; types across the data layer catch mistakes early |
+| Frontend | Next.js (App Router), TypeScript | static generation for the 100 stock pages; types across the data layer catch mistakes early |
 | Styling | Tailwind CSS | quick to iterate, no component-library weight |
 | Charts | Recharts, plus a hand-rolled SVG candlestick | Recharts covers the line/area views; candles are a few rects and lines, so drawing them directly avoids a second chart runtime |
 | Motion | anime.js | drives the scenario reel, the score dial and the result reveal; every animation is behind a `prefers-reduced-motion` check |
@@ -216,6 +226,23 @@ python scripts/fix_price_outliers.py  # repairs corrupt monthly closes (see belo
 python scripts/fetch_ohlc.py          # monthly OHLC bars -> data/ohlc.json
 python scripts/reconcile_ohlc.py      # anchors candle closes to prices.json
 ```
+
+The second 50 were added by a separate, additive pipeline that never rewrites
+the original 50 (it asserts every pre-existing record is byte-identical
+afterwards, since those were already verified and outlier-repaired):
+
+```bash
+python scripts/fetch_new_stocks.py     # screener + yfinance for a candidate pool
+python scripts/classify_new_stocks.py  # June-2021 market cap -> Large/Mid/Small
+python scripts/merge_new_stocks.py     # merges the selected 50 into data/*.json
+```
+
+`fetch_new_stocks.py` writes a 3 MB staging file, `data/_new_pool.json`, which
+is gitignored and regenerable. Its monthly closes are aggregated from daily bars
+rather than Yahoo's monthly endpoint, so the new series never needed the
+`fix_price_outliers.py` repair, and its OHLC closes come from the same
+aggregation as its prices, so they already satisfy what `reconcile_ohlc.py`
+enforces.
 
 **Run the last three in that order after `fetch_prices.py`.** Yahoo's monthly
 (`interval="1mo"`) endpoint returns a wildly wrong close for a handful of

@@ -51,12 +51,12 @@ function SectionHead({
 const FEATURES = [
   {
     Icon: IconCandles,
-    title: "50-stock NSE universe",
+    title: "100-stock NSE universe",
     subtitle: "The market, frozen at June 2021.",
     description:
-      "Fifty real NSE companies with nothing from the future leaking in.",
+      "A hundred real NSE companies, half of them small caps in 2021, with nothing from the future leaking in.",
     features: [
-      "Price history back to 2000",
+      "Half were small caps in 2021",
       "FY2015-FY2021 financials",
       "Ten fundamental metrics",
       "Line and candlestick views",
@@ -120,7 +120,7 @@ const ARCHITECTURE = [
     items: [
       "yfinance, auto-adjusted OHLCV",
       "screener.in scraper with disk cache",
-      "50 companies × 7 years of financials",
+      "100 companies × 7 years of financials",
     ],
   },
   {
@@ -142,7 +142,7 @@ const ARCHITECTURE = [
     items: [
       "App Router, fully static",
       "Tailwind CSS, Recharts",
-      "50 pre-rendered stock pages",
+      "100 pre-rendered stock pages",
     ],
   },
   {
@@ -204,7 +204,7 @@ export default function Landing() {
                 </h1>
 
                 <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-fg-muted">
-                  MarketMind freezes the Indian market at June 2021. Study 50
+                  MarketMind freezes the Indian market at June 2021. Study 100
                   real NSE companies as they looked then, build a portfolio for
                   an assigned investor, and see exactly how it would have
                   performed over the five years that followed.
@@ -416,7 +416,7 @@ export default function Landing() {
               <ol className="mx-auto mt-9 grid max-w-3xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   ["01", "Get your investor", "Drawn at random"],
-                  ["02", "Research the market", "50 companies, June 2021"],
+                  ["02", "Research the market", "100 companies, June 2021"],
                   ["03", "Build the portfolio", "Inside a capital budget"],
                   ["04", "Score it", "Backtested to June 2026"],
                 ].map(([n, title, sub]) => (

@@ -19,9 +19,9 @@ export interface Stat {
 }
 
 export const STATS: Stat[] = [
-  { value: 50, label: "NSE stocks" },
+  { value: 100, label: "NSE stocks" },
+  { value: 50, label: "small caps in 2021" },
   { value: 7, label: "yrs of financials / stock" },
-  { value: 25, label: "yrs of price history" },
   { value: 10, label: "FA metrics / stock" },
   { value: 5, label: "investor scenarios" },
   { value: 1, label: "live teaching session" },

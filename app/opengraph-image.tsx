@@ -63,7 +63,7 @@ export default function Og() {
             A backtesting simulator that teaches fundamental analysis.
           </div>
           <div style={{ fontSize: 28, color: "#9aa8c0", maxWidth: 900 }}>
-            Verified NSE data · 50 stocks · dual scoring vs the Nifty 50 &amp; scenario fundamentals
+            Verified NSE data · 100 stocks · dual scoring vs the Nifty 50 &amp; scenario fundamentals
           </div>
         </div>
 
