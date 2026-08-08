@@ -235,7 +235,19 @@ afterwards, since those were already verified and outlier-repaired):
 python scripts/fetch_new_stocks.py     # screener + yfinance for a candidate pool
 python scripts/classify_new_stocks.py  # June-2021 market cap -> Large/Mid/Small
 python scripts/merge_new_stocks.py     # merges the selected 50 into data/*.json
+python scripts/fix_market_caps.py      # corrects market caps the split factor missed
 ```
+
+`fix_market_caps.py` cleans up a bug in the original `build_snapshot.py`, which
+un-adjusted the June-2021 price using yfinance's split factor. That feed records
+splits but not every bonus issue, so a company that did both had its market cap
+understated by the missing multiple — Bajaj Finance was recorded at 72,506 Cr
+against a true figure nearer 3.6 lakh Cr. The script identifies the affected
+stocks by checking whether today's share count divides cleanly by the count the
+old method implied: a clean multiple of 2 or more is a missed corporate action,
+while a messy ratio is ordinary share issuance, where today's count is not the
+2021 count rebased and the stored figure is the better one. Only two stocks were
+genuinely wrong, and neither changes cap category, so no scores move.
 
 `fetch_new_stocks.py` writes a 3 MB staging file, `data/_new_pool.json`, which
 is gitignored and regenerable. Its monthly closes are aggregated from daily bars

@@ -23,9 +23,9 @@ Two methods that looked simpler were rejected:
     (Bajaj Finserv came out 64% high).
 
 The same weakness the original pipeline had - a split factor that captured
-splits but not bonus issues - is why data/snapshot-2021.json currently carries
-a market cap of 72,506 Cr for Bajaj Finance against a true figure nearer
-3.6 lakh Cr. This method does not have that failure mode.
+splits but not bonus issues - had left Bajaj Finance recorded at 72,506 Cr
+against a true figure nearer 3.6 lakh Cr. That has since been corrected by
+scripts/fix_market_caps.py; this method never had the failure mode.
 
 Where a company raised or merged equity after 2021, today's share count is not
 the 2021 count rebased, so the result is overstated. Those show up as a large
